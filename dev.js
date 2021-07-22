@@ -1,9 +1,6 @@
 require('@babel/register')({
-  presets: [
-    'next/babel',
-  ],
-  extensions: ['.ts', '.tsx', '.js', '.jsx',
-  ],
+  presets: ['next/babel'],
+  extensions: ['.ts', '.tsx', '.js', '.jsx'],
   env: {
     development: {
       sourceMaps: 'inline',
