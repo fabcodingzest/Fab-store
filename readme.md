@@ -24,6 +24,6 @@ This repo contains a boilerplate that'll get you going on a Payload install comb
 
 This repo contains everything you need to both build your project for production purposes as well as serve it after it's been built.
 
-To build, run yarn build or npm run build.
-To serve, run yarn serve or npm run serve.
+- To build, run yarn build or npm run build.
+- To serve, run yarn serve or npm run serve.
 
