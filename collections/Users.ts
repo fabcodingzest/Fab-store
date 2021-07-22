@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload/types';
 import { CountryOptions } from '../utilities/CountryOptions';
 
-const User: CollectionConfig = {
+const Users: CollectionConfig = {
   slug: 'users',
   auth: true,
   admin: {
@@ -85,4 +85,4 @@ const User: CollectionConfig = {
     },
   ],
 };
-export default User;
+export default Users;

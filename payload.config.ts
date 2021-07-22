@@ -12,7 +12,7 @@ dotenv.config();
 
 const CloudinaryMediaHooks = path.resolve(
   __dirname,
-  './collections/CloudinaryImages/hooks/CloudinaryMediaHooks'
+  'collections/CloudinaryImages/hooks/CloudinaryMediaHooks'
 );
 const mockModulePath = path.resolve(__dirname, 'mocks/emptyObject');
 
