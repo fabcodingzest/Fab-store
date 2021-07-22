@@ -1,7 +1,7 @@
 import { buildConfig } from 'payload/config';
 import dotenv from 'dotenv';
 import path from 'path';
-import Users from './collections/User';
+import Users from './collections/Users';
 import Product from './collections/Product/Product';
 import Discount from './collections/Discount';
 import ProductVariant from './collections/ProductVariant';

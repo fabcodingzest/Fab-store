@@ -1,5 +1,4 @@
 import { CollectionConfig } from 'payload/types';
-import UserAddress from './UserAddress';
 import { CountryOptions } from '../utilities/CountryOptions';
 
 const User: CollectionConfig = {
