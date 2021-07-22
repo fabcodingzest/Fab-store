@@ -10,6 +10,7 @@ import path from 'path';
 import fs from 'fs';
 import { PayloadRequest } from 'payload/dist/express/types';
 import { cloudinary } from './cloudinaryConfig';
+
 // Uploading file to cloudinary using streamifier
 const streamUpload = (
   file: { data: Buffer },
