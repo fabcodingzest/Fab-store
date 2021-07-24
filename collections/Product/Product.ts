@@ -46,7 +46,7 @@ const Product: CollectionConfig = {
         readOnly: true,
       },
       hooks: {
-        afterChange: [beforeChange],
+        beforeChange: [beforeChange],
       },
     },
   ],
