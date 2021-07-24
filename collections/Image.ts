@@ -1,12 +1,17 @@
 import { CollectionConfig } from 'payload/types';
 
-const Image: CollectionConfig = {
+const Images: CollectionConfig = {
   slug: 'images',
+  access: {
+    read: (): boolean => true,
+  },
   upload: {
     // thumbnail image for the admin UI will use cloudinary instead of the admin host URL
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     adminThumbnail: ({ doc }: Record<string, any>): string =>
       String(doc.cloudinaryURL),
+    staticURL: '/images',
+    staticDir: 'images',
   },
   fields: [
     {
@@ -18,4 +23,4 @@ const Image: CollectionConfig = {
   ],
 };
 
-export default Image;
+export default Images;
