@@ -45,9 +45,6 @@ const Product: CollectionConfig = {
       admin: {
         readOnly: true,
       },
-      access: {
-        update: (): boolean => false,
-      },
       hooks: {
         afterChange: [beforeChange],
       },
