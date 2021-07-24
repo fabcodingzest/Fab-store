@@ -1,6 +1,6 @@
 import { CollectionConfig } from 'payload/types';
 
-const Discount: CollectionConfig = {
+const Discounts: CollectionConfig = {
   slug: 'discounts',
   admin: {
     useAsTitle: 'name',
@@ -36,4 +36,4 @@ const Discount: CollectionConfig = {
   ],
 };
 
-export default Discount;
+export default Discounts;
