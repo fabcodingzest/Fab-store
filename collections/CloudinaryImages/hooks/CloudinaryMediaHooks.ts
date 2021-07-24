@@ -7,7 +7,7 @@ import {
 import streamifier from 'streamifier';
 import { UploadApiResponse, UploadStream } from 'cloudinary';
 import path from 'path';
-import fs from 'fs';
+import fs, { promises as Fs } from 'fs';
 import { PayloadRequest } from 'payload/dist/express/types';
 import { cloudinary } from './cloudinaryConfig';
 
@@ -22,17 +22,21 @@ const streamUpload = (
       invalidate: true,
       ...(id && { public_id: id, folder: null }), // in case of updating the image, we will need the public_id but not the folder as it's already in the URL
     };
-    const stream: UploadStream = cloudinary.uploader.upload_stream(
-      options,
-      (error, result) => {
-        if (result) {
-          resolve(result);
-        } else {
-          reject(error);
+    try {
+      const stream: UploadStream = cloudinary.uploader.upload_stream(
+        options,
+        (error, result) => {
+          if (result) {
+            resolve(result);
+          } else {
+            reject(error);
+          }
         }
-      }
-    );
-    streamifier.createReadStream(file.data).pipe(stream);
+      );
+      streamifier.createReadStream(file.data).pipe(stream);
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
   });
 type Req = PayloadRequest & {
   files: any;
@@ -51,13 +55,24 @@ const beforeChangeHook: BeforeChangeHook = async ({ data, req, operation }) => {
   return data;
 };
 
-function deleteFile(filePath) {
-  fs.unlink(filePath, (err) => {
-    if (err) {
-      console.log(err);
-      throw err;
-    }
-  });
+async function exists(filePath: string) {
+  try {
+    await Fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function deleteFile(filePath: string) {
+  const fileExists = await exists(filePath);
+  if (fileExists)
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.log(err);
+        throw err;
+      }
+    });
 }
 
 const afterChangeHook: AfterChangeHook = ({ doc }) => {
@@ -65,7 +80,7 @@ const afterChangeHook: AfterChangeHook = ({ doc }) => {
   // if it exists, delete it
   if (doc?.filename) {
     const mainFilePath = path.resolve(
-      `${__dirname}../../../images/${doc.filename}`
+      `${__dirname}../../../../images/${doc.filename}`
     );
     deleteFile(mainFilePath);
   }
@@ -74,8 +89,9 @@ const afterChangeHook: AfterChangeHook = ({ doc }) => {
     // eslint-disable-next-line no-restricted-syntax
     for (const imageName in doc.sizes) {
       if (imageName) {
+        console.log(path.resolve(`${__dirname}`));
         const filePath = path.resolve(
-          `${__dirname}../../../images/${doc.sizes[imageName].filename}`
+          `${__dirname}../../../../images/${doc.sizes[imageName].filename}`
         );
         deleteFile(filePath);
       }
@@ -94,4 +110,4 @@ const afterDeleteHook: AfterDeleteHook = ({ doc }) => {
   return doc;
 };
 
-export { beforeChangeHook, afterChangeHook, afterDeleteHook };
+export default { beforeChangeHook, afterChangeHook, afterDeleteHook };
