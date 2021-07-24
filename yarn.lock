@@ -2043,6 +2043,13 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.0.tgz#7036640b4e21cc2f259ae826ce843d277dad8cff"
   integrity sha512-RJJrrySY7A8havqpGObOB4W92QXKJo63/jFLLgpvOtsGUqbQZ9Sbgl35KMm1DjC6j7AvmmU2bIno+3IyEaemaw==
 
+"@types/streamifier@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@types/streamifier/-/streamifier-0.1.0.tgz#ff2fad6dccd1df65ba69c851999e35990fc8508b"
+  integrity sha512-pAGnUJg5pMAKv5ctJudPaGJHEuU/tkgN/F3tC5kQ5YHKS5gpfRZVVmLHE8t3h8H4Nn2JMJxf6T7h4QvSL3H/ug==
+  dependencies:
+    "@types/node" "*"
+
 "@types/tmp@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@types/tmp/-/tmp-0.2.0.tgz#e3f52b4d7397eaa9193592ef3fdd44dc0af4298c"
