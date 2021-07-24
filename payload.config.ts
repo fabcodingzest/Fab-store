@@ -3,9 +3,8 @@ import dotenv from 'dotenv';
 import path from 'path';
 import Users from './collections/Users';
 import Product from './collections/Product/Product';
-import Discount from './collections/Discount';
-import ProductVariant from './collections/ProductVariant';
-import Image from './collections/Image';
+import Discounts from './collections/Discounts';
+import Images from './collections/Image';
 import addCloudinary from './collections/CloudinaryImages/cloudinaryPlugin';
 
 dotenv.config();
@@ -18,9 +17,6 @@ const mockModulePath = path.resolve(__dirname, 'mocks/emptyObject');
 
 export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
-  graphQL: {
-    disablePlaygroundInProduction: false,
-  },
   admin: {
     user: Users.slug,
     webpack: (config) => ({
@@ -34,6 +30,6 @@ export default buildConfig({
       },
     }),
   },
-  collections: [Users, Product, Discount, ProductVariant, Image],
+  collections: [Users, Product, Discounts, Images],
   plugins: [addCloudinary],
 });
