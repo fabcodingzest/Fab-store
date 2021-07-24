@@ -159,11 +159,19 @@ const vairantFields: any = [
     ],
   },
   {
-    name: 'image',
-    type: 'upload',
-    relationTo: 'images',
-    required: true,
-    label: 'Product Image',
+    name: 'product_images',
+    type: 'array',
+    minRows: 1,
+    maxRows: 10,
+    fields: [
+      {
+        name: 'image',
+        type: 'upload',
+        relationTo: 'images',
+        required: true,
+        label: 'Product Image',
+      },
+    ],
   },
 ];
 export default vairantFields;
