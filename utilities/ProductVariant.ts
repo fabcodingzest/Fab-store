@@ -6,6 +6,7 @@ const vairantFields: any = [
     type: 'select',
     options: [
       { label: 'Clothes', value: 'CLOTHES' },
+      { label: 'Stationary', value: 'STATIONARY' },
       { label: 'Toys', value: 'TOYS' },
       { label: 'Furniture', value: 'FURNITURE' },
       { label: 'Books', value: 'BOOKS' },
