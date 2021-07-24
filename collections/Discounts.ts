@@ -1,5 +1,14 @@
 import { CollectionConfig } from 'payload/types';
 
+async function validatePercentage(
+  val: string
+): Promise<true | 'The percentage should only be in integer or decimal!'> {
+  const regex = /^[+]?([0-9]+\.?[0-9]*|\.[0-9]+)$/g;
+  const isNumber = regex.test(val);
+  if (isNumber) return true;
+  return 'The percentage should only be in integer or decimal!';
+}
+
 const Discounts: CollectionConfig = {
   slug: 'discounts',
   admin: {
@@ -21,7 +30,9 @@ const Discounts: CollectionConfig = {
     {
       name: 'percentage',
       type: 'number',
+      validate: validatePercentage,
       required: true,
+      max: 100,
       admin: {
         placeholder: 'Discount Percentage in numbers',
         step: 0.5,
