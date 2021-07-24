@@ -4,7 +4,7 @@ const beforeChange: BeforeChangeHook = async ({ data, req, operation }) => {
   if (operation === 'create') {
     return req.user.id;
   }
-  return data;
+  return data.createdBy;
 };
 
 export { beforeChange };
