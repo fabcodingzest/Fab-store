@@ -1,29 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const vairantFields: any = [
+// /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { Field } from 'payload/types';
+
+const vairantFields: Field[] = [
   {
-    name: 'category',
-    label: 'Product Category',
-    type: 'select',
-    options: [
-      { label: 'Clothes', value: 'CLOTHES' },
-      { label: 'Stationary', value: 'STATIONARY' },
-      { label: 'Toys', value: 'TOYS' },
-      { label: 'Furniture', value: 'FURNITURE' },
-      { label: 'Books', value: 'BOOKS' },
-      { label: 'Jwellery', value: 'JWELLERY' },
-      { label: 'Electronics', value: 'ELECTRONICS' },
-    ],
+    name: 'color_applies',
+    type: 'checkbox',
     required: true,
   },
   {
     name: 'color',
     type: 'text',
+    hooks: {
+      beforeChange: [
+        ({
+          value,
+          data,
+        }: {
+          value?: unknown;
+          data?: { [key: string]: unknown };
+        }): Promise<unknown> | unknown => {
+          const productVariants: any = data.product_variants;
+          const field = productVariants.find((item) => item.color === value);
+          return field.color_applies ? value : null;
+        },
+      ],
+    },
     admin: {
       condition: (
         _: Record<string, unknown>,
         siblingsData: Record<string, unknown>
       ): boolean => {
-        if (siblingsData.colorApplies) {
+        if (siblingsData.color_applies) {
           return true;
         }
         return false;
@@ -44,12 +52,22 @@ const vairantFields: any = [
       { label: 'XXXL', value: 'XXXL' },
       { label: 'XXXXL', value: 'XXXXl' },
     ],
+    hooks: {
+      beforeChange: [
+        ({
+          value,
+          data,
+        }: {
+          value?: unknown;
+          data?: { [key: string]: unknown };
+        }): Promise<unknown> | unknown =>
+          data.category === 'CLOTHES' ? value : null,
+      ],
+    },
     admin: {
-      condition: (
-        _: Record<string, unknown>,
-        siblingsData: Record<string, unknown>
-      ): boolean => {
-        if (siblingsData.category === 'CLOTHES') {
+      condition: (data: Record<string, unknown>): boolean => {
+        console.log(data);
+        if (data.category === 'CLOTHES') {
           return true;
         }
         return false;
@@ -64,13 +82,22 @@ const vairantFields: any = [
         name: 'pages',
         type: 'number',
         min: 30,
+        hooks: {
+          beforeChange: [
+            ({
+              value,
+              data,
+            }: {
+              value?: unknown;
+              data?: { [key: string]: unknown };
+            }): Promise<unknown> | unknown =>
+              data.category === 'BOOKS' ? value : null,
+          ],
+        },
         admin: {
           width: '50%',
-          condition: (
-            _: Record<string, unknown>,
-            siblingsData: Record<string, unknown>
-          ): boolean => {
-            if (siblingsData.category === 'BOOKS') {
+          condition: (data: Record<string, unknown>): boolean => {
+            if (data.category === 'BOOKS') {
               return true;
             }
             return false;
@@ -85,13 +112,22 @@ const vairantFields: any = [
           { label: 'Hardcover', value: 'HARDCOVER' },
           { label: 'E-Book', value: 'EBOOK' },
         ],
+        hooks: {
+          beforeChange: [
+            ({
+              value,
+              data,
+            }: {
+              value?: unknown;
+              data?: { [key: string]: unknown };
+            }): Promise<unknown> | unknown =>
+              data.category === 'BOOKS' ? value : null,
+          ],
+        },
         admin: {
           width: '50%',
-          condition: (
-            _: Record<string, unknown>,
-            siblingsData: Record<string, unknown>
-          ): boolean => {
-            if (siblingsData.category === 'BOOKS') {
+          condition: (data: Record<string, unknown>): boolean => {
+            if (data.category === 'BOOKS') {
               return true;
             }
             return false;
@@ -105,7 +141,7 @@ const vairantFields: any = [
     type: 'number',
     required: true,
     admin: {
-      placeholder: 'Enter Price in Paisa',
+      placeholder: 'Enter Price in cents',
     },
   },
   {
