@@ -1,10 +1,9 @@
 import { CollectionConfig } from 'payload/types';
 
-async function validatePercentage(
-  val: string
-): Promise<true | 'The percentage should only be in integer or decimal!'> {
+function validatePercentage(val: unknown): true | string {
+  const str = val.toString();
   const regex = /^[+]?([0-9]+\.?[0-9]*|\.[0-9]+)$/g;
-  const isNumber = regex.test(val);
+  const isNumber = regex.test(str);
   if (isNumber) return true;
   return 'The percentage should only be in integer or decimal!';
 }
