@@ -6,6 +6,7 @@ import Product from './collections/Product/Product';
 import Discounts from './collections/Discounts';
 import Images from './collections/Image';
 import addCloudinary from './collections/CloudinaryImages/cloudinaryPlugin';
+import CartItems from './collections/CartItems';
 
 dotenv.config();
 
@@ -30,6 +31,6 @@ export default buildConfig({
       },
     }),
   },
-  collections: [Users, Product, Discounts, Images],
+  collections: [Users, Product, Discounts, Images, CartItems],
   plugins: [addCloudinary],
 });
