@@ -83,6 +83,18 @@ const Users: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'products',
+      type: 'relationship',
+      relationTo: 'products',
+      hasMany: true,
+    },
+    {
+      name: 'cart_items',
+      type: 'relationship',
+      relationTo: 'cart_items',
+      hasMany: true,
+    },
   ],
 };
 export default Users;
