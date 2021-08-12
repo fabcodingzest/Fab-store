@@ -6,6 +6,7 @@ const vairantFields: Field[] = [
   {
     name: 'color_applies',
     type: 'checkbox',
+    defaultValue: false,
     required: true,
   },
   {
@@ -20,7 +21,7 @@ const vairantFields: Field[] = [
           value?: unknown;
           data?: { [key: string]: unknown };
         }): Promise<unknown> | unknown => {
-          const productVariants: any = data.product_variants;
+          const productVariants: any = data.variants;
           const field = productVariants.find((item) => item.color === value);
           return field.color_applies ? value : null;
         },
@@ -145,12 +146,18 @@ const vairantFields: Field[] = [
     },
   },
   {
-    name: 'available',
-    type: 'checkbox',
+    name: 'status',
+    type: 'select',
+    options: [
+      { label: 'Draft', value: 'DRAFT' },
+      { label: 'Available', value: 'AVAILABLE' },
+      { label: 'Unavailable', value: 'UNAVAILABLE' },
+    ],
     required: true,
+    defaultValue: 'DRAFT',
   },
   {
-    name: 'product_reviews',
+    name: 'reviews',
     type: 'array',
     labels: { singular: 'Product Review', plural: 'Product Reviews' },
     fields: [
@@ -167,7 +174,7 @@ const vairantFields: Field[] = [
     ],
   },
   {
-    name: 'product_rating',
+    name: 'rating',
     type: 'array',
     labels: { singular: 'Product Rating', plural: 'Product Ratings' },
     fields: [
@@ -195,7 +202,7 @@ const vairantFields: Field[] = [
     ],
   },
   {
-    name: 'product_images',
+    name: 'images',
     type: 'array',
     minRows: 1,
     maxRows: 10,
@@ -204,7 +211,6 @@ const vairantFields: Field[] = [
         name: 'image',
         type: 'upload',
         relationTo: 'images',
-        required: true,
         label: 'Product Image',
       },
     ],
