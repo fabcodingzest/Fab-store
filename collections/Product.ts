@@ -1,15 +1,22 @@
 import { CollectionConfig } from 'payload/types';
-import { beforeChange } from './Hooks';
-import vairantFields from '../../utilities/ProductVariant';
+import { isSignedIn, rules } from '../access';
+import vairantFields from '../utilities/ProductVariant';
+import { createdBybeforeChangeHook } from './hooks/beforeChange';
 
 const Product: CollectionConfig = {
   slug: 'products',
+  access: {
+    create:  ({ req: { user } }): boolean => isSignedIn(user),
+    read: rules.canReadProducts,
+    update: rules.canManageProducts,
+    delete: rules.canManageProducts,
+  },
   admin: {
-    useAsTitle: 'product_name',
+    useAsTitle: 'name',
   },
   fields: [
     {
-      name: 'product_name',
+      name: 'name',
       label: 'Product Name',
       type: 'text',
       required: true,
@@ -43,10 +50,8 @@ const Product: CollectionConfig = {
       index: true,
     },
     {
-      name: 'product_variants',
+      name: 'variants',
       type: 'array',
-      minRows: 1,
-      maxRows: 10,
       fields: vairantFields,
     },
     {
@@ -63,7 +68,7 @@ const Product: CollectionConfig = {
         readOnly: true,
       },
       hooks: {
-        beforeChange: [beforeChange],
+        beforeChange: [createdBybeforeChangeHook],
       },
     },
   ],
