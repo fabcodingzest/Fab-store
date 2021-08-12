@@ -1,9 +1,18 @@
 import { CollectionConfig } from 'payload/types';
+import { permissions, rules } from '../access';
 import { CountryOptions } from '../utilities/CountryOptions';
 
 const Users: CollectionConfig = {
   slug: 'users',
   auth: true,
+  access: {
+    create: (): boolean => true,
+    read: rules.canManageUsers,
+    update: rules.canManageUsers,
+    // Only people with the permission can delete themselves!
+    // You cannot delete yourself
+    delete: ({ req: { user } }): boolean => permissions.canManageUsers(user),
+  },
   admin: {
     useAsTitle: 'email',
   },
@@ -94,6 +103,11 @@ const Users: CollectionConfig = {
       type: 'relationship',
       relationTo: 'cart_items',
       hasMany: true,
+    },
+    {
+      name: 'role',
+      type: 'relationship',
+      relationTo: 'roles',
     },
   ],
 };
