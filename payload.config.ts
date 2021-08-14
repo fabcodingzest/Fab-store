@@ -3,13 +3,13 @@ import dotenv from 'dotenv';
 import path from 'path';
 import Users from './collections/Users';
 import Product from './collections/Product';
-import Discounts from './collections/Discounts';
+import Discount from './collections/Discount';
 import Images from './collections/Image';
 import addCloudinary from './collections/CloudinaryImages/cloudinaryPlugin';
-import CartItems from './collections/CartItems';
-import Orders from './collections/Orders';
-import OrderItems from './collections/OrderItems';
-import Roles from './collections/Roles';
+import CartItem from './collections/CartItem';
+import Orders from './collections/Order';
+import OrderItem from './collections/OrderItem';
+import Roles from './collections/Role';
 
 dotenv.config();
 
@@ -37,11 +37,11 @@ export default buildConfig({
   collections: [
     Users,
     Product,
-    Discounts,
+    Discount,
     Images,
-    CartItems,
+    CartItem,
     Orders,
-    OrderItems,
+    OrderItem,
     Roles,
   ],
   plugins: [addCloudinary],
