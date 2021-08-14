@@ -5,10 +5,10 @@ import { permissionFields } from '../utilities/permissionFields';
 const Roles: CollectionConfig = {
   slug: 'roles',
   access: {
-    create: ({ req: { user } }): boolean => permissions.canManageRoles(user),
-    read: ({ req: { user } }): boolean => permissions.canManageRoles(user),
-    update: ({ req: { user } }): boolean => permissions.canManageRoles(user),
-    delete: ({ req: { user } }): boolean => permissions.canManageRoles(user),
+    create: permissions.canManageRoles,
+    read: permissions.canManageRoles,
+    update: permissions.canManageRoles,
+    delete: permissions.canManageRoles,
   },
   admin: {
     useAsTitle: 'name',

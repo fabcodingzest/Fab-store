@@ -5,7 +5,7 @@ import { validatePositiveNumber } from '../utilities/validatePositiveNumber';
 const Orders: CollectionConfig = {
   slug: 'orders',
   access: {
-    create: ({ req: { user } }): boolean => isSignedIn(user),
+    create: isSignedIn,
     read: rules.canOrder,
     update: (): boolean => false,
     delete: (): boolean => false,

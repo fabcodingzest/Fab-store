@@ -5,10 +5,10 @@ import { isSignedIn, permissions } from '../access';
 const Images: CollectionConfig = {
   slug: 'images',
   access: {
-    create: ({ req: { user } }): boolean => isSignedIn(user),
+    create: isSignedIn,
     read: (): boolean => true,
-    update: ({ req: { user } }): boolean => permissions.canManageProducts(user),
-    delete: ({ req: { user } }): boolean => permissions.canManageProducts(user),
+    update: permissions.canManageProducts,
+    delete: permissions.canManageProducts,
   },
   upload: {
     // thumbnail image for the admin UI will use cloudinary instead of the admin host URL

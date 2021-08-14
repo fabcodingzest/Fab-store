@@ -6,7 +6,7 @@ import { createdBybeforeChangeHook } from './hooks/beforeChange';
 const Product: CollectionConfig = {
   slug: 'products',
   access: {
-    create:  ({ req: { user } }): boolean => isSignedIn(user),
+    create: isSignedIn,
     read: rules.canReadProducts,
     update: rules.canManageProducts,
     delete: rules.canManageProducts,

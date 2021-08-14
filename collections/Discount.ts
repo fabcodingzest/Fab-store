@@ -12,7 +12,7 @@ function validatePercentage(val: unknown): true | string {
 const Discounts: CollectionConfig = {
   slug: 'discounts',
   access: {
-    create: ({ req: { user } }): boolean => isSignedIn(user),
+    create: isSignedIn,
     read: rules.canManageProducts,
     update: rules.canManageProducts,
     delete: rules.canManageProducts,

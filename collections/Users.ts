@@ -1,17 +1,41 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CollectionConfig } from 'payload/types';
 import { permissions, rules } from '../access';
 import { CountryOptions } from '../utilities/CountryOptions';
 
 const Users: CollectionConfig = {
   slug: 'users',
-  auth: true,
+  auth: {
+    forgotPassword: {
+      generateEmailSubject: ({ user }) =>
+        `Hey ${user.email}, reset your password!`,
+      generateEmailHTML: ({ token, user }) => {
+        // Use the token provided to allow your user to reset their password
+        const resetPasswordURL = `${process.env.NEXT_PUBLIC_SERVER_URL}/reset?token=${token}`;
+
+        return `
+          <!doctype html>
+          <html>
+            <body>
+              <h1>Here is my custom email template!</h1>
+              <p>Hello, ${(user as any).email}!</p>
+              <p>Click below to reset your password.</p>
+              <p>
+                <a href="${resetPasswordURL}">${resetPasswordURL}</a>
+              </p>
+            </body>
+          </html>
+        `;
+      },
+    },
+  },
   access: {
     create: (): boolean => true,
     read: rules.canManageUsers,
     update: rules.canManageUsers,
     // Only people with the permission can delete themselves!
     // You cannot delete yourself
-    delete: ({ req: { user } }): boolean => permissions.canManageUsers(user),
+    delete: permissions.canManageUsers,
   },
   admin: {
     useAsTitle: 'email',
