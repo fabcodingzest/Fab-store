@@ -34,6 +34,23 @@ export default buildConfig({
       },
     }),
   },
+  graphQL: {
+    mutations: (GraphQL, payload) => ({
+      addToCart: {
+        // eslint-disable-next-line dot-notation
+        type: payload.collections['cart_items'].graphQL.type,
+        args: {
+          productId: {
+            type: new GraphQL.GraphQLNonNull(GraphQL.GraphQLID),
+          },
+        },
+        resolve: (_, { productId }) => {
+          console.log(productId);
+          return { quantity: 4 };
+        },
+      },
+    }),
+  },
   collections: [
     Users,
     Product,
