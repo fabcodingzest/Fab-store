@@ -64,43 +64,45 @@ async function exists(filePath: string) {
   }
 }
 
-async function deleteFile(filePath: string) {
-  const fileExists = await exists(filePath);
-  if (fileExists)
-    fs.unlink(filePath, (err) => {
-      if (err) {
-        console.log(err);
-        throw err;
-      }
-    });
-}
+// We don't need this anymore since payload now provides a way to disable the file storage.
 
-const afterChangeHook: AfterChangeHook = ({ doc }) => {
-  // DONE: find the doc by the doc.filename on the hard drive of the server
-  // if it exists, delete it
-  if (doc?.filename) {
-    const mainFilePath = path.resolve(
-      `${__dirname}../../../../images/${doc.filename}`
-    );
-    deleteFile(mainFilePath);
-  }
-  // DONE: and all of its sizes(if any)
-  if (doc?.sizes) {
-    // eslint-disable-next-line no-restricted-syntax
-    for (const imageName in doc.sizes) {
-      if (imageName) {
-        console.log(path.resolve(`${__dirname}`));
-        const filePath = path.resolve(
-          `${__dirname}../../../../images/${doc.sizes[imageName].filename}`
-        );
-        deleteFile(filePath);
-      }
-    }
-  }
-  // I tried deleting the empty directory as well but it was creating some errors while update operation so I left it.
+// async function deleteFile(filePath: string) {
+//   const fileExists = await exists(filePath);
+//   if (fileExists)
+//     fs.unlink(filePath, (err) => {
+//       if (err) {
+//         console.log(err);
+//         throw err;
+//       }
+//     });
+// }
 
-  return doc;
-};
+// const afterChangeHook: AfterChangeHook = ({ doc }) => {
+//   // DONE: find the doc by the doc.filename on the hard drive of the server
+//   // if it exists, delete it
+//   if (doc?.filename) {
+//     const mainFilePath = path.resolve(
+//       `${__dirname}../../../../images/${doc.filename}`
+//     );
+//     deleteFile(mainFilePath);
+//   }
+//   // DONE: and all of its sizes(if any)
+//   if (doc?.sizes) {
+//     // eslint-disable-next-line no-restricted-syntax
+//     for (const imageName in doc.sizes) {
+//       if (imageName) {
+//         console.log(path.resolve(`${__dirname}`));
+//         const filePath = path.resolve(
+//           `${__dirname}../../../../images/${doc.sizes[imageName].filename}`
+//         );
+//         deleteFile(filePath);
+//       }
+//     }
+//   }
+//   // I tried deleting the empty directory as well but it was creating some errors while update operation so I left it.
+
+//   return doc;
+// };
 
 const afterDeleteHook: AfterDeleteHook = ({ doc }) => {
   // DONE: delete the files from Cloudinary using public_id obtained from cloudinary
@@ -110,4 +112,4 @@ const afterDeleteHook: AfterDeleteHook = ({ doc }) => {
   return doc;
 };
 
-export default { beforeChangeHook, afterChangeHook, afterDeleteHook };
+export default { beforeChangeHook, afterDeleteHook };

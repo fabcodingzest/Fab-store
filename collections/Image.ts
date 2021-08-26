@@ -14,8 +14,7 @@ const Images: CollectionConfig = {
     // thumbnail image for the admin UI will use cloudinary instead of the admin host URL
     adminThumbnail: ({ doc }: Record<string, any>): string =>
       String(doc.cloudinaryURL),
-    staticURL: '/images',
-    staticDir: 'images',
+    disableLocalStorage: true,
   },
   fields: [
     {

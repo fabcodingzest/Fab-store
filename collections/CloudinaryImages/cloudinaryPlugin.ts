@@ -11,7 +11,7 @@ const addCloudinary = (incomingConfig: Config): Config => {
           hooks: {
             ...collection.hooks,
             beforeChange: [hooks.beforeChangeHook],
-            afterChange: [hooks.afterChangeHook],
+            // afterChange: [hooks.afterChangeHook],  // Don't need this anymore.
             afterDelete: [hooks.afterDeleteHook],
           },
           fields: [
