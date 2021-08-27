@@ -15,16 +15,15 @@ const CartItems: CollectionConfig = {
       name: 'products',
       type: 'relationship',
       relationTo: 'products',
-      hasMany: true,
     },
     {
       name: 'quantity',
       type: 'number',
       required: true,
       min: 1,
-      max: 10,
+      max: 100,
       defaultValue: 1,
-      validate: validatePositiveNumber,
+      // validate: validatePositiveNumber,
     },
     {
       name: 'user',
