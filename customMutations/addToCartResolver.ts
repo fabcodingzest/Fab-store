@@ -19,12 +19,38 @@ export const addToCartResolver = async (
     depth: 5,
     where: {
       user: { equals: loggedInUserId },
-      products: { equals: productId },
+      product: { equals: productId },
     },
   });
 
   // 3. See if the current item is already in their cart
-  console.log(allCartItems.docs);
+  const [existingCartItems] = allCartItems.docs;
 
-  return { quantity: 3 };
+  console.log(allCartItems);
+
+  // 4. If it exists already, increment by 1
+  if (existingCartItems) {
+    console.log(
+      `There are already ${existingCartItems.quantity}, increment by 1!`
+    );
+    const returnedDocAfterUpdate = await payload.update({
+      collection: 'cart_items',
+      id: existingCartItems.id,
+      data: {
+        quantity: existingCartItems.quantity + 1,
+      },
+    });
+
+    return returnedDocAfterUpdate;
+  }
+
+  // 4.2 If it doesn't exist, then create a new CartItem
+  const createdCartItem = await payload.create({
+    collection: 'cart_items',
+    data: {
+      product: productId,
+      user: user.id,
+    },
+  });
+  return createdCartItem;
 };
