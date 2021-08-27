@@ -12,7 +12,7 @@ const CartItems: CollectionConfig = {
   },
   fields: [
     {
-      name: 'products',
+      name: 'product',
       type: 'relationship',
       relationTo: 'products',
     },
@@ -23,7 +23,7 @@ const CartItems: CollectionConfig = {
       min: 1,
       max: 100,
       defaultValue: 1,
-      // validate: validatePositiveNumber,
+      validate: validatePositiveNumber,
     },
     {
       name: 'user',
@@ -32,15 +32,17 @@ const CartItems: CollectionConfig = {
       required: true,
     },
     {
-      name: 'total',
+      name: 'total', // Add hook to calculate price and make this virtual (only read) field.
       type: 'number',
       required: true,
       validate: (val: unknown): true | string => {
-        const str = val.toString();
-        const regex = /^[+]?([0-9]+\.?[0-9]*|\.[0-9]+)$/g;
-        const isNonDecimalPositiveInteger = regex.test(str);
-        if (isNonDecimalPositiveInteger) return true;
-        return 'The total should only be a positive number!';
+        if (val) {
+          const str = val.toString();
+          const regex = /^[+]?([0-9]+\.?[0-9]*|\.[0-9]+)$/g;
+          const isNonDecimalPositiveInteger = regex.test(str);
+          if (isNonDecimalPositiveInteger) return true;
+          return 'The total should only be a positive number!';
+        }
       },
     },
   ],
