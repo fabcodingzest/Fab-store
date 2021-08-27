@@ -122,7 +122,7 @@ const vairantFields: Field[] = [
               value?: unknown;
               data?: { [key: string]: unknown };
             }): Promise<unknown> | unknown =>
-              data.category === 'BOOKS' ? value : null,
+              data.category === 'BOOKS' ? value : undefined,
           ],
         },
         admin: {
