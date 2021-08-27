@@ -10,6 +10,7 @@ import CartItem from './collections/CartItem';
 import Orders from './collections/Order';
 import OrderItem from './collections/OrderItem';
 import Roles from './collections/Role';
+import { customMutations } from './customMutations';
 
 dotenv.config();
 
@@ -35,21 +36,7 @@ export default buildConfig({
     }),
   },
   graphQL: {
-    mutations: (GraphQL, payload) => ({
-      addToCart: {
-        // eslint-disable-next-line dot-notation
-        type: payload.collections['cart_items'].graphQL.type,
-        args: {
-          productId: {
-            type: new GraphQL.GraphQLNonNull(GraphQL.GraphQLID),
-          },
-        },
-        resolve: (_, { productId }) => {
-          console.log(productId);
-          return { quantity: 4 };
-        },
-      },
-    }),
+    mutations: customMutations,
   },
   collections: [
     Users,
