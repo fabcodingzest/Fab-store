@@ -1,9 +1,13 @@
 import { CollectionConfig } from 'payload/types';
 import { isSignedIn, rules } from '../access';
 import { validatePositiveNumber } from '../utilities/validatePositiveNumber';
+import { labelBeforeChange } from './hooks';
 
 const Orders: CollectionConfig = {
   slug: 'orders',
+  admin: {
+    useAsTitle: 'label',
+  },
   access: {
     create: isSignedIn,
     read: rules.canOrder,
@@ -18,6 +22,17 @@ const Orders: CollectionConfig = {
       label: 'Total Amount',
       required: true,
       validate: validatePositiveNumber,
+    },
+    {
+      name: 'label',
+      type: 'text',
+      admin: {
+        readOnly: true,
+        condition: (): boolean => false,
+      },
+      hooks: {
+        beforeChange: [labelBeforeChange],
+      },
     },
     {
       name: 'payment_method',
