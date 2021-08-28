@@ -11,12 +11,17 @@ import Orders from './collections/Order';
 import OrderItem from './collections/OrderItem';
 import Roles from './collections/Role';
 import { customMutations } from './customMutations';
+import { ProductVariants } from './collections/ProductVariants';
 
 dotenv.config();
 
 const CloudinaryMediaHooks = path.resolve(
   __dirname,
   'collections/CloudinaryImages/hooks/CloudinaryMediaHooks'
+);
+const CheckoutStripeMutation = path.resolve(
+  __dirname,
+  'customMutations/checkout'
 );
 const mockModulePath = path.resolve(__dirname, 'mocks/emptyObject');
 
@@ -31,6 +36,7 @@ export default buildConfig({
         alias: {
           ...config.resolve.alias,
           [CloudinaryMediaHooks]: mockModulePath,
+          [CheckoutStripeMutation]: mockModulePath,
         },
       },
     }),
@@ -41,6 +47,7 @@ export default buildConfig({
   collections: [
     Users,
     Product,
+    ProductVariants,
     Discount,
     Images,
     CartItem,
