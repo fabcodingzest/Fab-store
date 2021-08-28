@@ -119,11 +119,11 @@ const Users: CollectionConfig = {
     {
       name: 'products',
       type: 'relationship',
-      relationTo: 'products',
+      relationTo: 'product_variants',
       hasMany: true,
     },
     {
-      name: 'cart_items',
+      name: 'cart',
       type: 'relationship',
       relationTo: 'cart_items',
       hasMany: true,

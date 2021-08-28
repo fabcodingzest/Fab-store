@@ -20,11 +20,7 @@ const vairantFields: Field[] = [
         }: {
           value?: unknown;
           data?: { [key: string]: unknown };
-        }): Promise<unknown> | unknown => {
-          const productVariants: any = data.variants;
-          const field = productVariants.find((item) => item.color === value);
-          return field.color_applies ? value : null;
-        },
+        }): Promise<unknown> | unknown => (data.color_applies ? value : null),
       ],
     },
     admin: {

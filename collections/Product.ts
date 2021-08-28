@@ -1,7 +1,6 @@
 import { CollectionConfig } from 'payload/types';
 import { isSignedIn, rules } from '../access';
-import vairantFields from '../utilities/ProductVariant';
-import { createdBybeforeChangeHook } from './hooks/beforeChange';
+import { createdBybeforeChangeHook } from './hooks';
 
 const Product: CollectionConfig = {
   slug: 'products',
@@ -34,25 +33,10 @@ const Product: CollectionConfig = {
       },
     },
     {
-      name: 'category',
-      label: 'Product Category',
-      type: 'select',
-      options: [
-        { label: 'Clothes', value: 'CLOTHES' },
-        { label: 'Stationary', value: 'STATIONARY' },
-        { label: 'Toys', value: 'TOYS' },
-        { label: 'Furniture', value: 'FURNITURE' },
-        { label: 'Books', value: 'BOOKS' },
-        { label: 'Jwellery', value: 'JWELLERY' },
-        { label: 'Electronics', value: 'ELECTRONICS' },
-      ],
-      required: true,
-      index: true,
-    },
-    {
       name: 'variants',
-      type: 'array',
-      fields: vairantFields,
+      type: 'relationship',
+      relationTo: 'product_variants',
+      hasMany: true,
     },
     {
       name: 'discount',
