@@ -1,6 +1,6 @@
 /* eslint-disable dot-notation */
 import { addToCartResolver } from './addToCartResolver';
-import { checkoutResolver } from './checkout';
+import checkoutResolver from './checkout';
 
 export const customMutations = (GraphQL, payload) => ({
   addToCart: {
