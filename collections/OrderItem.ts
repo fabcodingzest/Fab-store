@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload/types';
 import { isSignedIn, rules } from '../access';
 import vairantFields from '../utilities/ProductVariant';
-import { createdBybeforeChangeHook } from './hooks/beforeChange';
+import { createdBybeforeChangeHook } from './hooks';
 
 const OrderItems: CollectionConfig = {
   slug: 'order_items',
