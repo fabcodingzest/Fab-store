@@ -4,6 +4,9 @@ import { validatePositiveNumber } from '../utilities/validatePositiveNumber';
 
 const CartItems: CollectionConfig = {
   slug: 'cart_items',
+  admin: {
+    useAsTitle: 'user',
+  },
   access: {
     create: isSignedIn,
     read: rules.canOrder,
@@ -14,7 +17,7 @@ const CartItems: CollectionConfig = {
     {
       name: 'product',
       type: 'relationship',
-      relationTo: 'products',
+      relationTo: 'product_variants',
     },
     {
       name: 'quantity',
@@ -30,20 +33,6 @@ const CartItems: CollectionConfig = {
       type: 'relationship',
       relationTo: 'users',
       required: true,
-    },
-    {
-      name: 'total', // Add hook to calculate price and make this virtual (only read) field.
-      type: 'number',
-      required: true,
-      validate: (val: unknown): true | string => {
-        if (val) {
-          const str = val.toString();
-          const regex = /^[+]?([0-9]+\.?[0-9]*|\.[0-9]+)$/g;
-          const isNonDecimalPositiveInteger = regex.test(str);
-          if (isNonDecimalPositiveInteger) return true;
-          return 'The total should only be a positive number!';
-        }
-      },
     },
   ],
 };
