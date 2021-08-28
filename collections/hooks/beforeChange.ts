@@ -1,14 +1,14 @@
-import { BeforeChangeHook } from 'payload/dist/collections/config/types';
+import { FieldHook } from 'payload/types';
 
-const createdBybeforeChangeHook: BeforeChangeHook = async ({
+const createdBybeforeChangeHook: FieldHook = async ({
   data,
-  req,
+  req: { user },
   operation,
 }) => {
   if (data?.createdBy && operation === 'update') {
     return data?.createdBy;
   }
-  return req?.user?.id;
+  return user?.id;
 };
 
 export { createdBybeforeChangeHook };
