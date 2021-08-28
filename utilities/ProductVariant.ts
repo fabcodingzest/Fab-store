@@ -67,7 +67,6 @@ const vairantFields: Field[] = [
     },
     admin: {
       condition: (data: Record<string, unknown>): boolean => {
-        console.log(data);
         if (data.category === 'CLOTHES') {
           return true;
         }
