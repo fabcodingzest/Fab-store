@@ -36,6 +36,7 @@
     "slate-history": "^0.65.3",
     "slate-react": "^0.65.2",
     "streamifier": "^0.1.1",
+    "stripe": "^8.171.0",
     "typescript": "^4.3.5"
   },
   "devDependencies": {
