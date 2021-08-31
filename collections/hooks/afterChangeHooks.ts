@@ -5,6 +5,7 @@ import { CollectionAfterChangeHook, FieldHook } from 'payload/types';
 import formatMoney from '../../utilities/formatMoney';
 
 const labelAfterChange: FieldHook = ({ data }) => {
+  // Formatting to have a decent label.
   const label = `${formatMoney(data?.total as number)}`;
   return label;
 };
@@ -15,13 +16,16 @@ const productAfterChangeHook: CollectionAfterChangeHook = async ({
   operation,
 }) => {
   try {
+    // Check if user is logged in and operation is create
     if (user && operation === 'create') {
-      const productsArray = (user.products as []).map((item: any) => item.id);
+      // Create array of product ids from user.products data
+      const oldProductArray = (user.products as []).map((item: any) => item.id);
+      // Updating the users collection by adding the created product to user.products
       await payload.update({
         collection: 'users',
         id: user.id,
         data: {
-          products: [...productsArray, doc.id],
+          products: [...oldProductArray, doc.id],
         },
       });
     }
@@ -38,13 +42,18 @@ const variantAfterChangeHook: CollectionAfterChangeHook = async ({
 }) => {
   try {
     if (user && operation === 'create') {
+      // Getting Parent data so we can have previous Variants Array
       const productParent = await payload.findByID({
         collection: 'products',
         id: doc.parent,
       });
+
+      // As the variant have all data we map it to just have id
       const prevVariantsArray = productParent['variants'].map(
         (item: any) => item.id
       );
+
+      // Update the product by adding the createdVariant to parent product
       await payload.update({
         collection: 'products',
         id: doc.parent,
@@ -66,12 +75,15 @@ const orderAfterChangeHook: CollectionAfterChangeHook = async ({
 }) => {
   try {
     if (user && operation === 'create') {
-      const ordersArray = (user.products as []).map((item: any) => item.id);
+      // Mapping user.products to have array of ids only
+      const prevOrdersArray = (user.products as []).map((item: any) => item.id);
+
+      // Add current order id to user.orders array
       await payload.update({
         collection: 'users',
         id: user.id,
         data: {
-          orders: [...ordersArray, doc.id],
+          orders: [...prevOrdersArray, doc.id],
         },
       });
     }

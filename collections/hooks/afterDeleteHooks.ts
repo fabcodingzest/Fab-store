@@ -8,6 +8,7 @@ const productAfterDeleteHook: CollectionAfterDeleteHook = async ({
 }) => {
   try {
     if (user) {
+      // Delete all the variants after the parent product has been deleted
       await Promise.all(
         doc.variants.map(async (id: any) => {
           await payload.delete({

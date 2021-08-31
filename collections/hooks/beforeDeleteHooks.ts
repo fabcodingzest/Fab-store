@@ -8,11 +8,14 @@ const cartItemBeforeDelete: CollectionBeforeDeleteHook = async ({
   req: { user },
 }) => {
   try {
+    // if the user is signed in
     if (user) {
+      // Array without the deleted cart Item
       const updatedCart = (user.cart as [])
         .filter((item: any) => item.id !== id)
         .map((item: any) => item.id);
-      console.log(updatedCart);
+
+      // Removing cartItem from user.cart
       await payload.update({
         collection: 'users',
         id: user.id,
@@ -32,17 +35,19 @@ const variantBeforeDelete: CollectionBeforeDeleteHook = async ({
 }) => {
   try {
     if (user) {
+      // Get the data of variant to be deleted
       const variantData = await payload.findByID({
         collection: 'product_variants',
         id,
         depth: 5,
       });
-      console.log(variantData['parent']['variants']);
 
+      // Obtain array of ids without the id of item to be deleted
       const updatedParentVariants = variantData['parent']['variants']
         .filter((item: any) => item.id !== variantData.id)
         .map((item: any) => item.id);
-      console.log(updatedParentVariants);
+
+        // remove the item to be deleted from parent product
       await payload.update({
         collection: 'products',
         id: variantData['parent'].id,
