@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload/types';
 import { isSignedIn, rules } from '../access';
 import { productAfterChangeHook } from './hooks/afterChangeHooks';
-import { productAfterDeleteHook } from './hooks/AfterDeleteHooks';
+import { productAfterDeleteHook } from './hooks/afterDeleteHooks';
 import { createdBybeforeChangeHook } from './hooks/beforeChangeHooks';
 
 const Product: CollectionConfig = {

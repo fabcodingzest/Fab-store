@@ -1,24 +1,34 @@
 /* eslint-disable dot-notation */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import payload from 'payload';
-import { CollectionAfterChangeHook } from 'payload/types';
+import { CollectionAfterChangeHook, FieldHook } from 'payload/types';
+import formatMoney from '../../utilities/formatMoney';
+
+const labelAfterChange: FieldHook = ({ data }) => {
+  const label = `${formatMoney(data?.total as number)}`;
+  return label;
+};
 
 const productAfterChangeHook: CollectionAfterChangeHook = async ({
   doc,
   req: { user },
   operation,
 }) => {
-  if (user && operation === 'create') {
-    const productsArray = (user.products as []).map((item: any) => item.id);
-    await payload.update({
-      collection: 'users',
-      id: user.id,
-      data: {
-        products: [...productsArray, doc.id],
-      },
-    });
+  try {
+    if (user && operation === 'create') {
+      const productsArray = (user.products as []).map((item: any) => item.id);
+      await payload.update({
+        collection: 'users',
+        id: user.id,
+        data: {
+          products: [...productsArray, doc.id],
+        },
+      });
+    }
+    return doc;
+  } catch (error) {
+    throw new Error(error);
   }
-  return doc;
 };
 
 const variantAfterChangeHook: CollectionAfterChangeHook = async ({
@@ -26,23 +36,27 @@ const variantAfterChangeHook: CollectionAfterChangeHook = async ({
   req: { user },
   operation,
 }) => {
-  if (user && operation === 'create') {
-    const productParent = await payload.findByID({
-      collection: 'products',
-      id: doc.parent,
-    });
-    const prevVariantsArray = productParent['variants'].map(
-      (item: any) => item.id
-    );
-    await payload.update({
-      collection: 'products',
-      id: doc.parent,
-      data: {
-        variants: [...prevVariantsArray, doc.id],
-      },
-    });
+  try {
+    if (user && operation === 'create') {
+      const productParent = await payload.findByID({
+        collection: 'products',
+        id: doc.parent,
+      });
+      const prevVariantsArray = productParent['variants'].map(
+        (item: any) => item.id
+      );
+      await payload.update({
+        collection: 'products',
+        id: doc.parent,
+        data: {
+          variants: [...prevVariantsArray, doc.id],
+        },
+      });
+    }
+    return doc;
+  } catch (error) {
+    throw new Error(error);
   }
-  return doc;
 };
 
 const orderAfterChangeHook: CollectionAfterChangeHook = async ({
@@ -50,17 +64,21 @@ const orderAfterChangeHook: CollectionAfterChangeHook = async ({
   req: { user },
   operation,
 }) => {
-  if (user && operation === 'create') {
-    const ordersArray = (user.products as []).map((item: any) => item.id);
-    await payload.update({
-      collection: 'users',
-      id: user.id,
-      data: {
-        orders: [...ordersArray, doc.id],
-      },
-    });
+  try {
+    if (user && operation === 'create') {
+      const ordersArray = (user.products as []).map((item: any) => item.id);
+      await payload.update({
+        collection: 'users',
+        id: user.id,
+        data: {
+          orders: [...ordersArray, doc.id],
+        },
+      });
+    }
+    return doc;
+  } catch (error) {
+    throw new Error(error);
   }
-  return doc;
 };
 
 const cartItemAfterChange: CollectionAfterChangeHook = async ({
@@ -91,4 +109,5 @@ export {
   variantAfterChangeHook,
   orderAfterChangeHook,
   cartItemAfterChange,
+  labelAfterChange,
 };

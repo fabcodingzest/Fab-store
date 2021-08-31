@@ -2,22 +2,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import payload from 'payload';
 import { CollectionBeforeChangeHook, FieldHook } from 'payload/types';
-import formatMoney from '../../utilities/formatMoney';
 
 const createdBybeforeChangeHook: FieldHook = async ({
   data,
   req: { user },
   operation,
 }) => {
-  if (data?.createdBy && operation === 'update') {
-    return data?.createdBy;
+  try {
+    if (data?.createdBy && operation === 'update') {
+      return data?.createdBy;
+    }
+    return user?.id;
+  } catch (error) {
+    throw new Error(error);
   }
-  return user?.id;
-};
-
-const labelBeforeChange: FieldHook = ({ data }) => {
-  const label = `${formatMoney(data.total as number)}`;
-  return label;
 };
 
 const orderBeforeChangeHook: CollectionBeforeChangeHook = async ({
@@ -57,4 +55,4 @@ const orderBeforeChangeHook: CollectionBeforeChangeHook = async ({
   }
 };
 
-export { createdBybeforeChangeHook, labelBeforeChange, orderBeforeChangeHook };
+export { createdBybeforeChangeHook, orderBeforeChangeHook };
