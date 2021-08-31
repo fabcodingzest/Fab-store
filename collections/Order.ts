@@ -1,11 +1,10 @@
 import { CollectionConfig } from 'payload/types';
 import { isSignedIn, rules } from '../access';
-import { validatePositiveNumber } from '../utilities/validatePositiveNumber';
-import { orderAfterChangeHook } from './hooks/afterChangeHooks';
 import {
-  labelBeforeChange,
-  orderBeforeChangeHook,
-} from './hooks/beforeChangeHooks';
+  labelAfterChange,
+  orderAfterChangeHook,
+} from './hooks/afterChangeHooks';
+import { orderBeforeChangeHook } from './hooks/beforeChangeHooks';
 
 const Orders: CollectionConfig = {
   slug: 'orders',
@@ -22,10 +21,10 @@ const Orders: CollectionConfig = {
     {
       name: 'total',
       type: 'number',
-      defaultValue: 0,
       label: 'Total Amount',
-      required: true,
-      validate: validatePositiveNumber,
+      admin: {
+        readOnly: true,
+      },
     },
     {
       name: 'label',
@@ -35,13 +34,13 @@ const Orders: CollectionConfig = {
         condition: (): boolean => false,
       },
       hooks: {
-        beforeChange: [labelBeforeChange],
+        afterChange: [labelAfterChange],
       },
     },
     {
       name: 'payment_method',
       type: 'select',
-      // required: true,
+      required: true,
       options: [
         { label: 'Cash on delivery', value: 'COD' },
         { label: 'Online Payment through Stripe', value: 'STRIPE' },
