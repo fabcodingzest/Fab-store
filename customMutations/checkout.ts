@@ -59,6 +59,7 @@ const checkoutResolver = async (
       price: cartItem.product.price,
       quantity: cartItem.quantity,
       images: cartItem.product.images,
+      product_ref: cartItem.product.id,
     };
     return orderItem;
   });

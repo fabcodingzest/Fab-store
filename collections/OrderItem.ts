@@ -1,7 +1,6 @@
 import { CollectionConfig } from 'payload/types';
 import { isSignedIn, rules } from '../access';
 import vairantFields from '../utilities/ProductVariant';
-import { createdBybeforeChangeHook } from './hooks/beforeChangeHooks';
 
 const OrderItems: CollectionConfig = {
   slug: 'order_items',
@@ -50,6 +49,11 @@ const OrderItems: CollectionConfig = {
       type: 'relationship',
       relationTo: 'orders',
     },
+    {
+      name: 'product_ref',
+      type: 'relationship',
+      relationTo: 'product_variants',
+    }
   ],
 };
 
