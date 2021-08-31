@@ -1,7 +1,11 @@
 import { CollectionConfig } from 'payload/types';
 import { isSignedIn, rules } from '../access';
 import { validatePositiveNumber } from '../utilities/validatePositiveNumber';
-import { labelBeforeChange, orderBeforeChangeHook } from './hooks';
+import { orderAfterChangeHook } from './hooks/afterChangeHooks';
+import {
+  labelBeforeChange,
+  orderBeforeChangeHook,
+} from './hooks/beforeChangeHooks';
 
 const Orders: CollectionConfig = {
   slug: 'orders',
@@ -68,7 +72,8 @@ const Orders: CollectionConfig = {
     },
   ],
   hooks: {
-    beforeChange: [orderBeforeChangeHook]
+    beforeChange: [orderBeforeChangeHook],
+    afterChange: [orderAfterChangeHook],
   },
 };
 

@@ -1,11 +1,13 @@
 import { CollectionConfig } from 'payload/types';
 import { isSignedIn, rules } from '../access';
 import { validatePositiveNumber } from '../utilities/validatePositiveNumber';
+import { cartItemAfterChange } from './hooks/afterChangeHooks';
+import { cartItemBeforeDelete } from './hooks/beforeDeleteHooks';
 
 const CartItems: CollectionConfig = {
   slug: 'cart_items',
   admin: {
-    useAsTitle: 'user',
+    useAsTitle: 'product',
   },
   access: {
     create: isSignedIn,
@@ -35,6 +37,10 @@ const CartItems: CollectionConfig = {
       required: true,
     },
   ],
+  hooks: {
+    afterChange: [cartItemAfterChange],
+    beforeDelete: [cartItemBeforeDelete],
+  },
 };
 
 export default CartItems;

@@ -1,6 +1,8 @@
 import { CollectionConfig } from 'payload/types';
 import { isSignedIn, rules } from '../access';
-import { createdBybeforeChangeHook } from './hooks';
+import { productAfterChangeHook } from './hooks/afterChangeHooks';
+import { productAfterDeleteHook } from './hooks/AfterDeleteHooks';
+import { createdBybeforeChangeHook } from './hooks/beforeChangeHooks';
 
 const Product: CollectionConfig = {
   slug: 'products',
@@ -56,6 +58,10 @@ const Product: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    afterChange: [productAfterChangeHook],
+    afterDelete: [productAfterDeleteHook],
+  },
 };
 
 export default Product;
