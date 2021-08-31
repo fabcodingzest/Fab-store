@@ -1,4 +1,5 @@
-import { FieldHook } from 'payload/types';
+import payload from 'payload';
+import { CollectionBeforeChangeHook, FieldHook } from 'payload/types';
 import formatMoney from '../../utilities/formatMoney';
 
 const createdBybeforeChangeHook: FieldHook = async ({
@@ -14,9 +15,40 @@ const createdBybeforeChangeHook: FieldHook = async ({
 
 const labelBeforeChange: FieldHook = ({ data }) => {
   const label = `${formatMoney(data.total as number)}`;
-  console.log(label);
-
-  // doc.admin.useAsTitle = label;
   return label;
 };
-export { createdBybeforeChangeHook, labelBeforeChange };
+
+const orderBeforeChangeHook: CollectionBeforeChangeHook = async ({
+  data,
+  req: { user },
+  operation,
+}) => {
+  if (data.createOrderItems) {
+    const orderItemsArray = data.createOrderItems;
+    const createdOrderItems = await Promise.all(
+      orderItemsArray.map(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        async (singleOrderItemData: Record<string, any>) => {
+          singleOrderItemData.images = singleOrderItemData.images.map(
+            (item) => ({
+              id: item.id,
+              image: item.image.id,
+            })
+          );
+          const createdOrderItem = await payload.create({
+            collection: 'order_items',
+            data: singleOrderItemData,
+          });
+
+          return createdOrderItem.id;
+        }
+      )
+    );
+    return {
+      ...data,
+      order_items: createdOrderItems,
+    };
+  }
+};
+
+export { createdBybeforeChangeHook, labelBeforeChange, orderBeforeChangeHook };

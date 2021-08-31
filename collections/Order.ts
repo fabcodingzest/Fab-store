@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload/types';
 import { isSignedIn, rules } from '../access';
 import { validatePositiveNumber } from '../utilities/validatePositiveNumber';
-import { labelBeforeChange } from './hooks';
+import { labelBeforeChange, orderBeforeChangeHook } from './hooks';
 
 const Orders: CollectionConfig = {
   slug: 'orders',
@@ -37,7 +37,7 @@ const Orders: CollectionConfig = {
     {
       name: 'payment_method',
       type: 'select',
-      required: true,
+      // required: true,
       options: [
         { label: 'Cash on delivery', value: 'COD' },
         { label: 'Online Payment through Stripe', value: 'STRIPE' },
@@ -51,7 +51,7 @@ const Orders: CollectionConfig = {
     {
       name: 'order_items',
       type: 'relationship',
-      required: true,
+      // required: true,
       relationTo: 'order_items',
       hasMany: true,
     },
@@ -67,6 +67,9 @@ const Orders: CollectionConfig = {
       required: true,
     },
   ],
+  hooks: {
+    beforeChange: [orderBeforeChangeHook]
+  },
 };
 
 export default Orders;
