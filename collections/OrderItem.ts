@@ -30,22 +30,6 @@ const OrderItems: CollectionConfig = {
         leaves: ['bold', 'italic', 'underline', 'strikethrough'],
       },
     },
-    {
-      name: 'category',
-      label: 'Product Category',
-      type: 'select',
-      options: [
-        { label: 'Clothes', value: 'CLOTHES' },
-        { label: 'Stationary', value: 'STATIONARY' },
-        { label: 'Toys', value: 'TOYS' },
-        { label: 'Furniture', value: 'FURNITURE' },
-        { label: 'Books', value: 'BOOKS' },
-        { label: 'Jwellery', value: 'JWELLERY' },
-        { label: 'Electronics', value: 'ELECTRONICS' },
-      ],
-      required: true,
-      index: true,
-    },
     ...vairantFields,
     {
       name: 'discount',
@@ -59,9 +43,6 @@ const OrderItems: CollectionConfig = {
       relationTo: 'users',
       admin: {
         readOnly: true,
-      },
-      hooks: {
-        beforeChange: [createdBybeforeChangeHook],
       },
     },
     {
