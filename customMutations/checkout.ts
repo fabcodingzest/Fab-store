@@ -78,16 +78,6 @@ const checkoutResolver = async (
   console.log(cartItemIds);
 
   console.log('Gonna delete the cart Items now');
-  // 3.1 - Delete cart items from user cart
-  await payload.update({
-    collection: 'users',
-    id: user.id,
-    data: {
-      cart: [],
-    },
-  });
-
-  // 3.2 - Delete cart Items from its collection
   await Promise.all(
     cartItemIds.map(async (cartItemId) => {
       const deletedItem = await payload.delete({
