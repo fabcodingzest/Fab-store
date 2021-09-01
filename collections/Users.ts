@@ -135,6 +135,12 @@ const Users: CollectionConfig = {
       hasMany: true,
     },
     {
+      name: 'wishlist',
+      type: 'relationship',
+      relationTo: 'products',
+      hasMany: true,
+    },
+    {
       name: 'role',
       type: 'relationship',
       relationTo: 'roles',
