@@ -1,9 +1,6 @@
 import { CollectionConfig } from 'payload/types';
 import { isSignedIn, rules } from '../access';
-import {
-  labelAfterChange,
-  orderAfterChangeHook,
-} from './hooks/afterChangeHooks';
+import { orderAfterChangeHook } from './hooks/afterChangeHooks';
 import { orderBeforeChangeHook } from './hooks/beforeChangeHooks';
 
 const Orders: CollectionConfig = {
@@ -32,9 +29,6 @@ const Orders: CollectionConfig = {
       admin: {
         readOnly: true,
         condition: (): boolean => false,
-      },
-      hooks: {
-        afterChange: [labelAfterChange],
       },
     },
     {
