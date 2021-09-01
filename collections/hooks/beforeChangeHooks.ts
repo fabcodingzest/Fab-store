@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import payload from 'payload';
 import { CollectionBeforeChangeHook, FieldHook } from 'payload/types';
+import formatMoney from '../../utilities/formatMoney';
 
 const createdBybeforeChangeHook: FieldHook = async ({
   data,
@@ -20,14 +21,11 @@ const createdBybeforeChangeHook: FieldHook = async ({
   }
 };
 
-const orderBeforeChangeHook: CollectionBeforeChangeHook = async ({
-  data,
-  req: { user },
-  operation,
-}) => {
+const orderBeforeChangeHook: CollectionBeforeChangeHook = async ({ data }) => {
   try {
     // If the data have createOrderItems (from checkout mutatuion) then we
-    if (user && operation === 'create' && data.createOrderItems) {
+    // we remove login check because in mutation the req.user is undefined
+    if (data.createOrderItems) {
       const orderItemsArray = data.createOrderItems;
       // Create the order Items with data recieved
       // Promise.all for map because we need to resolve all promises.
@@ -51,9 +49,11 @@ const orderBeforeChangeHook: CollectionBeforeChangeHook = async ({
           }
         )
       );
+      const label = `${formatMoney(data?.total as number)}`;
       return {
         ...data,
         order_items: createdOrderItems,
+        label,
       };
     }
   } catch (error) {
