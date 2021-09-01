@@ -89,16 +89,19 @@ const orderAfterChangeHook: CollectionAfterChangeHook = async ({ doc }) => {
 
 const cartItemAfterChange: CollectionAfterChangeHook = async ({
   doc,
-  req: { user },
   operation,
 }) => {
   try {
-    if (user && operation === 'create') {
-      const userPrevCart = (user.cart as []).map((item: any) => item.id);
+    if (operation === 'create') {
+      const userData = await payload.findByID({
+        collection: 'users',
+        id: doc.user,
+      });
+      const userPrevCart = (userData['cart'] as []).map((item: any) => item.id);
       // Add the cart ids to user.cart
       await payload.update({
         collection: 'users',
-        id: user.id,
+        id: userData.id,
         data: {
           cart: [...userPrevCart, doc.id],
         },
