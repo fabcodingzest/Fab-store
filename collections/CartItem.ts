@@ -31,6 +31,11 @@ const CartItems: CollectionConfig = {
       validate: validatePositiveNumber,
     },
     {
+      name: 'wishlist',
+      type: 'checkbox',
+      defaultValue: false,
+    },
+    {
       name: 'user',
       type: 'relationship',
       relationTo: 'users',

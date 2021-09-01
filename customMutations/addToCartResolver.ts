@@ -3,7 +3,7 @@ import payload from 'payload';
 
 export const addToCartResolver = async (
   root,
-  { productId },
+  { productId, wishlist },
   { req: { user } }
 ) => {
   const loggedInUserId = user.id;
@@ -50,6 +50,7 @@ export const addToCartResolver = async (
     data: {
       product: productId,
       user: user.id,
+      wishlist,
     },
   });
   return createdCartItem;

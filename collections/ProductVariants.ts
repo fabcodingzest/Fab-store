@@ -18,6 +18,7 @@ export const ProductVariants: CollectionConfig = {
       name: 'parent',
       type: 'relationship',
       relationTo: 'products',
+      required: true,
     },
     ...vairantFields,
   ],

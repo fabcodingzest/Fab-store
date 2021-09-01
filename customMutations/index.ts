@@ -7,7 +7,10 @@ export const customMutations = (GraphQL, payload) => ({
     type: payload.collections['cart_items'].graphQL.type,
     args: {
       productId: {
-        type: new GraphQL.GraphQLScalarType(GraphQL.GraphQLID),
+        type: GraphQL.GraphQLID,
+      },
+      wishlist: {
+        type: GraphQL.GraphQLBoolean,
       },
     },
     resolve: addToCartResolver,

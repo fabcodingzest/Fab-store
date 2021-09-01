@@ -21,8 +21,9 @@ const checkoutResolver = async (
 
   // 2. Calc the total price for their order.
   const cartItems = userWithDetails['cart'].filter(
-    (cartItem) => cartItem.product
+    (cartItem) => cartItem.product && !cartItem.wishlist
   );
+  // Getting cartItemInput type from payload
   const CartItemInputType =
     payload.collections['cart_items'].graphQL.mutationInputType;
   const amount = cartItems.reduce(
@@ -71,11 +72,12 @@ const checkoutResolver = async (
       payment_id: charge.id,
       createOrderItems: orderItems,
       user: user.id,
+      payment_method: paymentMethod,
     },
   });
 
   // 3. Clean up old cartItems
-  const cartItemIds = userWithDetails['cart'].map((cartItem) => cartItem.id);
+  const cartItemIds = cartItems.map((cartItem) => cartItem.id);
   console.log(cartItemIds);
 
   console.log('Gonna delete the cart Items now');
