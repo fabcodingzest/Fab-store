@@ -98,14 +98,27 @@ const cartItemAfterChange: CollectionAfterChangeHook = async ({
         id: doc.user,
       });
       const userPrevCart = (userData['cart'] as []).map((item: any) => item.id);
+      const userPrevWishlist = (userData['wishlist'] as []).map(
+        (item: any) => item.id
+      );
       // Add the cart ids to user.cart
-      await payload.update({
-        collection: 'users',
-        id: userData.id,
-        data: {
-          cart: [...userPrevCart, doc.id],
-        },
-      });
+      if (!doc.wishlist) {
+        await payload.update({
+          collection: 'users',
+          id: userData.id,
+          data: {
+            cart: [...userPrevCart, doc.id],
+          },
+        });
+      } else if (doc.wishlist) {
+        await payload.update({
+          collection: 'users',
+          id: userData.id,
+          data: {
+            wishlist: [...userPrevWishlist, doc.id],
+          },
+        });
+      }
       return doc;
     }
   } catch (error) {
