@@ -1,14 +1,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import payload from 'payload';
-import { CollectionAfterChangeHook, FieldHook } from 'payload/types';
-import formatMoney from '../../utilities/formatMoney';
-
-const labelAfterChange: FieldHook = ({ data }) => {
-  // Formatting to have a decent label.
-  const label = `${formatMoney(data?.total as number)}`;
-  return label;
-};
+import { CollectionAfterChangeHook } from 'payload/types';
 
 const productAfterChangeHook: CollectionAfterChangeHook = async ({
   doc,
@@ -68,25 +61,26 @@ const variantAfterChangeHook: CollectionAfterChangeHook = async ({
   }
 };
 
-const orderAfterChangeHook: CollectionAfterChangeHook = async ({
-  doc,
-  req: { user },
-  operation,
-}) => {
+const orderAfterChangeHook: CollectionAfterChangeHook = async ({ doc }) => {
   try {
-    if (user && operation === 'create') {
-      // Mapping user.products to have array of ids only
-      const prevOrdersArray = (user.products as []).map((item: any) => item.id);
+    // Mapping user.products to have array of ids only
+    const userData = await payload.findByID({
+      collection: 'users',
+      id: doc.user,
+    });
 
-      // Add current order id to user.orders array
-      await payload.update({
-        collection: 'users',
-        id: user.id,
-        data: {
-          orders: [...prevOrdersArray, doc.id],
-        },
-      });
-    }
+    const prevOrdersArray = (userData['products'] as []).map(
+      (item: any) => item.id
+    );
+
+    // Add current order id to user.orders array
+    await payload.update({
+      collection: 'users',
+      id: userData.id,
+      data: {
+        orders: [...prevOrdersArray, doc.id],
+      },
+    });
     return doc;
   } catch (error) {
     throw new Error(error);
@@ -121,5 +115,4 @@ export {
   variantAfterChangeHook,
   orderAfterChangeHook,
   cartItemAfterChange,
-  labelAfterChange,
 };
