@@ -3,6 +3,28 @@
 import payload from 'payload';
 import { CollectionAfterChangeHook } from 'payload/types';
 
+const addressAfterChange: CollectionAfterChangeHook = async ({ doc }) => {
+  try {
+    const userData = await payload.findByID({
+      collection: 'users',
+      id: doc.user,
+    });
+    const userOldAddressData = userData['addresses'].map(
+      (item: any) => item.id
+    );
+
+    await payload.update({
+      collection: 'users',
+      id: userData.id,
+      data: {
+        addresses: [...userOldAddressData, doc.id],
+      },
+    });
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const productAfterChangeHook: CollectionAfterChangeHook = async ({
   doc,
   req: { user },
@@ -10,7 +32,7 @@ const productAfterChangeHook: CollectionAfterChangeHook = async ({
 }) => {
   try {
     // Check if user is logged in and operation is create
-    if (user && operation === 'create') {
+    if (operation === 'create') {
       // Create array of product ids from user.products data
       const oldProductArray = (user.products as []).map((item: any) => item.id);
       // Updating the users collection by adding the created product to user.products
@@ -30,11 +52,10 @@ const productAfterChangeHook: CollectionAfterChangeHook = async ({
 
 const variantAfterChangeHook: CollectionAfterChangeHook = async ({
   doc,
-  req: { user },
   operation,
 }) => {
   try {
-    if (user && operation === 'create') {
+    if (operation === 'create') {
       // Getting Parent data so we can have previous Variants Array
       const productParent = await payload.findByID({
         collection: 'products',
@@ -127,6 +148,7 @@ const cartItemAfterChange: CollectionAfterChangeHook = async ({
 };
 
 export {
+  addressAfterChange,
   productAfterChangeHook,
   variantAfterChangeHook,
   orderAfterChangeHook,
