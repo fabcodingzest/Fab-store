@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable dot-notation */
+
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export const permissionsList = [
   'canManageProducts',
@@ -32,7 +35,17 @@ export const rules = {
   canManageProducts: (data): boolean | Record<string, unknown> => {
     const {
       req: { user },
+      id,
     } = data;
+
+    // First make array of all products owned by user
+    const ownedProductIds = user.products
+      .map((item: any) => item.id)
+      .filter((item: any) => item.id === id);
+
+    // if array is empty that means its not owned by user so cant't do anything otherwise return true.
+    const doesUserOwnProduct = ownedProductIds.length > 0;
+
     if (!isSignedIn(data)) {
       return false;
     }
@@ -41,12 +54,7 @@ export const rules = {
       return true;
     }
     // 2. If not, do they own this item?
-    return {
-      or: [
-        { createdBy: { equals: user.id } },
-        { parent: { createdBy: { equals: user.id } } },
-      ],
-    };
+    return doesUserOwnProduct || { createdBy: { equals: user.id } };
   },
   canOrder: (data): boolean | Record<string, unknown> => {
     const {
@@ -60,12 +68,22 @@ export const rules = {
       return true;
     }
     // 2. If not, do they own this item?
-    return { user: { id: user.id } };
+    return { user: { equals: user.id } };
   },
   canManageOrderItems: (data): boolean | Record<string, unknown> => {
     const {
       req: { user },
+      id,
     } = data;
+
+    // First make array of all order Items owned by user
+    const ownedOrderItemIds = user.orders
+      .map((item: any) => item.orderItem.id)
+      .filter((item: any) => item.orderItem.id === id);
+
+    // if array is empty that means its not owned by user so cant't do anything otherwise return true.
+    const isThisUserOrderItem = ownedOrderItemIds.length > 0;
+
     if (!isSignedIn(data)) {
       return false;
     }
@@ -74,7 +92,7 @@ export const rules = {
       return true;
     }
     // 2. If not, do they own this item?
-    return { order: { user: { equals: user.id } } };
+    return isThisUserOrderItem;
   },
   canReadProducts: (data): boolean | Record<string, unknown> => {
     if (!isSignedIn(data)) {
@@ -84,12 +102,7 @@ export const rules = {
       return true; // They can read everything!
     }
     // They should only see available products (based on the status field)
-    return {
-      or: [
-        { variants: [{ status: { equals: 'AVAILABLE' } }] },
-        { status: { equals: 'AVAILABLE' } },
-      ],
-    };
+    return { status: { equals: 'AVAILABLE' } };
   },
   canManageUsers: (data): boolean | Record<string, unknown> => {
     const {
