@@ -1,7 +1,11 @@
 /* eslint-disable dot-notation */
 import payload from 'payload';
 
-const addToCartResolver = async (root, { productId }, { req: { user } }) => {
+const removeFromCartResolver = async (
+  root,
+  { productId },
+  { req: { user } }
+) => {
   const loggedInUserId = user.id;
 
   // 1. Query the current user and see if they are logged in.
@@ -27,13 +31,13 @@ const addToCartResolver = async (root, { productId }, { req: { user } }) => {
   // 4. If it exists already, increment by 1
   if (existingCartItems) {
     console.log(
-      `There are already ${existingCartItems.quantity}, increment by 1!`
+      `There are already ${existingCartItems.quantity}, decrement by 1!`
     );
     const returnedDocAfterUpdate = await payload.update({
       collection: 'cart_items',
       id: existingCartItems.id,
       data: {
-        quantity: existingCartItems.quantity + 1,
+        quantity: existingCartItems.quantity - 1,
       },
     });
 
@@ -41,14 +45,11 @@ const addToCartResolver = async (root, { productId }, { req: { user } }) => {
   }
 
   // 4.2 If it doesn't exist, then create a new CartItem
-  const createdCartItem = await payload.create({
+  const deletedCartItem = await payload.delete({
     collection: 'cart_items',
-    data: {
-      product: productId,
-      user: user.id,
-    },
+    id: productId,
   });
-  return createdCartItem;
+  return deletedCartItem;
 };
 
-export default addToCartResolver;
+export default removeFromCartResolver;

@@ -1,6 +1,7 @@
 /* eslint-disable dot-notation */
-import { addToCartResolver } from './addToCartResolver';
+import addToCartResolver from './addToCartResolver';
 import checkoutResolver from './checkout';
+import removeFromCartResolver from './removeFromCartResolver';
 
 export const customMutations = (GraphQL, payload) => ({
   addToCart: {
@@ -11,6 +12,15 @@ export const customMutations = (GraphQL, payload) => ({
       },
     },
     resolve: addToCartResolver,
+    removeFromCart: {
+      type: payload.collections['cart_items'].graphQL.type,
+      args: {
+        productId: {
+          type: GraphQL.GraphQLID,
+        },
+      },
+      resolve: removeFromCartResolver,
+    },
   },
   checkout: {
     type: payload.collections['orders'].graphQL.type,
