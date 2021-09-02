@@ -35,6 +35,17 @@ const Product: CollectionConfig = {
       },
     },
     {
+      name: 'status',
+      type: 'select',
+      options: [
+        { label: 'Draft', value: 'DRAFT' },
+        { label: 'Available', value: 'AVAILABLE' },
+        { label: 'Unavailable', value: 'UNAVAILABLE' },
+      ],
+      required: true,
+      defaultValue: 'DRAFT',
+    },
+    {
       name: 'variants',
       type: 'relationship',
       relationTo: 'product_variants',
