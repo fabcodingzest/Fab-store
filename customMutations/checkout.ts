@@ -5,7 +5,7 @@ import stripeConfig from '../utilities/stripe';
 
 const checkoutResolver = async (
   root,
-  { token, paymentMethod },
+  { token, paymentMethod, shippingAddressId },
   { req: { user } }
 ) => {
   // 1. Query the current user and see if they are logged in.
@@ -73,6 +73,7 @@ const checkoutResolver = async (
       createOrderItems: orderItems,
       user: user.id,
       payment_method: paymentMethod,
+      shipping_address: shippingAddressId,
     },
   });
 

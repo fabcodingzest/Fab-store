@@ -58,6 +58,13 @@ const Orders: CollectionConfig = {
       defaultValue: false,
     },
     {
+      name: 'shipping_address',
+      type: 'relationship',
+      relationTo: 'user_addresses',
+      required: true,
+      hasMany: false,
+    },
+    {
       name: 'user',
       type: 'relationship',
       relationTo: 'users',

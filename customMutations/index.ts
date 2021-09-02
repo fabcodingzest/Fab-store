@@ -21,6 +21,9 @@ export const customMutations = (GraphQL, payload) => ({
       paymentMethod: {
         type: new GraphQL.GraphQLNonNull(GraphQL.GraphQLString),
       },
+      shippingAddressId: {
+        type: GraphQL.GraphQLID,
+      },
     },
     resolve: checkoutResolver,
   },
