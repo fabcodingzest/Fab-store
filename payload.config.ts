@@ -12,6 +12,7 @@ import OrderItem from './collections/OrderItem';
 import Roles from './collections/Role';
 import { customMutations } from './customMutations';
 import { ProductVariants } from './collections/ProductVariants';
+import userAddresses from './collections/UserAddresses';
 
 dotenv.config();
 
@@ -46,6 +47,7 @@ export default buildConfig({
   },
   collections: [
     Users,
+    userAddresses,
     Product,
     ProductVariants,
     Discount,

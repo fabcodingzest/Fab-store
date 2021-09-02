@@ -54,67 +54,10 @@ const Users: CollectionConfig = {
       required: true,
     },
     {
-      name: 'address',
-      type: 'array',
-      labels: { singular: 'User Address', plural: 'User Addresses' },
-      maxRows: 5,
-      fields: [
-        {
-          name: 'name',
-          type: 'text',
-          required: true,
-        },
-        {
-          type: 'row',
-          fields: [
-            {
-              name: 'addressline1',
-              label: 'Address Line 1',
-              type: 'text',
-              required: true,
-              admin: {
-                width: '50%',
-              },
-            },
-            {
-              name: 'addressline2',
-              label: 'Address Line 2',
-              type: 'text',
-              admin: {
-                width: '50%',
-              },
-            },
-          ],
-        },
-        {
-          type: 'row',
-          fields: [
-            {
-              name: 'city',
-              label: 'City',
-              type: 'text',
-              required: true,
-              admin: {
-                width: '50%',
-              },
-            },
-            {
-              name: 'postalcode',
-              label: 'Postal Code',
-              type: 'number',
-              required: true,
-              admin: {
-                width: '50%',
-              },
-            },
-          ],
-        },
-        {
-          name: 'country',
-          type: 'select',
-          options: CountryOptions,
-        },
-      ],
+      name: 'addresses',
+      type: 'relationship',
+      relationTo: 'user_addresses',
+      hasMany: true,
     },
     {
       name: 'products',
