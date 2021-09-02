@@ -41,7 +41,12 @@ export const rules = {
       return true;
     }
     // 2. If not, do they own this item?
-    return { user: { id: user.id } };
+    return {
+      or: [
+        { createdBy: { equals: user.id } },
+        { parent: { createdBy: { equals: user.id } } },
+      ],
+    };
   },
   canOrder: (data): boolean | Record<string, unknown> => {
     const {
@@ -79,7 +84,12 @@ export const rules = {
       return true; // They can read everything!
     }
     // They should only see available products (based on the status field)
-    return { variants: [{ status: { equals: 'AVAILABLE' } }] };
+    return {
+      or: [
+        { variants: [{ status: { equals: 'AVAILABLE' } }] },
+        { status: { equals: 'AVAILABLE' } },
+      ],
+    };
   },
   canManageUsers: (data): boolean | Record<string, unknown> => {
     const {
