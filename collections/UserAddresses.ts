@@ -11,7 +11,9 @@ const userAddresses: CollectionConfig = {
     update: rules.canManageUsers,
     delete: rules.canManageUsers,
   },
-
+  admin: {
+    useAsTitle: 'name',
+  },
   fields: [
     {
       name: 'name',
@@ -76,7 +78,7 @@ const userAddresses: CollectionConfig = {
   ],
   hooks: {
     afterChange: [addressAfterChange],
-  }
+  },
 };
 
 export default userAddresses;
