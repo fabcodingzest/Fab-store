@@ -1,6 +1,7 @@
 import { CollectionConfig } from 'payload/types';
 import { permissions } from '../access';
 import { permissionFields } from '../utilities/permissionFields';
+import { rolesAfterChange } from './hooks/afterChangeHooks';
 
 const Roles: CollectionConfig = {
   slug: 'roles',
@@ -28,6 +29,9 @@ const Roles: CollectionConfig = {
       hasMany: true,
     },
   ],
+  hooks: {
+    afterChange: [rolesAfterChange],
+  },
 };
 
 export default Roles;
