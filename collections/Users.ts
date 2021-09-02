@@ -86,7 +86,6 @@ const Users: CollectionConfig = {
       name: 'role',
       type: 'relationship',
       relationTo: 'roles',
-      defaultValue: '6130ef72b82a058d50fed189',
     },
   ],
 };
