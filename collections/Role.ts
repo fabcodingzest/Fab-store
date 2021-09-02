@@ -1,7 +1,6 @@
 import { CollectionConfig } from 'payload/types';
 import { permissions } from '../access';
 import { permissionFields } from '../utilities/permissionFields';
-import { rolesAfterChange } from './hooks/afterChangeHooks';
 
 const Roles: CollectionConfig = {
   slug: 'roles',
