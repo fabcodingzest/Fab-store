@@ -1,10 +1,17 @@
 import { CollectionConfig } from 'payload/types';
+import { isSignedIn, rules } from '../access';
 import vairantFields from '../utilities/ProductVariant';
 import { variantAfterChangeHook } from './hooks/afterChangeHooks';
 import { variantBeforeDelete } from './hooks/beforeDeleteHooks';
 
 export const ProductVariants: CollectionConfig = {
   slug: 'product_variants',
+  access: {
+    create: isSignedIn,
+    read: rules.canReadProducts,
+    update: rules.canManageProducts,
+    delete: rules.canManageProducts,
+  },
   admin: {
     useAsTitle: 'name',
   },
