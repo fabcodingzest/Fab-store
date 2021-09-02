@@ -9,9 +9,6 @@ export const customMutations = (GraphQL, payload) => ({
       productId: {
         type: GraphQL.GraphQLID,
       },
-      wishlist: {
-        type: GraphQL.GraphQLBoolean,
-      },
     },
     resolve: addToCartResolver,
   },

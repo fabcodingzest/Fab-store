@@ -21,7 +21,7 @@ const checkoutResolver = async (
 
   // 2. Calc the total price for their order.
   const cartItems = userWithDetails['cart'].filter(
-    (cartItem) => cartItem.product && !cartItem.wishlist
+    (cartItem) => cartItem.product
   );
   // Getting cartItemInput type from payload
   const CartItemInputType =
