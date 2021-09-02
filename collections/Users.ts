@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CollectionConfig } from 'payload/types';
 import { permissions, rules } from '../access';
-import { CountryOptions } from '../utilities/CountryOptions';
 
 const Users: CollectionConfig = {
   slug: 'users',
@@ -87,6 +86,7 @@ const Users: CollectionConfig = {
       name: 'role',
       type: 'relationship',
       relationTo: 'roles',
+      defaultValue: '6130ef72b82a058d50fed189',
     },
   ],
 };

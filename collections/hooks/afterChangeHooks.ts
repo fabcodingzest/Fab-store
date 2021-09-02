@@ -137,25 +137,10 @@ const cartItemAfterChange: CollectionAfterChangeHook = async ({
   }
 };
 
-const rolesAfterChange: CollectionAfterChangeHook = async ({ doc }) => {
-  // Just update the roles in user data.
-  if (doc.assignedTo) {
-    await payload.update({
-      collection: 'users',
-      id: doc.assignedTo,
-      data: {
-        role: doc.id,
-      },
-    });
-  }
-  return doc;
-};
-
 export {
   addressAfterChange,
   productAfterChangeHook,
   variantAfterChangeHook,
   orderAfterChangeHook,
   cartItemAfterChange,
-  rolesAfterChange,
 };

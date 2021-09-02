@@ -22,16 +22,7 @@ const Roles: CollectionConfig = {
       label: 'Name of the role',
     },
     ...permissionFields,
-    {
-      name: 'assignedTo',
-      type: 'relationship',
-      relationTo: 'users',
-      hasMany: true,
-    },
   ],
-  hooks: {
-    afterChange: [rolesAfterChange],
-  },
 };
 
 export default Roles;
