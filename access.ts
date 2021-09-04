@@ -35,16 +35,7 @@ export const rules = {
   canManageProducts: (data): boolean | Record<string, unknown> => {
     const {
       req: { user },
-      id,
     } = data;
-
-    // First make array of all products owned by user
-    const ownedProductIds = user.products
-      .map((item: any) => item.id)
-      .filter((item: any) => item.id === id);
-
-    // if array is empty that means its not owned by user so cant't do anything otherwise return true.
-    const doesUserOwnProduct = ownedProductIds.length > 0;
 
     if (!isSignedIn(data)) {
       return false;
@@ -54,7 +45,7 @@ export const rules = {
       return true;
     }
     // 2. If not, do they own this item?
-    return doesUserOwnProduct || { createdBy: { equals: user.id } };
+    return { createdBy: { equals: user.id } };
   },
   canOrder: (data): boolean | Record<string, unknown> => {
     const {
