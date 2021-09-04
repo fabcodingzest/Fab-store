@@ -28,6 +28,14 @@ export const ProductVariants: CollectionConfig = {
       required: true,
     },
     ...vairantFields,
+    {
+      name: 'createdBy',
+      type: 'relationship',
+      relationTo: 'users',
+      admin: {
+        readOnly: true,
+      },
+    },
   ],
   hooks: {
     afterChange: [variantAfterChangeHook],

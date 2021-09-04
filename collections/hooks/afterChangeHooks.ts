@@ -1,7 +1,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import payload from 'payload';
-import { CollectionAfterChangeHook } from 'payload/types';
+import { CollectionAfterChangeHook, FieldHook } from 'payload/types';
 
 const addressAfterChange: CollectionAfterChangeHook = async ({ doc }) => {
   try {
@@ -54,6 +54,7 @@ const productAfterChangeHook: CollectionAfterChangeHook = async ({
 
 const variantAfterChangeHook: CollectionAfterChangeHook = async ({
   doc,
+  req: { user },
   operation,
 }) => {
   try {
@@ -63,22 +64,28 @@ const variantAfterChangeHook: CollectionAfterChangeHook = async ({
         collection: 'products',
         id: doc.parent,
       });
-
-      // As the variant have all data we map it to just have id
-      const prevVariantsArray = productParent['variants'].map(
-        (item: any) => item.id
+      const isCreatorSameAsParentCreator =
+        productParent['createdBy'].id === user.id;
+      if (isCreatorSameAsParentCreator) {
+        // As the variant have all data we map it to just have id
+        const prevVariantsArray = productParent['variants'].map(
+          (item: any) => item.id
+        );
+        // Update the product by adding the createdVariant to parent product
+        await payload.update({
+          collection: 'products',
+          id: doc.parent,
+          data: {
+            variants: [...prevVariantsArray, doc.id],
+          },
+        });
+        doc.createdBy = user.id;
+        return doc;
+      }
+      throw new Error(
+        "You did not create the main product hence you cannot create it's variants"
       );
-
-      // Update the product by adding the createdVariant to parent product
-      await payload.update({
-        collection: 'products',
-        id: doc.parent,
-        data: {
-          variants: [...prevVariantsArray, doc.id],
-        },
-      });
     }
-    return doc;
   } catch (error) {
     throw new Error(error);
   }
