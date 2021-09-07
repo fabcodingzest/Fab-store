@@ -1,8 +1,24 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Slate, Editable, withReact } from 'slate-react';
 import { createEditor, Descendant } from 'slate';
+import { useQuery, gql } from '@apollo/client';
+import { addApolloState, initializeApollo } from '../with-apollo/apolloClient';
+
+const USERS_QUERY = gql`
+  query USERS_QUERY {
+    Products {
+      docs {
+        id
+      }
+    }
+  }
+`;
 
 const Hello: React.FC = () => {
+  const { data, error, loading } = useQuery(USERS_QUERY);
+  console.log(data);
+  console.log(loading);
+
   const editor = useMemo(() => withReact(createEditor()), []);
   const [value, setValue] = useState<Descendant[]>([
     {
@@ -42,5 +58,17 @@ const Hello: React.FC = () => {
     </div>
   );
 };
+
+export async function getServerSideProps() {
+  const apolloClient = initializeApollo();
+
+  await apolloClient.query({
+    query: USERS_QUERY,
+  });
+
+  return addApolloState(apolloClient, {
+    props: {},
+  });
+}
 
 export default Hello;
