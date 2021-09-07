@@ -86,9 +86,9 @@ export const rules = {
     return isThisUserOrderItem;
   },
   canReadProducts: (data): boolean | Record<string, unknown> => {
-    if (!isSignedIn(data)) {
-      return false;
-    }
+    // if (!isSignedIn(data)) {
+    //   return false;
+    // }
     if (permissions.canManageProducts(data)) {
       return true; // They can read everything!
     }
