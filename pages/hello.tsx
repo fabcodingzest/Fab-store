@@ -2,13 +2,18 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Slate, Editable, withReact } from 'slate-react';
 import { createEditor, Descendant } from 'slate';
 import { useQuery, gql } from '@apollo/client';
+import { Flex } from '@chakra-ui/layout';
+import { FormControl, FormLabel } from '@chakra-ui/form-control';
+import { Input } from '@chakra-ui/input';
 import { addApolloState, initializeApollo } from '../with-apollo/apolloClient';
 
 const USERS_QUERY = gql`
   query USERS_QUERY {
-    Products {
+    Users {
       docs {
         id
+        email
+        firstname
       }
     }
   }
@@ -16,8 +21,6 @@ const USERS_QUERY = gql`
 
 const Hello: React.FC = () => {
   const { data, error, loading } = useQuery(USERS_QUERY);
-  console.log(data);
-  console.log(loading);
 
   const editor = useMemo(() => withReact(createEditor()), []);
   const [value, setValue] = useState<Descendant[]>([
@@ -31,13 +34,19 @@ const Hello: React.FC = () => {
       ],
     },
   ]);
-
+  if (error) {
+    return <h4>{error.message}</h4>;
+  }
+  if (loading) {
+    return <h1>loading...</h1>;
+  }
   return (
     <div>
       Hello
-      <form>
-        <label htmlFor="product-name">Product Name</label>
-        <input type="text" id="product-name" />
+      <Flex>{JSON.stringify(data, null, 2)}</Flex>
+      <FormControl id="email">
+        <FormLabel htmlFor="product-name">Product Name</FormLabel>
+        <Input type="text" id="product-name" />
         <Slate
           editor={editor}
           value={value}
@@ -54,7 +63,7 @@ const Hello: React.FC = () => {
             }}
           />
         </Slate>
-      </form>
+      </FormControl>
     </div>
   );
 };
