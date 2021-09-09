@@ -1,6 +1,7 @@
 import React from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { AppProps } from 'next/app';
+import { ChakraProvider } from '@chakra-ui/react';
 import { useApollo } from '../with-apollo/apolloClient';
 
 const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
@@ -8,7 +9,9 @@ const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <Component {...pageProps} />
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
     </ApolloProvider>
   );
 };
