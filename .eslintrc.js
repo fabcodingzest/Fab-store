@@ -7,7 +7,12 @@ module.exports = {
       jsx: true,
     },
   },
-  extends: ['wesbos', 'plugin:@typescript-eslint/recommended'],
+  extends: [
+    'wesbos',
+    'plugin:@typescript-eslint/recommended',
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended',
+  ],
   settings: {
     'import/resolver': {
       node: {
@@ -44,6 +49,7 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'import/no-extraneous-dependencies': 'off',
   },
   overrides: [
     {
