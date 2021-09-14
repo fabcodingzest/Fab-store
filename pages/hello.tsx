@@ -68,7 +68,7 @@ const Hello: React.FC = () => {
   );
 };
 
-export async function getStaticSideProps() {
+export async function getStaticProps() {
   const apolloClient = initializeApollo();
 
   await apolloClient.query({
