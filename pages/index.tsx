@@ -1,1 +1,1 @@
-export { default } from './hello';
+export { default } from './products';
