@@ -1,7 +1,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import payload from 'payload';
-import { CollectionAfterChangeHook, FieldHook } from 'payload/types';
+import { CollectionAfterChangeHook } from 'payload/types';
 
 const addressAfterChange: CollectionAfterChangeHook = async ({ doc }) => {
   try {
