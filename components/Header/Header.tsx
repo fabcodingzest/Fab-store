@@ -47,7 +47,9 @@ export default function Header({
         isOpen={cartOpen}
         onClose={closeCart}
         onOverlayClick={closeCart}
-        autoFocus={false}
+        autoFocus
+        size="sm"
+        closeOnEsc
       >
         <DrawerOverlay>
           <DrawerContent>
