@@ -8,11 +8,11 @@ const {
 } = getConfig();
 
 const defaultDescription =
-  'Boilerplate for combining Payload CMS and NextJS into a single Node server';
-const defaultTitle = 'Payload CMS + NextJS Custom Server';
-const titleSuffix = ' | Payload CMS';
+  'E-commerce store made using PayloadCMS, GraphQL and Next.js';
+const defaultTitle = 'Fab Store';
+const titleSuffix = ' | Buy Anything';
 const defaultOGImage = `${SERVER_URL}/images/og-image.jpg`;
-const defaultKeywords = 'NextJS, Payload CMS, boilerplate';
+const defaultKeywords = 'E-Commerce, GraphQL, Next.js, MongoDB, Express';
 
 type Props = {
   title?: string;
