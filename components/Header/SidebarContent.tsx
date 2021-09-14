@@ -72,7 +72,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             Fab Rizvi
           </Link>
           .
-          <Divider /> All rights reserved
+          <br /> All rights reserved
         </Text>
       </Flex>
     </Box>
