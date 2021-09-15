@@ -4,9 +4,8 @@ import {
   ApolloProvider,
   NormalizedCacheObject,
 } from '@apollo/client';
-import { AppContext, AppProps } from 'next/app';
+import App, { AppContext, AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
-import { NextPageContext } from 'next';
 import Page from '../components/Layout/Page';
 import withApollo from '../with-apollo/apolloClient';
 
@@ -30,18 +29,9 @@ const MyApp = ({
   );
 };
 
-type MyAppPageProps = {
-  query?: NextPageContext['query'];
-};
-
-MyApp.getInitialProps = async function (context) {
-  const { Component, ctx } = context;
-  let pageProps: MyAppPageProps = {};
-  if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
-  }
-  pageProps.query = ctx.query;
-  return { pageProps };
+App.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await App.getInitialProps(appContext);
+  return { ...appProps };
 };
 
 export default withApollo(MyApp);
