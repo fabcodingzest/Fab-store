@@ -6,7 +6,7 @@ import { useApollo } from '../with-apollo/apolloClient';
 import Page from '../components/Layout/Page';
 
 const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
-  const apolloClient = useApollo(pageProps);
+  const apolloClient = useApollo(pageProps.initializeApolloState);
 
   return (
     <ApolloProvider client={apolloClient}>
