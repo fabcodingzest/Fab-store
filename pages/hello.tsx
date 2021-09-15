@@ -1,11 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Slate, Editable, withReact } from 'slate-react';
 import { createEditor, Descendant } from 'slate';
 import { useQuery, gql } from '@apollo/client';
 import { Flex } from '@chakra-ui/layout';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
 import { Input } from '@chakra-ui/input';
-import { addApolloState, initializeApollo } from '../with-apollo/apolloClient';
 
 const USERS_QUERY = gql`
   query USERS_QUERY {
@@ -67,17 +66,5 @@ const Hello: React.FC = () => {
     </div>
   );
 };
-
-export async function getStaticProps() {
-  const apolloClient = initializeApollo();
-
-  await apolloClient.query({
-    query: USERS_QUERY,
-  });
-
-  return addApolloState(apolloClient, {
-    props: {},
-  });
-}
 
 export default Hello;
