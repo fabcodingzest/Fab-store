@@ -1,24 +1,17 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  InMemoryCache,
-  NormalizedCacheObject,
-} from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { onError } from '@apollo/link-error';
+import { getDataFromTree } from '@apollo/client/react/ssr';
 import { createUploadLink } from 'apollo-upload-client';
-import merge from 'deepmerge';
+import withApollo from 'next-with-apollo';
 import { RestLink } from 'apollo-link-rest';
-import { useMemo } from 'react';
 import { endpoint, prodEndpoint } from '../config';
 // import paginationField from './paginationField';
 
 const restLink = new RestLink({ uri: endpoint });
-let apolloClient: ApolloClient<NormalizedCacheObject>;
 
-function createApolloClient() {
+function createClient({ headers, initialState }) {
   return new ApolloClient({
-    ssrMode: typeof window === 'undefined',
-
+    ssrMode: typeof window === undefined,
     link: ApolloLink.from([
       restLink,
       onError(({ graphQLErrors, networkError }) => {
@@ -40,37 +33,34 @@ function createApolloClient() {
           credentials: 'include',
         },
         // pass the headers along from this request. This enables SSR with logged in state
-        Headers,
+        headers,
       }),
     ]),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            // TODO: We will add this together!
+            // allProducts: paginationField(),
+          },
+        },
+      },
+    }).restore(initialState || {}),
+    connectToDevTools: true,
+    // // Default options to disable SSR for all queries.
+    // defaultOptions: {
+    //   // Skip queries when server side rendering
+    //   // https://www.apollographql.com/docs/react/data/queries/#ssr
+    //   watchQuery: {
+    //     ssr: false,
+    //   },
+    //   query: {
+    //     ssr: false,
+    //   },
+    //   // Selectively enable specific queries like so:
+    //   // `useQuery(QUERY, { ssr: true });`
+    // },
   });
 }
 
-export function initializeApollo(initialState = null) {
-  const _apolloClient = apolloClient ?? createApolloClient();
-
-  // If your page has Next.js data fetching methods that use Apollo Client, the initial state
-  // get hydrated here
-  if (initialState) {
-    // Get existing cache, loaded during client side data fetching
-    const existingCache = _apolloClient.extract();
-
-    // Merge the existing cache into data passed from getStaticProps/getServerSideProps
-    const data = merge(initialState, existingCache);
-
-    // Restore the cache with the merged data
-    _apolloClient.cache.restore(data);
-  }
-  // For SSG and SSR always create a new Apollo Client
-  if (typeof window === 'undefined') return _apolloClient;
-  // Create the Apollo Client once in the client
-  if (!apolloClient) apolloClient = _apolloClient;
-
-  return _apolloClient;
-}
-
-export function useApollo(initialState) {
-  const store = useMemo(() => initializeApollo(initialState), [initialState]);
-  return store;
-}
+export default withApollo(createClient, { getDataFromTree });
