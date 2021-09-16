@@ -1,5 +1,6 @@
 import { Avatar } from '@chakra-ui/avatar';
-import { Button, IconButton } from '@chakra-ui/button';
+import { IconButton } from '@chakra-ui/button';
+import Link from 'next/link';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Box, Flex, FlexProps, HStack, Text, VStack } from '@chakra-ui/layout';
 import {
@@ -11,8 +12,9 @@ import {
 } from '@chakra-ui/menu';
 import { FiChevronDown, FiMenu } from 'react-icons/fi';
 import { GrCart } from 'react-icons/gr';
-import Link from 'next/link';
+
 import { useUser } from '../User';
+import SignIn from '../Authentication/SignInModal';
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
@@ -107,8 +109,7 @@ const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
         </HStack>
       ) : (
         <Box>
-          <Button>Logout</Button>
-          <Button>Login</Button>
+          <SignIn />
         </Box>
       )}
     </Flex>
