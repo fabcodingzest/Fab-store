@@ -10,6 +10,7 @@ import {
   Container,
   UseDisclosureProps,
 } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/layout';
 import SidebarContent from './SidebarContent';
 import MobileNav from './MobileNav';
 
@@ -52,14 +53,11 @@ export default function Header({
         closeOnEsc
       >
         <DrawerOverlay>
-          <DrawerContent>
-            <Box bg="teal.200" ml="60">
+          <DrawerContent bg="gray.200">
+            <Flex justifyContent="space-between" p="30">
               Hello brother
-              <CloseButton
-                display={{ base: 'flex', md: 'none' }}
-                onClick={closeCart}
-              />
-            </Box>
+              <CloseButton onClick={closeCart} />
+            </Flex>
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
