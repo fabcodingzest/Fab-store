@@ -55,7 +55,7 @@ const Users: CollectionConfig = {
     {
       name: 'addresses',
       type: 'relationship',
-      relationTo: 'user_addresses',
+      relationTo: 'addresses',
       hasMany: true,
     },
     {

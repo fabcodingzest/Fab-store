@@ -48,7 +48,7 @@ const Product: CollectionConfig = {
     {
       name: 'variants',
       type: 'relationship',
-      relationTo: 'product_variants',
+      relationTo: 'variants',
       hasMany: true,
     },
     {

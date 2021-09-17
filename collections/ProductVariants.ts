@@ -5,7 +5,7 @@ import { variantAfterChangeHook } from './hooks/afterChangeHooks';
 import { variantBeforeDelete } from './hooks/beforeDeleteHooks';
 
 export const ProductVariants: CollectionConfig = {
-  slug: 'product_variants',
+  slug: 'variants',
   access: {
     create: isSignedIn,
     read: rules.canReadProducts,

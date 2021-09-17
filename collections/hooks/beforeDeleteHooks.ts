@@ -30,7 +30,7 @@ const variantBeforeDelete: CollectionBeforeDeleteHook = async ({ id }) => {
   try {
     // Get the data of variant to be deleted
     const variantData = await payload.findByID({
-      collection: 'product_variants',
+      collection: 'variants',
       id,
       depth: 5,
     });

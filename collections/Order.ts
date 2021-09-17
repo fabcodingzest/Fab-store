@@ -60,7 +60,7 @@ const Orders: CollectionConfig = {
     {
       name: 'shipping_address',
       type: 'relationship',
-      relationTo: 'user_addresses',
+      relationTo: 'addresses',
       required: true,
       hasMany: false,
     },

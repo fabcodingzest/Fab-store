@@ -19,7 +19,7 @@ const CartItems: CollectionConfig = {
     {
       name: 'product',
       type: 'relationship',
-      relationTo: 'product_variants',
+      relationTo: 'variants',
     },
     {
       name: 'quantity',
