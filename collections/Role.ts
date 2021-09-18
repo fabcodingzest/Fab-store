@@ -19,6 +19,7 @@ const Roles: CollectionConfig = {
       type: 'text',
       required: true,
       label: 'Name of the role',
+      unique: true,
     },
     ...permissionFields,
   ],
