@@ -12,9 +12,8 @@ import {
 } from '@chakra-ui/menu';
 import { FiChevronDown, FiMenu } from 'react-icons/fi';
 import { GrCart } from 'react-icons/gr';
-
+import Modal from '../Authentication/Modal';
 import { useUser } from '../User';
-import SignIn from '../Authentication/SignInModal';
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
@@ -108,9 +107,14 @@ const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
           </Flex>
         </HStack>
       ) : (
-        <Box>
-          <SignIn />
-        </Box>
+        <HStack>
+          <Box>
+            <Modal modalState="signin" />
+          </Box>
+          <Box>
+            <Modal modalState="signup" />
+          </Box>
+        </HStack>
       )}
     </Flex>
   );
