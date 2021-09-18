@@ -12,8 +12,15 @@ import {
 } from '@chakra-ui/menu';
 import { FiChevronDown, FiMenu } from 'react-icons/fi';
 import { GrCart } from 'react-icons/gr';
+import { useMutation, gql } from '@apollo/client';
 import Modal from '../Authentication/Modal';
-import { useUser } from '../User';
+import { CURRENT_USER_QUERY, useUser } from '../User';
+
+const LOGOUT_USER_MUTATION = gql`
+  mutation LOGOUT_USER_MUTATION {
+    logoutUser
+  }
+`;
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
@@ -21,8 +28,19 @@ interface MobileProps extends FlexProps {
 }
 const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
   const me = useUser();
+  const [logoutUser] = useMutation(LOGOUT_USER_MUTATION, {
+    refetchQueries: [{ query: CURRENT_USER_QUERY }],
+  });
   const bgHook = useColorModeValue('white', 'gray.900');
   const borderHook = useColorModeValue('gray.200', 'gray.700');
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -100,7 +118,7 @@ const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
                 </Link>
                 <MenuDivider />
                 <Link href="/hello">
-                  <MenuItem>Sign out</MenuItem>
+                  <MenuItem onClick={handleLogout}>Sign out</MenuItem>
                 </Link>
               </MenuList>
             </Menu>
