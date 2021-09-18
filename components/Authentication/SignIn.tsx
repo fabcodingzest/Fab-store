@@ -6,6 +6,7 @@ import {
   Heading,
   Input,
   Flex,
+  useToast,
   Text,
   Stack,
   useColorModeValue,
@@ -60,7 +61,7 @@ const SignIn = ({ setModalState, onClose }: Props) => {
   });
   const router = useRouter();
   const bgHook = useColorModeValue('white', 'gray.700');
-  console.log(error);
+  const toast = useToast();
 
   const onSubmit: SubmitHandler<FormValues> = async (values) => {
     // alert(JSON.stringify(values, null, 2));
@@ -77,7 +78,12 @@ const SignIn = ({ setModalState, onClose }: Props) => {
         router.push('/');
       }
     } catch (error) {
-      console.log(error);
+      toast({
+        description: error.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
