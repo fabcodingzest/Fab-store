@@ -9,13 +9,12 @@ import {
   Text,
   Stack,
   useColorModeValue,
-  Link as ChakraLink,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import Link from 'next/link';
-import { FiAlertTriangle } from 'react-icons/fi';
-import Icon from '@chakra-ui/icon';
+import { gql, useMutation } from '@apollo/client';
+import { useRouter } from 'next/router';
+import { CURRENT_USER_QUERY } from '../User';
 import FormValidationMsg from './FormValidationMsg';
 
 type FormValues = {
@@ -23,10 +22,27 @@ type FormValues = {
   password: string;
 };
 
-const SignIn = () => {
+export type Props = {
+  setModalState?: Dispatch<SetStateAction<string>>;
+  onClose?: () => void;
+};
+
+const SIGNIN_REQUEST = gql`
+  mutation SIGNIN_REQUEST($email: String!, $password: String!) {
+    loginUser(email: $email, password: $password) {
+      user {
+        email
+        id
+      }
+    }
+  }
+`;
+
+const SignIn = ({ setModalState, onClose }: Props) => {
   const {
     handleSubmit,
     register,
+    setFocus,
     formState: { errors, isSubmitting, isDirty, isValid },
   } = useForm({
     mode: 'onChange',
@@ -35,15 +51,36 @@ const SignIn = () => {
       password: '',
     },
   });
+  useEffect(() => {
+    setFocus('email');
+  }, [setFocus]);
 
-  const onSubmit: SubmitHandler<FormValues> = (values) => {
-    alert(JSON.stringify(values, null, 2));
-    // return new Promise((resolve) => {
-    //   // setTimeout(() => {
-    //     // resolve();
-    //   // }, 3000);
-    // });
+  const [loginUser, { error }] = useMutation(SIGNIN_REQUEST, {
+    refetchQueries: [{ query: CURRENT_USER_QUERY }],
+  });
+  const router = useRouter();
+  const bgHook = useColorModeValue('white', 'gray.700');
+  console.log(error);
+
+  const onSubmit: SubmitHandler<FormValues> = async (values) => {
+    // alert(JSON.stringify(values, null, 2));
+    try {
+      const {
+        data: {
+          loginUser: { user },
+        },
+      } = await loginUser({ variables: values });
+      if (user) {
+        onClose();
+        console.log(`${user.email}signed in`);
+
+        router.push('/');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <Flex minH="60vh" align="center" justify="center" borderRadius="2xl">
       <Stack spacing={8} mx="auto" maxW="lg" py={10} px={6}>
@@ -54,13 +91,9 @@ const SignIn = () => {
           <Text fontSize="lg" color="gray.600">
             to buy your favourite products ✌️
           </Text>
+          {error && <Text color="red">{error.message}</Text>}
         </Stack>
-        <Box
-          rounded="lg"
-          bg={useColorModeValue('white', 'gray.700')}
-          boxShadow="lg"
-          p={8}
-        >
+        <Box rounded="lg" bg={bgHook} boxShadow="lg" p={8}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <FormControl id="email">
@@ -95,9 +128,16 @@ const SignIn = () => {
                   justify="space-between"
                 >
                   {/* <Checkbox>Remember me</Checkbox> Will do this later if I will feel like it. */}
-                  <Link href="#">
-                    <ChakraLink color="blue.400">Forgot password?</ChakraLink>
-                  </Link>
+                  <Button
+                    variant="ghost"
+                    color="blue.400"
+                    p={0}
+                    fontWeight="light"
+                    _hover={{ textDecoration: 'underline' }}
+                    onClick={() => setModalState('forgotpassword')}
+                  >
+                    Forgot Password?
+                  </Button>
                 </Stack>
                 <Button
                   bg="blue.400"
@@ -106,17 +146,21 @@ const SignIn = () => {
                     bg: 'blue.500',
                   }}
                   type="submit"
-                  disabled={!isValid || !isDirty}
+                  disabled={!isValid || !isDirty || isSubmitting}
                   isLoading={isSubmitting}
+                  loadingText="Signing in"
                 >
                   Sign in
                 </Button>
                 <Box mt={2}>
-                  <Link href="#">
-                    <ChakraLink color="blue.400">
-                      Don't have an account yet? Create one!
-                    </ChakraLink>
-                  </Link>
+                  <Button
+                    variant="ghost"
+                    color="blue.400"
+                    _hover={{ textDecoration: 'underline' }}
+                    onClick={() => setModalState('signup')}
+                  >
+                    Don't have an account yet? Sign Up!
+                  </Button>
                 </Box>
               </Stack>
             </Stack>
