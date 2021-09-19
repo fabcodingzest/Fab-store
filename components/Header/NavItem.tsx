@@ -1,7 +1,8 @@
 import Icon from '@chakra-ui/icon';
-import { Flex, FlexProps, Link } from '@chakra-ui/layout';
+import { Flex, FlexProps } from '@chakra-ui/layout';
 import { ReactText } from 'react';
 import { IconType } from 'react-icons/lib';
+import Link from 'next/link'
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
@@ -9,7 +10,7 @@ interface NavItemProps extends FlexProps {
 }
 const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
   return (
-    <Link href="#" style={{ textDecoration: 'none' }}>
+    <Link href="/resetpassword">
       <Flex
         align="center"
         p="4"
