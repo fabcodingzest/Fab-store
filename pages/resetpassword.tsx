@@ -52,24 +52,22 @@ const ResetPasswordPage = () => {
       seller: false,
     },
   });
+
+  const me = useUser();
   const password = watch('password');
   const { query } = useRouter();
   const bgHook = useColorModeValue('white', 'gray.700');
+  const [reset] = useMutation(RESET_PASSWORD_MUTATION);
 
-  const me = useUser();
   useEffect(() => {
     if (!me) {
       setFocus('password');
     }
   }, [setFocus, me]);
 
-  const [reset] = useMutation(RESET_PASSWORD_MUTATION);
-
   const toast = useToast();
   const onSubmit: SubmitHandler<FormValues> = async (values) => {
     try {
-      console.log(query.token);
-
       if (query.token) {
         const {
           data: {
