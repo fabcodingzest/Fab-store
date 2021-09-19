@@ -59,6 +59,7 @@ const checkoutResolver = async (
       description: cartItem.product.parent.description,
       price: cartItem.product.price,
       quantity: cartItem.quantity,
+      size: cartItem?.size,
       images: cartItem.product.images,
       product_ref: cartItem.product.id,
     };

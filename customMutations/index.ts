@@ -10,6 +10,9 @@ export const customMutations = (GraphQL, payload) => ({
       productId: {
         type: GraphQL.GraphQLID,
       },
+      size: {
+        type: GraphQL.GraphQLString,
+      },
     },
     resolve: addToCartResolver,
     removeFromCart: {

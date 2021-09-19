@@ -1,7 +1,11 @@
 /* eslint-disable dot-notation */
 import payload from 'payload';
 
-const addToCartResolver = async (root, { productId }, { req: { user } }) => {
+const addToCartResolver = async (
+  root,
+  { productId, size },
+  { req: { user } }
+) => {
   const loggedInUserId = user.id;
 
   // 1. Query the current user and see if they are logged in.
@@ -45,6 +49,8 @@ const addToCartResolver = async (root, { productId }, { req: { user } }) => {
     collection: 'cart_items',
     data: {
       product: productId,
+      size,
+      quantity: 1,
       user: user.id,
     },
   });
