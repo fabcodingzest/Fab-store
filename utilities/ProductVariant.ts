@@ -182,18 +182,6 @@ const vairantFields: Field[] = [
         label: 'User Review',
         type: 'textarea',
       },
-    ],
-  },
-  {
-    name: 'rating',
-    type: 'array',
-    labels: { singular: 'Product Rating', plural: 'Product Ratings' },
-    fields: [
-      {
-        name: 'user',
-        type: 'relationship',
-        relationTo: 'users',
-      },
       {
         name: 'rating',
         type: 'select',
