@@ -61,4 +61,23 @@ const orderBeforeChangeHook: CollectionBeforeChangeHook = async ({ data }) => {
   }
 };
 
-export { createdBybeforeChangeHook, orderBeforeChangeHook };
+const variantBeforeChange: CollectionBeforeChangeHook = async ({ data }) => {
+  // Get the parent product data so we can compare the category
+  const parentCategory = await payload.findByID({
+    collection: 'products',
+    id: data.parent,
+  });
+
+  // only return data if category is same
+  if (data.category === parentCategory['category']) {
+    return data;
+  }
+  // otherwise throw error
+  throw new Error('Variant should have same category as parent product');
+};
+
+export {
+  createdBybeforeChangeHook,
+  orderBeforeChangeHook,
+  variantBeforeChange,
+};
