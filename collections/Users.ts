@@ -10,7 +10,7 @@ const Users: CollectionConfig = {
         `Hey ${user.email}, reset your password!`,
       generateEmailHTML: ({ token, user }) => {
         // Use the token provided to allow your user to reset their password
-        const resetPasswordURL = `${process.env.NEXT_PUBLIC_SERVER_URL}/reset?token=${token}`;
+        const resetPasswordURL = `${process.env.NEXT_PUBLIC_SERVER_URL}/resetpassword?token=${token}`;
 
         return `
           <!doctype html>
