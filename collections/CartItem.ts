@@ -31,6 +31,10 @@ const CartItems: CollectionConfig = {
       validate: validatePositiveNumber,
     },
     {
+      name: 'size',
+      type: 'text',
+    },
+    {
       name: 'user',
       type: 'relationship',
       relationTo: 'users',
