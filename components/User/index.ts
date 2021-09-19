@@ -21,20 +21,13 @@ export const CURRENT_USER_QUERY = gql`
             category
             price
             status
-            rating {
-              id
-              user {
-                id
-                email
-              }
-              rating
-            }
             reviews {
               id
               user {
                 id
                 email
               }
+              rating
               review
             }
             color_applies
