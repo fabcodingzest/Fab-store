@@ -53,7 +53,7 @@ const OrderItems: CollectionConfig = {
       name: 'product_ref',
       type: 'relationship',
       relationTo: 'variants',
-    }
+    },
   ],
 };
 
