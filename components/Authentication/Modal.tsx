@@ -3,6 +3,7 @@ import {
   ModalOverlay,
   ModalContent,
   ModalBody,
+  Text,
   ModalCloseButton,
   useColorModeValue,
   Button,
@@ -20,13 +21,15 @@ const AuthModal = ({ modalState }) => {
   return (
     <>
       <Button
-        size="sm"
-        py={{ base: 4, sm: 5 }}
+        size="xs"
+        py={5}
         px={{ base: 4, sm: 6 }}
         onClick={onOpen}
         colorScheme="blue"
       >
-        {modalState === 'signin' ? 'Sign In' : 'Sign Up'}
+        <Text fontSize="md">
+          {modalState === 'signin' ? 'Sign In' : 'Sign Up'}
+        </Text>
       </Button>
 
       <Modal
