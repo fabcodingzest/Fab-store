@@ -31,6 +31,10 @@ const OrderItems: CollectionConfig = {
     },
     ...vairantFields,
     {
+      name: 'size',
+      type: 'text',
+    },
+    {
       name: 'discount',
       type: 'relationship',
       relationTo: 'discounts',
