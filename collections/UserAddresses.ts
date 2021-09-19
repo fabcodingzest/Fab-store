@@ -4,7 +4,7 @@ import { CountryOptions } from '../utilities/CountryOptions';
 import { addressAfterChange } from './hooks/afterChangeHooks';
 
 const userAddresses: CollectionConfig = {
-  slug: 'user_addresses',
+  slug: 'addresses',
   access: {
     create: isSignedIn,
     read: rules.canReadProducts,

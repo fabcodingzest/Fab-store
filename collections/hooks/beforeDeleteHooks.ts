@@ -30,10 +30,19 @@ const variantBeforeDelete: CollectionBeforeDeleteHook = async ({ id }) => {
   try {
     // Get the data of variant to be deleted
     const variantData = await payload.findByID({
-      collection: 'product_variants',
+      collection: 'variants',
       id,
       depth: 5,
     });
+
+    // Delete the images of the variant from image collection
+    const imageIds = variantData['images'].map((img) => img.image.id);
+
+    await Promise.all(
+      imageIds.map(async (imageId: string) => {
+        await payload.delete({ collection: 'images', id: imageId });
+      })
+    );
 
     // Obtain array of ids without the id of item to be deleted
     const updatedParentVariants = variantData['parent']['variants']

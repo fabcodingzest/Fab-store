@@ -8,7 +8,7 @@ const productAfterDeleteHook: CollectionAfterDeleteHook = async ({ doc }) => {
     await Promise.all(
       doc.variants.map(async (id: any) => {
         await payload.delete({
-          collection: 'product_variants',
+          collection: 'variants',
           id,
         });
       })

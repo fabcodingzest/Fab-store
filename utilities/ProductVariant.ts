@@ -2,23 +2,61 @@
 // /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Field } from 'payload/types';
 
-const vairantFields: Field[] = [
-  {
-    name: 'category',
-    label: 'Product Category',
-    type: 'select',
-    options: [
-      { label: 'Clothes', value: 'CLOTHES' },
-      { label: 'Stationary', value: 'STATIONARY' },
-      { label: 'Toys', value: 'TOYS' },
-      { label: 'Furniture', value: 'FURNITURE' },
-      { label: 'Books', value: 'BOOKS' },
-      { label: 'Jwellery', value: 'JWELLERY' },
-      { label: 'Electronics', value: 'ELECTRONICS' },
+export const categoryField: Field = {
+  name: 'category',
+  label: 'Product Category',
+  type: 'select',
+  options: [
+    { label: 'Clothes', value: 'CLOTHES' },
+    { label: 'Stationary', value: 'STATIONARY' },
+    { label: 'Toys', value: 'TOYS' },
+    { label: 'Furniture', value: 'FURNITURE' },
+    { label: 'Books', value: 'BOOKS' },
+    { label: 'Jwellery', value: 'JWELLERY' },
+    { label: 'Electronics', value: 'ELECTRONICS' },
+  ],
+  required: true,
+  index: true,
+};
+
+export const sizeSelect: Field = {
+  name: 'size',
+  label: 'Size of the Product',
+  type: 'select',
+  hasMany: true,
+  options: [
+    { label: 'S', value: 'S' },
+    { label: 'M', value: 'M' },
+    { label: 'L', value: 'L' },
+    { label: 'XL', value: 'XL' },
+    { label: 'XXL', value: 'XXL' },
+    { label: 'XXXL', value: 'XXXL' },
+    { label: 'XXXXL', value: 'XXXXl' },
+  ],
+  hooks: {
+    beforeChange: [
+      ({
+        value,
+        data,
+      }: {
+        value?: unknown;
+        data?: { [key: string]: unknown };
+      }): Promise<unknown> | unknown =>
+        data.category === 'CLOTHES' ? value : null,
     ],
-    required: true,
-    index: true,
   },
+  admin: {
+    condition: (data: Record<string, unknown>): boolean => {
+      if (data.category === 'CLOTHES') {
+        return true;
+      }
+      return false;
+    },
+  },
+};
+
+const vairantFields: Field[] = [
+  categoryField,
   {
     name: 'color_applies',
     type: 'checkbox',
@@ -45,41 +83,6 @@ const vairantFields: Field[] = [
         siblingsData: Record<string, unknown>
       ): boolean => {
         if (siblingsData.color_applies) {
-          return true;
-        }
-        return false;
-      },
-    },
-  },
-  {
-    name: 'size',
-    label: 'Size of the Product',
-    type: 'select',
-    hasMany: true,
-    options: [
-      { label: 'S', value: 'S' },
-      { label: 'M', value: 'M' },
-      { label: 'L', value: 'L' },
-      { label: 'XL', value: 'XL' },
-      { label: 'XXL', value: 'XXL' },
-      { label: 'XXXL', value: 'XXXL' },
-      { label: 'XXXXL', value: 'XXXXl' },
-    ],
-    hooks: {
-      beforeChange: [
-        ({
-          value,
-          data,
-        }: {
-          value?: unknown;
-          data?: { [key: string]: unknown };
-        }): Promise<unknown> | unknown =>
-          data.category === 'CLOTHES' ? value : null,
-      ],
-    },
-    admin: {
-      condition: (data: Record<string, unknown>): boolean => {
-        if (data.category === 'CLOTHES') {
           return true;
         }
         return false;
@@ -181,18 +184,6 @@ const vairantFields: Field[] = [
         name: 'review',
         label: 'User Review',
         type: 'textarea',
-      },
-    ],
-  },
-  {
-    name: 'rating',
-    type: 'array',
-    labels: { singular: 'Product Rating', plural: 'Product Ratings' },
-    fields: [
-      {
-        name: 'user',
-        type: 'relationship',
-        relationTo: 'users',
       },
       {
         name: 'rating',

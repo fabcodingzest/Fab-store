@@ -8,7 +8,6 @@ import {
   Text,
   BoxProps,
 } from '@chakra-ui/react';
-import { Divider } from '@chakra-ui/layout';
 import { IconType } from 'react-icons/lib';
 import { FiCompass, FiHeart, FiHome, FiTrendingUp } from 'react-icons/fi';
 import NavItem from './NavItem';

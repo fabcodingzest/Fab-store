@@ -1,15 +1,25 @@
 import React from 'react';
-import { ApolloProvider } from '@apollo/client';
-import { AppProps } from 'next/app';
+import {
+  ApolloClient,
+  ApolloProvider,
+  NormalizedCacheObject,
+} from '@apollo/client';
+import App, { AppContext, AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
-import { useApollo } from '../with-apollo/apolloClient';
 import Page from '../components/Layout/Page';
+import withApollo from '../with-apollo/apolloClient';
 
-const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
-  const apolloClient = useApollo(pageProps.initializeApolloState);
+type MyAppProps = AppProps & {
+  apollo: ApolloClient<NormalizedCacheObject>;
+};
 
+const MyApp = ({
+  Component,
+  pageProps,
+  apollo,
+}: MyAppProps): React.ReactElement => {
   return (
-    <ApolloProvider client={apolloClient}>
+    <ApolloProvider client={apollo}>
       <ChakraProvider>
         <Page>
           <Component {...pageProps} />
@@ -19,4 +29,9 @@ const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
   );
 };
 
-export default MyApp;
+MyApp.getInitialProps = async (appContext) => {
+  const appProps = await App.getInitialProps(appContext);
+  return { ...appProps };
+};
+
+export default withApollo(MyApp);

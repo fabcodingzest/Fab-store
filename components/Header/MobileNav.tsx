@@ -1,5 +1,6 @@
 import { Avatar } from '@chakra-ui/avatar';
-import { Button, IconButton } from '@chakra-ui/button';
+import { IconButton } from '@chakra-ui/button';
+import Link from 'next/link';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Box, Flex, FlexProps, HStack, Text, VStack } from '@chakra-ui/layout';
 import {
@@ -11,8 +12,15 @@ import {
 } from '@chakra-ui/menu';
 import { FiChevronDown, FiMenu } from 'react-icons/fi';
 import { GrCart } from 'react-icons/gr';
-import Link from 'next/link';
-import { useUser } from '../User';
+import { useMutation, gql } from '@apollo/client';
+import Modal from '../Authentication/Modal';
+import { CURRENT_USER_QUERY, useUser } from '../User';
+
+const LOGOUT_USER_MUTATION = gql`
+  mutation LOGOUT_USER_MUTATION {
+    logoutUser
+  }
+`;
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
@@ -20,8 +28,19 @@ interface MobileProps extends FlexProps {
 }
 const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
   const me = useUser();
+  const [logoutUser] = useMutation(LOGOUT_USER_MUTATION, {
+    refetchQueries: [{ query: CURRENT_USER_QUERY }],
+  });
   const bgHook = useColorModeValue('white', 'gray.900');
   const borderHook = useColorModeValue('gray.200', 'gray.700');
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -43,7 +62,7 @@ const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
       />
 
       <Text
-        display={{ base: 'flex', md: 'none' }}
+        display={{ base: 'none', sm: 'flex', md: 'none' }}
         fontSize="2xl"
         fontFamily="monospace"
         fontWeight="bold"
@@ -99,17 +118,21 @@ const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
                 </Link>
                 <MenuDivider />
                 <Link href="/hello">
-                  <MenuItem>Sign out</MenuItem>
+                  <MenuItem onClick={handleLogout}>Sign out</MenuItem>
                 </Link>
               </MenuList>
             </Menu>
           </Flex>
         </HStack>
       ) : (
-        <Box>
-          <Button>Logout</Button>
-          <Button>Login</Button>
-        </Box>
+        <HStack>
+          <Box>
+            <Modal modalState="signin" />
+          </Box>
+          <Box>
+            <Modal modalState="signup" />
+          </Box>
+        </HStack>
       )}
     </Flex>
   );

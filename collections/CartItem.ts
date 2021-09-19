@@ -19,7 +19,7 @@ const CartItems: CollectionConfig = {
     {
       name: 'product',
       type: 'relationship',
-      relationTo: 'product_variants',
+      relationTo: 'variants',
     },
     {
       name: 'quantity',
@@ -29,6 +29,10 @@ const CartItems: CollectionConfig = {
       max: 100,
       defaultValue: 1,
       validate: validatePositiveNumber,
+    },
+    {
+      name: 'size',
+      type: 'text',
     },
     {
       name: 'user',
