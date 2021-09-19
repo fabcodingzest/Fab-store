@@ -1,5 +1,6 @@
 import { CollectionConfig } from 'payload/types';
 import { isSignedIn, rules } from '../access';
+import { categoryField } from '../utilities/ProductVariant';
 import { productAfterChangeHook } from './hooks/afterChangeHooks';
 import { productAfterDeleteHook } from './hooks/afterDeleteHooks';
 import { createdBybeforeChangeHook } from './hooks/beforeChangeHooks';
@@ -51,6 +52,7 @@ const Product: CollectionConfig = {
       relationTo: 'variants',
       hasMany: true,
     },
+    categoryField,
     {
       name: 'discount',
       type: 'relationship',
