@@ -1,5 +1,5 @@
 import { CollectionConfig } from 'payload/types';
-import { isSignedIn, rules } from '../access';
+import { isSignedIn, permissions, rules } from '../access';
 import { categoryField } from '../utilities/ProductVariant';
 import { productAfterChangeHook } from './hooks/afterChangeHooks';
 import { productAfterDeleteHook } from './hooks/afterDeleteHooks';
@@ -8,7 +8,7 @@ import { createdBybeforeChangeHook } from './hooks/beforeChangeHooks';
 const Product: CollectionConfig = {
   slug: 'products',
   access: {
-    create: isSignedIn,
+    create: permissions.canManageProducts,
     read: rules.canReadProducts,
     update: rules.canManageProducts,
     delete: rules.canManageProducts,

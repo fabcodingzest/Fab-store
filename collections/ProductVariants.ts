@@ -1,5 +1,5 @@
 import { CollectionConfig } from 'payload/types';
-import { isSignedIn, rules } from '../access';
+import { isSignedIn, permissions, rules } from '../access';
 import vairantFields, { sizeSelect } from '../utilities/ProductVariant';
 import { variantAfterChangeHook } from './hooks/afterChangeHooks';
 import { variantBeforeChange } from './hooks/beforeChangeHooks';
@@ -8,7 +8,7 @@ import { variantBeforeDelete } from './hooks/beforeDeleteHooks';
 export const ProductVariants: CollectionConfig = {
   slug: 'variants',
   access: {
-    create: isSignedIn,
+    create: permissions.canManageProducts,
     read: rules.canReadProducts,
     update: rules.canManageProducts,
     delete: rules.canManageProducts,
