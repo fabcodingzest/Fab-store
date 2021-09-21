@@ -65,9 +65,9 @@ export default function Header({
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} openCart={openCart} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        <Container maxW="container.xl" py={{ base: 2, md: 4 }}>
+        <Box maxW="full" py={{ base: 2, md: 4 }}>
           {children}
-        </Container>
+        </Box>
       </Box>
     </Box>
   );
