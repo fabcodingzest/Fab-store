@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Text } from '@chakra-ui/layout';
 import React from 'react';
 import serialize from './serialize';
 
-const RichText: React.FC<{ className?: string; content: any }> = ({
-  className,
-  content,
-}) => {
+const RichText: React.FC<{ content: any }> = ({ content }) => {
   if (!content) {
     return null;
   }
 
-  return <div className={className}>{serialize(content)}</div>;
+  return <Text noOfLines={2}>{serialize(content)}</Text>;
 };
 
 export default RichText;
