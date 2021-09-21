@@ -22,7 +22,7 @@ const Rating = ({ rating, numReviews }: RatingProps) => {
         {Array(5)
           .fill('')
           .map((_, i) => {
-            const roundedRating = Math.round(rating) / 2;
+            const roundedRating = Math.round(rating * 2) / 2;
             if (roundedRating - i >= 1) {
               return (
                 <BsStarFill

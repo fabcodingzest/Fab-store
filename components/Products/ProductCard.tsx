@@ -22,7 +22,14 @@ const data = {
 };
 
 function ProductCard({ variant }) {
-  console.log('variant', variant.parent.description);
+  console.log('variant', variant);
+  const totalRatings =
+    variant.reviews
+      .map((item) => {
+        return item.rating;
+      })
+      .reduce((a, b) => a + b, 0) / variant.reviews.length;
+  console.log(totalRatings);
 
   return (
     <Flex p={4} alignItems="center" justifyContent="center">
@@ -66,7 +73,7 @@ function ProductCard({ variant }) {
           </Flex>
 
           <Flex justifyContent="space-between" alignContent="center">
-            <Rating rating={data.rating} numReviews={data.numReviews} />
+            <Rating rating={totalRatings} numReviews={variant.reviews.length} />
             <Box fontSize="lg" color={useColorModeValue('gray.800', 'white')}>
               <Box as="span" color="gray.600" fontSize="sm">
                 £
