@@ -71,12 +71,14 @@ const variantAfterChangeHook: CollectionAfterChangeHook = async ({
         const prevVariantsArray = productParent['variants'].map(
           (item: any) => item.id
         );
+        const parentStatus = productParent['status'];
         // Update the product by adding the createdVariant to parent product
         await payload.update({
           collection: 'products',
           id: doc.parent,
           data: {
             variants: [...prevVariantsArray, doc.id],
+            status: doc.status === 'AVAILABLE' ? 'AVAILABLE' : parentStatus,
           },
         });
         doc.createdBy = user.id;
