@@ -1,14 +1,4 @@
-import {
-  Flex,
-  Box,
-  Image,
-  useColorModeValue,
-  Icon,
-  chakra,
-  Img,
-  Tooltip,
-} from '@chakra-ui/react';
-import { FiShoppingCart } from 'react-icons/fi';
+import { Flex, Box, useColorModeValue, Text, Img } from '@chakra-ui/react';
 import Rating from '../Rating';
 import RichText from '../RichText';
 
@@ -26,13 +16,14 @@ function ProductCard({ variant }) {
     <Box
       bg={useColorModeValue('white', 'gray.800')}
       minW="8rem"
-      maxW="14rem"
+      maxW={{ base: '10rem', sm: '12rem', md: '14rem' }}
       height="100%"
       borderWidth="1px"
       rounded="lg"
       shadow="lg"
       position="relative"
-      p="0.6rem"
+      p="0.8rem"
+      mx="auto"
     >
       <Img
         src={variant?.images[0].image.cloudinaryURL}
@@ -43,10 +34,10 @@ function ProductCard({ variant }) {
         mx="auto"
       />
 
-      <Box py={{ base: '2', md: '4' }}>
+      <Box pt={{ base: '2', md: '4' }}>
         <Flex mt="1" justifyContent="space-between" alignContent="center">
           <Box
-            fontSize={{ base: 'xs', md: 'lg' }}
+            fontSize={{ base: 'xs', md: 'md' }}
             fontWeight="semibold"
             as="h4"
             lineHeight="tight"
@@ -55,23 +46,15 @@ function ProductCard({ variant }) {
           >
             {variant?.name}
           </Box>
-          <Tooltip
-            label="Add to cart"
-            bg="white"
-            placement="top"
-            color="gray.800"
-            fontSize={{ base: '0.8rem', md: '1.2rem' }}
-          >
-            <chakra.a href="#" display="flex">
-              <Icon as={FiShoppingCart} h={5} w={5} alignSelf="center" />
-            </chakra.a>
-          </Tooltip>
         </Flex>
 
         <Flex justifyContent="space-between" alignContent="center">
           <Rating rating={totalRatings} numReviews={variant.reviews.length} />
-          <Box fontSize="lg" color={useColorModeValue('gray.800', 'white')}>
-            <Box as="span" color="gray.600" fontSize="sm">
+          <Box
+            fontSize={{ base: 'xs', sm: 'lg' }}
+            color={useColorModeValue('gray.800', 'white')}
+          >
+            <Box as="span" color="gray.600" fontSize={{ base: 'xs', sm: 'sm' }}>
               £
             </Box>
             748
@@ -79,7 +62,7 @@ function ProductCard({ variant }) {
         </Flex>
         <Box>
           <RichText
-            fontSize={{ base: 'xs', sm: 'md', md: 'lg' }}
+            fontSize={{ base: 'xs', sm: 'sm', md: 'md' }}
             content={variant.parent.description.slice(0, 1)}
           />
         </Box>

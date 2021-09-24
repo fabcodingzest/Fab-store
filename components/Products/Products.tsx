@@ -33,7 +33,8 @@ const ALL_PRODUCTS_QUERY = gql`
           color_applies
           color
           pages
-          format
+          sizes
+          formats
           price
           status
           images {
@@ -71,9 +72,9 @@ const ProductsPage = ({ page }: PageProp) => {
   if (loading) return <div>loading...</div>;
 
   return (
-    <>
+    <Box maxW="6xl" mx="auto">
       <ProductList products={products} />
-    </>
+    </Box>
   );
 };
 
