@@ -18,7 +18,6 @@ export const CURRENT_USER_QUERY = gql`
           variants {
             id
             name
-            category
             price
             status
             reviews {
@@ -32,8 +31,8 @@ export const CURRENT_USER_QUERY = gql`
             }
             color_applies
             color
-            size
-            format
+            sizes
+            formats
             pages
             images {
               image {
