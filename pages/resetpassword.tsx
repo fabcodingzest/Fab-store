@@ -178,6 +178,7 @@ const ResetPasswordPage = () => {
                 disabled={!isValid || !isDirty || isSubmitting}
                 isLoading={isSubmitting}
                 loadingText="Sending email"
+                fontSize={{ base: 'xs', sm: 'md' }}
               >
                 Send Email
               </Button>
