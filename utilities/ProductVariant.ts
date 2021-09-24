@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Field } from 'payload/types';
+import { isSignedIn, permissions } from '../access';
+
+export const reviewUpdateAccess = {
+  read: isSignedIn,
+  create: permissions.canManageProducts,
+  update: permissions.canManageProducts,
+};
 
 export const categoryField: Field = {
   name: 'category',
@@ -25,12 +32,14 @@ const vairantFields: Field[] = [
     label: 'Does this product have size information?',
     type: 'checkbox',
     defaultValue: false,
+    access: reviewUpdateAccess,
   },
   {
     name: 'sizes',
     label: 'Size of the Product',
     type: 'select',
     hasMany: true,
+    access: reviewUpdateAccess,
     options: [
       { label: 'S', value: 'S' },
       { label: 'M', value: 'M' },
@@ -66,10 +75,12 @@ const vairantFields: Field[] = [
     type: 'checkbox',
     defaultValue: false,
     required: true,
+    access: reviewUpdateAccess,
   },
   {
     name: 'color',
     type: 'text',
+    access: reviewUpdateAccess,
     hooks: {
       beforeChange: [
         ({
@@ -98,6 +109,7 @@ const vairantFields: Field[] = [
     label: 'Is it a book?',
     type: 'checkbox',
     defaultValue: false,
+    access: reviewUpdateAccess,
   },
   {
     type: 'row',
@@ -107,6 +119,7 @@ const vairantFields: Field[] = [
         name: 'pages',
         type: 'number',
         min: 30,
+        access: reviewUpdateAccess,
         hooks: {
           beforeChange: [
             ({
@@ -132,6 +145,7 @@ const vairantFields: Field[] = [
       {
         name: 'formats',
         type: 'select',
+        access: reviewUpdateAccess,
         options: [
           { label: 'Paperback', value: 'PAPERBACK' },
           { label: 'Hardcover', value: 'HARDCOVER' },
@@ -168,6 +182,7 @@ const vairantFields: Field[] = [
     admin: {
       placeholder: 'Enter Price in cents',
     },
+    access: reviewUpdateAccess,
   },
   {
     name: 'status',
@@ -179,9 +194,15 @@ const vairantFields: Field[] = [
     ],
     required: true,
     defaultValue: 'DRAFT',
+    access: reviewUpdateAccess,
   },
   {
     name: 'reviews',
+    access: {
+      read: isSignedIn,
+      create: isSignedIn,
+      update: isSignedIn,
+    },
     type: 'array',
     labels: { singular: 'Product Review', plural: 'Product Reviews' },
     fields: [
@@ -208,6 +229,7 @@ const vairantFields: Field[] = [
     type: 'array',
     minRows: 1,
     maxRows: 10,
+    access: reviewUpdateAccess,
     fields: [
       {
         name: 'image',
