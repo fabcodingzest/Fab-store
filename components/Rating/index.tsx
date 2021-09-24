@@ -11,14 +11,14 @@ interface RatingProps {
 const Rating = ({ rating, numReviews }: RatingProps) => {
   return (
     <Tooltip
-      label={`${numReviews} review${numReviews > 1 && 's'}`}
+      label={`${numReviews} review${numReviews > 1 ? 's' : ''}`}
       // bg="white"
       hasArrow
       placement="bottom-end"
       // color="gray.800"
-      fontSize="1em"
+      fontSize={{ base: 'xs', md: 'md' }}
     >
-      <Box d="flex" alignItems="center" fontSize="0.8rem">
+      <Box d="flex" alignItems="center" fontSize={{ base: 'xs', md: 'lg' }}>
         {Array(5)
           .fill('')
           .map((_, i) => {
