@@ -19,43 +19,48 @@ export const categoryField: Field = {
   index: true,
 };
 
-export const sizeSelect: Field = {
-  name: 'size',
-  label: 'Size of the Product',
-  type: 'select',
-  hasMany: true,
-  options: [
-    { label: 'S', value: 'S' },
-    { label: 'M', value: 'M' },
-    { label: 'L', value: 'L' },
-    { label: 'XL', value: 'XL' },
-    { label: 'XXL', value: 'XXL' },
-    { label: 'XXXL', value: 'XXXL' },
-    { label: 'XXXXL', value: 'XXXXl' },
-  ],
-  hooks: {
-    beforeChange: [
-      ({
-        value,
-        data,
-      }: {
-        value?: unknown;
-        data?: { [key: string]: unknown };
-      }): Promise<unknown> | unknown =>
-        data.category === 'CLOTHES' ? value : null,
-    ],
+const vairantFields: Field[] = [
+  {
+    name: 'hasSize',
+    label: 'Does this product have size information?',
+    type: 'checkbox',
+    defaultValue: true,
   },
-  admin: {
-    condition: (data: Record<string, unknown>): boolean => {
-      if (data.category === 'CLOTHES') {
-        return true;
-      }
-      return false;
+  {
+    name: 'size',
+    label: 'Size of the Product',
+    type: 'select',
+    hasMany: true,
+    options: [
+      { label: 'S', value: 'S' },
+      { label: 'M', value: 'M' },
+      { label: 'L', value: 'L' },
+      { label: 'XL', value: 'XL' },
+      { label: 'XXL', value: 'XXL' },
+      { label: 'XXXL', value: 'XXXL' },
+      { label: 'XXXXL', value: 'XXXXl' },
+    ],
+    hooks: {
+      beforeChange: [
+        ({
+          value,
+          data,
+        }: {
+          value?: unknown;
+          data?: { [key: string]: unknown };
+        }): Promise<unknown> | unknown =>
+          data.hasSize === true ? value : null,
+      ],
+    },
+    admin: {
+      condition: (data: Record<string, unknown>): boolean => {
+        if (data.hasSize === true) {
+          return true;
+        }
+        return false;
+      },
     },
   },
-};
-
-const vairantFields: Field[] = [
   {
     name: 'color_applies',
     type: 'checkbox',

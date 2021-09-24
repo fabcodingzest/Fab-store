@@ -1,6 +1,6 @@
 import { CollectionConfig } from 'payload/types';
-import { isSignedIn, permissions, rules } from '../access';
-import vairantFields, { sizeSelect } from '../utilities/ProductVariant';
+import { permissions, rules } from '../access';
+import vairantFields from '../utilities/ProductVariant';
 import { variantAfterChangeHook } from './hooks/afterChangeHooks';
 import { variantBeforeDelete } from './hooks/beforeDeleteHooks';
 
@@ -27,7 +27,6 @@ export const ProductVariants: CollectionConfig = {
       relationTo: 'products',
       required: true,
     },
-    sizeSelect,
     ...vairantFields,
     {
       name: 'createdBy',
