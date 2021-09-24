@@ -2,7 +2,6 @@ import { CollectionConfig } from 'payload/types';
 import { isSignedIn, permissions, rules } from '../access';
 import vairantFields, { sizeSelect } from '../utilities/ProductVariant';
 import { variantAfterChangeHook } from './hooks/afterChangeHooks';
-import { variantBeforeChange } from './hooks/beforeChangeHooks';
 import { variantBeforeDelete } from './hooks/beforeDeleteHooks';
 
 export const ProductVariants: CollectionConfig = {
@@ -40,7 +39,6 @@ export const ProductVariants: CollectionConfig = {
     },
   ],
   hooks: {
-    beforeChange: [variantBeforeChange],
     afterChange: [variantAfterChangeHook],
     beforeDelete: [variantBeforeDelete],
   },
