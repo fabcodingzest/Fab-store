@@ -56,7 +56,6 @@ export const sizeSelect: Field = {
 };
 
 const vairantFields: Field[] = [
-  categoryField,
   {
     name: 'color_applies',
     type: 'checkbox',
@@ -90,6 +89,12 @@ const vairantFields: Field[] = [
     },
   },
   {
+    name: 'isBook',
+    label: 'Is it a book?',
+    type: 'checkbox',
+    defaultValue: false,
+  },
+  {
     type: 'row',
     label: 'Book Details',
     fields: [
@@ -106,13 +111,13 @@ const vairantFields: Field[] = [
               value?: unknown;
               data?: { [key: string]: unknown };
             }): Promise<unknown> | unknown =>
-              data.category === 'BOOKS' ? value : null,
+              data.isBook === true ? value : null,
           ],
         },
         admin: {
           width: '50%',
           condition: (data: Record<string, unknown>): boolean => {
-            if (data.category === 'BOOKS') {
+            if (data.isBook === true) {
               return true;
             }
             return false;
@@ -136,13 +141,13 @@ const vairantFields: Field[] = [
               value?: unknown;
               data?: { [key: string]: unknown };
             }): Promise<unknown> | unknown =>
-              data.category === 'BOOKS' ? value : undefined,
+              data.isBook === true ? value : undefined,
           ],
         },
         admin: {
           width: '50%',
           condition: (data: Record<string, unknown>): boolean => {
-            if (data.category === 'BOOKS') {
+            if (data.isBook === true) {
               return true;
             }
             return false;
