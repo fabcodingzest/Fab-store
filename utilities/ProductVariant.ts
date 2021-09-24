@@ -24,10 +24,10 @@ const vairantFields: Field[] = [
     name: 'hasSize',
     label: 'Does this product have size information?',
     type: 'checkbox',
-    defaultValue: true,
+    defaultValue: false,
   },
   {
-    name: 'size',
+    name: 'sizes',
     label: 'Size of the Product',
     type: 'select',
     hasMany: true,
@@ -130,7 +130,7 @@ const vairantFields: Field[] = [
         },
       },
       {
-        name: 'format',
+        name: 'formats',
         type: 'select',
         options: [
           { label: 'Paperback', value: 'PAPERBACK' },
