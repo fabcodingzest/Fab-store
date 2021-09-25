@@ -1,16 +1,15 @@
 import { Flex, Box, useColorModeValue, Text, Img } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import Rating from '../Rating';
 import RichText from '../RichText';
 
 function ProductCard({ variant }) {
-  console.log('variant', variant);
   const totalRatings =
     variant?.reviews
       .map((item) => {
         return item.rating;
       })
       .reduce((a, b) => a + b, 0) / variant?.reviews.length || 0;
-  console.log(totalRatings);
 
   return (
     <Box
