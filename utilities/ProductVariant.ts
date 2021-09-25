@@ -4,7 +4,7 @@ import { Field } from 'payload/types';
 import { isSignedIn, permissions } from '../access';
 
 export const reviewUpdateAccess = {
-  read: isSignedIn,
+  read: (): boolean => true,
   create: permissions.canManageProducts,
   update: permissions.canManageProducts,
 };
@@ -199,7 +199,7 @@ const vairantFields: Field[] = [
   {
     name: 'reviews',
     access: {
-      read: isSignedIn,
+      read: (): boolean => true,
       create: isSignedIn,
       update: isSignedIn,
     },
