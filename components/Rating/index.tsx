@@ -18,7 +18,7 @@ const Rating = ({ rating, numReviews }: RatingProps) => {
       // color="gray.800"
       fontSize={{ base: 'xs', md: 'md' }}
     >
-      <Box d="flex" alignItems="center" fontSize={{ base: 'xs', md: 'lg' }}>
+      <Box d="flex" alignItems="center" fontSize={{ base: 'xs', md: 'sm' }}>
         {Array(5)
           .fill('')
           .map((_, i) => {

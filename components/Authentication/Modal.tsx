@@ -27,7 +27,7 @@ const AuthModal = ({ modalState }) => {
         onClick={onOpen}
         colorScheme="blue"
       >
-        <Text fontSize={{ base: 'xs', sm: 'md' }}>
+        <Text fontSize={{ base: 'xs', sm: 'sm' }}>
           {modalState === 'signin' ? 'Sign In' : 'Sign Up'}
         </Text>
       </Button>

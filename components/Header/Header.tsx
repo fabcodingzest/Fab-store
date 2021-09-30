@@ -69,10 +69,8 @@ export default function Header({
         openCart={openCart}
         bg={useColorModeValue('white', 'gray.900')}
       />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        <Box maxW="full" py={{ base: 2, md: 4 }}>
-          {children}
-        </Box>
+      <Box ml={{ base: 0, md: '12rem' }} p="4">
+        <Box maxW="full">{children}</Box>
       </Box>
     </Box>
   );

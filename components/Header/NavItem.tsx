@@ -23,11 +23,12 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
           color: 'white',
         }}
         {...rest}
+        fontSize="xs"
       >
         {icon && (
           <Icon
             mr="4"
-            fontSize="16"
+            fontSize="14"
             _groupHover={{
               color: 'white',
             }}

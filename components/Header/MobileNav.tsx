@@ -43,7 +43,7 @@ const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
   };
   return (
     <Flex
-      ml={{ base: 0, md: 60 }}
+      ml={{ base: 0, md: '12rem' }}
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"

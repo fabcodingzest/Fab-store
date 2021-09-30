@@ -34,7 +34,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       bg={useColorModeValue('white', 'gray.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: 60 }}
+      w={{ base: 'full', md: '12rem' }}
       pos="fixed"
       h="full"
       {...rest}
@@ -47,7 +47,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             mx="8"
             justifyContent="space-between"
           >
-            <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+            <Text
+              fontSize={{ base: 'lg', md: 'xl' }}
+              fontFamily="monospace"
+              fontWeight="bold"
+            >
               Fabcart
             </Text>
             <CloseButton
@@ -61,7 +65,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             </NavItem>
           ))}
         </Box>
-        <Text p={{ base: 2, md: 6 }} align="center">
+        <Text p={{ base: 2, md: 6 }} align="center" fontSize="xs">
           © 2021{' '}
           <Link
             color="blue.500"
