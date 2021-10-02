@@ -143,7 +143,7 @@ const vairantFields: Field[] = [
         },
       },
       {
-        name: 'formats',
+        name: 'format',
         type: 'select',
         access: reviewUpdateAccess,
         options: [
