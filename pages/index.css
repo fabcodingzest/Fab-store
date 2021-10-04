@@ -1,0 +1,6 @@
+/* Styling for arrows */
+.slick-prev::before, 
+.slick-next::before{
+  color: black;
+}
+

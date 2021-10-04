@@ -6,14 +6,14 @@ import {
   Box,
   Stack,
   Flex,
-  // Image,
   Skeleton,
   SkeletonText,
-  Button,
   chakra,
   Tooltip,
   Icon,
+  useMediaQuery,
 } from '@chakra-ui/react';
+import Slider from 'react-slick';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -71,9 +71,18 @@ const SINGLE_PRODUCT_QUERY = gql`
   }
 `;
 
+
 const SingleProduct = ({ id }: { id: string }) => {
   console.log('HELLO P');
-  const loadingt = true;
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+  const [isSmallerThan375] = useMediaQuery('(max-width: 375px)');
+
   const { data, loading, error } = useQuery(SINGLE_PRODUCT_QUERY, {
     variables: { id },
   });
@@ -117,7 +126,7 @@ const SingleProduct = ({ id }: { id: string }) => {
       })
       .reduce((a, b) => a + b, 0) / data.Variant?.reviews.length || 0;
   return (
-    <Box bg="white" rounded="lg">
+    <Box rounded="lg">
       <Grid
         templateColumns={{ base: '1fr', sm: '1fr 1fr' }}
         py={8}
@@ -126,14 +135,25 @@ const SingleProduct = ({ id }: { id: string }) => {
         mx="auto"
         p={{ base: 4, md: 8 }}
       >
-        <Box width="full" maxW="18rem" mx="auto" align="center">
-          <Image
-            layout="responsive"
-            width={300}
-            height={300}
-            objectFit="contain"
-            src={data.Variant.images[0].image.cloudinaryURL}
-          />
+        <Box
+          width="full"
+          maxW={isSmallerThan375 ? '9rem' : { base: '12rem', md: '14rem' }}
+          mx="auto"
+          align="center"
+        >
+          <Slider {...settings}>
+            {data.Variant.images.map((item) => (
+              <Box key={item.image.id}>
+                <Image
+                  layout="responsive"
+                  width={300}
+                  height={300}
+                  objectFit="contain"
+                  src={item.image.cloudinaryURL}
+                />
+              </Box>
+            ))}
+          </Slider>
         </Box>
         <Stack spacing={4}>
           <Flex justifyContent="space-between">
@@ -172,35 +192,32 @@ const SingleProduct = ({ id }: { id: string }) => {
                 Variants
               </Text>
               <Flex>
-                {data.Variant.parent.variants.map(
-                  (variant) =>
-                    variant.color_applies && (
-                      <Link key={variant.id} href={`/product/${variant.id}`}>
-                        <Box
-                          border="1px"
-                          borderColor={`${
-                            variant.id === id ? 'blue' : 'transparent'
-                          }`}
-                          shadow={`${variant.id === id ? 'lg' : ''}`}
-                          cursor="pointer"
-                          p={1}
-                          rounded="sm"
-                          mr={2}
-                        >
-                          <Box width={12} height={12}>
-                            <Image
-                              layout="responsive"
-                              width={100}
-                              height={100}
-                              objectFit="contain"
-                              src={variant.images[0].image.cloudinaryURL}
-                            />
-                          </Box>
-                          <Text fontSize="0.6rem">{variant.color}</Text>
-                        </Box>
-                      </Link>
-                    )
-                )}
+                {data.Variant.parent.variants.map((variant) => (
+                  <Link key={variant.id} href={`/product/${variant.id}`}>
+                    <Box
+                      border="1px"
+                      borderColor={`${
+                        variant.id === id ? 'blue' : 'transparent'
+                      }`}
+                      shadow={`${variant.id === id ? 'lg' : ''}`}
+                      cursor="pointer"
+                      p={1}
+                      rounded="sm"
+                      mr={2}
+                    >
+                      <Box width={12} height={12}>
+                        <Image
+                          layout="responsive"
+                          width={100}
+                          height={100}
+                          objectFit="contain"
+                          src={variant.images[0].image.cloudinaryURL}
+                        />
+                      </Box>
+                      <Text fontSize="0.6rem">{variant.color}</Text>
+                    </Box>
+                  </Link>
+                ))}
               </Flex>
             </Box>
           )}

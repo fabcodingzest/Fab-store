@@ -4,10 +4,13 @@ import {
   ApolloProvider,
   NormalizedCacheObject,
 } from '@apollo/client';
-import App, { AppContext, AppProps } from 'next/app';
+import App, { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
 import Page from '../components/Layout/Page';
 import withApollo from '../with-apollo/apolloClient';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import './index.css';
 
 type MyAppProps = AppProps & {
   apollo: ApolloClient<NormalizedCacheObject>;
