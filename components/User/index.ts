@@ -32,7 +32,7 @@ export const CURRENT_USER_QUERY = gql`
             color_applies
             color
             sizes
-            formats
+            format
             pages
             images {
               image {
