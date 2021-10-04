@@ -34,7 +34,7 @@ const ALL_PRODUCTS_QUERY = gql`
           color
           pages
           sizes
-          formats
+          format
           price
           status
           images {

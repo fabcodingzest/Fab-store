@@ -44,7 +44,7 @@ const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
   return (
     <Flex
       ml={{ base: 0, md: '12rem' }}
-      px={{ base: 4, md: 4 }}
+      px={{ base: 2, md: 4 }}
       height="20"
       alignItems="center"
       bg={bgHook}
@@ -58,6 +58,8 @@ const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
         onClick={onOpen}
         variant="outline"
         aria-label="open menu"
+        color="gray.200"
+        _hover={{ bg: 'gray.200', color: 'gray.800' }}
         icon={<FiMenu />}
       />
 

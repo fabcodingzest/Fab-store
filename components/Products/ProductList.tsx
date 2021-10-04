@@ -1,16 +1,21 @@
-import { Flex, Grid, Box } from '@chakra-ui/react';
+import { Flex, Grid, Box, useMediaQuery } from '@chakra-ui/react';
 import ProductCard from './ProductCard';
 
 const ProductList = ({ products }) => {
   // console.log(products);
+  const [isSmallerThan375] = useMediaQuery('(max-width: 375px)');
+
   return (
     <Grid
-      templateColumns={{
-        base: 'repeat(1, 1fr)',
-        sm: 'repeat(2, 1fr)',
-        md: 'repeat(3, 1fr)',
-        lg: 'repeat(4, 1fr)',
-      }}
+      templateColumns={
+        isSmallerThan375
+          ? 'repeat(1, 1fr)'
+          : {
+              base: 'repeat(2, 1fr)',
+              sm: 'repeat(3, 1fr)',
+              lg: 'repeat(4, 1fr)',
+            }
+      }
       gap={6}
     >
       {products.map((item) => {

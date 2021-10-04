@@ -25,11 +25,11 @@ export default function Header({
   const { isOpen: cartOpen, onClose: closeCart, onOpen: openCart } = cartProps;
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box minH="100vh" bg="white">
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
-        bg={useColorModeValue('white', 'gray.900')}
+        bg="gray.800"
       />
       <Drawer
         autoFocus={false}
@@ -64,11 +64,7 @@ export default function Header({
       </Drawer>
 
       {/* mobilenav */}
-      <MobileNav
-        onOpen={onOpen}
-        openCart={openCart}
-        bg={useColorModeValue('white', 'gray.900')}
-      />
+      <MobileNav onOpen={onOpen} openCart={openCart} bg="gray.800" />
       <Box ml={{ base: 0, md: '12rem' }} p="4">
         <Box maxW="full">{children}</Box>
       </Box>

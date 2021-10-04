@@ -21,9 +21,8 @@ const AuthModal = ({ modalState }) => {
   return (
     <>
       <Button
-        // size="xs"
         py={5}
-        px={{ base: 4, sm: 6 }}
+        px={{ base: 3, sm: 6 }}
         onClick={onOpen}
         colorScheme="blue"
       >
