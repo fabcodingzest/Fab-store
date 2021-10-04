@@ -18,7 +18,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { FiShoppingCart } from 'react-icons/fi';
-import RenderBlocks from '../RenderBlocks';
+import Rating from '../Rating';
 import RichText from '../RichText';
 
 const SINGLE_PRODUCT_QUERY = gql`
@@ -80,7 +80,6 @@ const SingleProduct = ({ id }: { id: string }) => {
   if (loading)
     return (
       <Flex
-        Box
         bg="white"
         rounded="lg"
         height={{ base: 500, sm: 390 }}
@@ -111,6 +110,12 @@ const SingleProduct = ({ id }: { id: string }) => {
         </Stack>
       </Flex>
     );
+  const totalRatings =
+    data.Variant?.reviews
+      .map((item) => {
+        return item.rating;
+      })
+      .reduce((a, b) => a + b, 0) / data.Variant?.reviews.length || 0;
   return (
     <Box bg="white" rounded="lg">
       <Grid
@@ -137,9 +142,9 @@ const SingleProduct = ({ id }: { id: string }) => {
             </Heading>
             <Tooltip
               label="Add to cart"
-              bg="white"
+              bg="gray.800"
               placement="bottom-start"
-              color="gray.800"
+              color="gray.200"
               fontSize="1rem"
             >
               <chakra.a href="#" display="flex">
@@ -152,45 +157,53 @@ const SingleProduct = ({ id }: { id: string }) => {
               </chakra.a>
             </Tooltip>
           </Flex>
+          <Rating
+            rating={totalRatings}
+            numReviews={data.Variant.reviews.length}
+          />
           <Text>$ {data.Variant.price / 100}</Text>
           <Box>
             <Text fontWeight="bold">Description</Text>
             <RichText content={data.Variant.parent.description} />
           </Box>
-          <Box>
-            <Text fontWeight="bold">Variants</Text>
-            <Flex>
-              {data.Variant.parent.variants.map(
-                (variant) =>
-                  variant.color_applies && (
-                    <Link key={variant.id} href={`/product/${variant.id}`}>
-                      <Box
-                        border="1px"
-                        borderColor={`${
-                          variant.id === id ? 'blue' : 'transparent'
-                        }`}
-                        shadow={`${variant.id === id ? 'lg' : ''}`}
-                        cursor="pointer"
-                        p={1}
-                        rounded="sm"
-                        mr={2}
-                      >
-                        <Box width={12} height={12}>
-                          <Image
-                            layout="responsive"
-                            width={100}
-                            height={100}
-                            objectFit="contain"
-                            src={variant.images[0].image.cloudinaryURL}
-                          />
+          {data.Variant.parent.variants.length > 1 && (
+            <Box>
+              <Text fontWeight="bold" pb={2}>
+                Variants
+              </Text>
+              <Flex>
+                {data.Variant.parent.variants.map(
+                  (variant) =>
+                    variant.color_applies && (
+                      <Link key={variant.id} href={`/product/${variant.id}`}>
+                        <Box
+                          border="1px"
+                          borderColor={`${
+                            variant.id === id ? 'blue' : 'transparent'
+                          }`}
+                          shadow={`${variant.id === id ? 'lg' : ''}`}
+                          cursor="pointer"
+                          p={1}
+                          rounded="sm"
+                          mr={2}
+                        >
+                          <Box width={12} height={12}>
+                            <Image
+                              layout="responsive"
+                              width={100}
+                              height={100}
+                              objectFit="contain"
+                              src={variant.images[0].image.cloudinaryURL}
+                            />
+                          </Box>
+                          <Text fontSize="0.6rem">{variant.color}</Text>
                         </Box>
-                        <Text fontSize="0.6rem">{variant.color}</Text>
-                      </Box>
-                    </Link>
-                  )
-              )}
-            </Flex>
-          </Box>
+                      </Link>
+                    )
+                )}
+              </Flex>
+            </Box>
+          )}
         </Stack>
       </Grid>
     </Box>

@@ -2,7 +2,7 @@ import { Avatar } from '@chakra-ui/avatar';
 import { IconButton } from '@chakra-ui/button';
 import Link from 'next/link';
 import { useColorModeValue } from '@chakra-ui/color-mode';
-import { Box, Flex, FlexProps, HStack, Text, VStack } from '@chakra-ui/layout';
+import { Box, Flex, FlexProps, HStack, Text, VStack } from '@chakra-ui/react';
 import {
   Menu,
   MenuButton,
@@ -10,8 +10,7 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/menu';
-import { FiChevronDown, FiMenu } from 'react-icons/fi';
-import { GrCart } from 'react-icons/gr';
+import { FiChevronDown, FiMenu, FiShoppingCart } from 'react-icons/fi';
 import { useMutation, gql } from '@apollo/client';
 import Modal from '../Authentication/Modal';
 import { CURRENT_USER_QUERY, useUser } from '../User';
@@ -76,10 +75,13 @@ const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
           <IconButton
             size="lg"
             variant="ghost"
-            aria-label="open menu"
+            aria-label="open cart"
+            color="gray.200"
+            _hover={{ bg: 'gray.200', color: 'gray.800' }}
             onClick={openCart}
-            icon={<GrCart />}
+            icon={<FiShoppingCart />}
           />
+
           <Flex alignItems="center">
             <Menu>
               <MenuButton
@@ -97,14 +99,15 @@ const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
                     alignItems="flex-start"
                     spacing="1px"
                     ml="2"
+                    color="gray.200"
                   >
                     <Text fontSize="sm">Justina Clark</Text>
-                    <Text fontSize="xs" color="gray.600">
+                    <Text fontSize="xs" color="gray.400">
                       Admin
                     </Text>
                   </VStack>
                   <Box display={{ base: 'none', md: 'flex' }}>
-                    <FiChevronDown />
+                    <FiChevronDown color="white" />
                   </Box>
                 </HStack>
               </MenuButton>

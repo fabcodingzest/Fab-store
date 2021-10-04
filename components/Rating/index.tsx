@@ -12,10 +12,7 @@ const Rating = ({ rating, numReviews }: RatingProps) => {
   return (
     <Tooltip
       label={`${numReviews} review${numReviews > 1 ? 's' : ''}`}
-      // bg="white"
-      hasArrow
-      placement="bottom-end"
-      // color="gray.800"
+      placement="bottom-start"
       fontSize={{ base: 'xs', md: 'md' }}
     >
       <Box d="flex" alignItems="center" fontSize={{ base: 'xs', md: 'sm' }}>
