@@ -9,6 +9,16 @@ export const reviewUpdateAccess = {
   update: permissions.canManageProducts,
 };
 
+export const sizeArray = [
+  { label: 'S', value: 'S' },
+  { label: 'M', value: 'M' },
+  { label: 'L', value: 'L' },
+  { label: 'XL', value: 'XL' },
+  { label: 'XXL', value: 'XXL' },
+  { label: 'XXXL', value: 'XXXL' },
+  { label: 'XXXXL', value: 'XXXXl' },
+];
+
 export const categoryField: Field = {
   name: 'category',
   label: 'Product Category',
@@ -40,15 +50,7 @@ const vairantFields: Field[] = [
     type: 'select',
     hasMany: true,
     access: reviewUpdateAccess,
-    options: [
-      { label: 'S', value: 'S' },
-      { label: 'M', value: 'M' },
-      { label: 'L', value: 'L' },
-      { label: 'XL', value: 'XL' },
-      { label: 'XXL', value: 'XXL' },
-      { label: 'XXXL', value: 'XXXL' },
-      { label: 'XXXXL', value: 'XXXXl' },
-    ],
+    options: sizeArray,
     hooks: {
       beforeChange: [
         ({

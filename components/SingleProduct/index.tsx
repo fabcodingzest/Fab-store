@@ -12,15 +12,18 @@ import {
   Tooltip,
   Icon,
   useMediaQuery,
+  Button,
 } from '@chakra-ui/react';
+import Select from 'react-select';
 import Slider from 'react-slick';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import { useState } from 'react';
 import { FiShoppingCart } from 'react-icons/fi';
 import Rating from '../Rating';
 import RichText from '../RichText';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import { sizeArray } from '../../utilities/ProductVariant';
+import { useUser } from '../User';
 
 const SINGLE_PRODUCT_QUERY = gql`
   query SINGLE_PRODUCT_QUERY($id: String!) {
@@ -32,6 +35,7 @@ const SINGLE_PRODUCT_QUERY = gql`
         name
         description
         status
+        category
         variants {
           id
           name
@@ -75,10 +79,11 @@ const SINGLE_PRODUCT_QUERY = gql`
 const SingleProduct = ({ id }: { id: string }) => {
   console.log('HELLO P');
   const [isSmallerThan375] = useMediaQuery('(max-width: 375px)');
-
+  const [size, setSize] = useState('');
   const { data, loading, error } = useQuery(SINGLE_PRODUCT_QUERY, {
     variables: { id },
   });
+  const me = useUser();
   if (loading)
     return (
       <Flex
@@ -118,6 +123,10 @@ const SingleProduct = ({ id }: { id: string }) => {
         return item.rating;
       })
       .reduce((a, b) => a + b, 0) / data.Variant?.reviews.length || 0;
+
+  const handleAddToCart = () => {
+    console.log(`ADD TO CART ${data.Variant.id}`);
+  };
   const settings = {
     dots: true,
     infinite: true,
@@ -171,9 +180,9 @@ const SingleProduct = ({ id }: { id: string }) => {
             ))}
           </Slider>
         </Box>
-        <Stack spacing={4}>
+        <Stack spacing={2.5} mt={{ base: '1rem', sm: '0' }}>
           <Flex justifyContent="space-between">
-            <Heading fontSize={{ base: 'lg', md: '2xl' }}>
+            <Heading fontSize={{ base: 'md', md: 'xl' }}>
               {data.Variant.name}
             </Heading>
             <Tooltip
@@ -183,14 +192,14 @@ const SingleProduct = ({ id }: { id: string }) => {
               color="gray.200"
               fontSize="1rem"
             >
-              <chakra.a href="#" display="flex">
+              <Button variant="ghost" onClick={handleAddToCart}>
                 <Icon
                   as={FiShoppingCart}
                   h={{ base: 4, sm: 6 }}
                   w={{ base: 4, sm: 6 }}
                   alignSelf="center"
                 />
-              </chakra.a>
+              </Button>
             </Tooltip>
           </Flex>
           <Rating
@@ -198,13 +207,32 @@ const SingleProduct = ({ id }: { id: string }) => {
             numReviews={data.Variant.reviews.length}
           />
           <Text>$ {data.Variant.price / 100}</Text>
+          {data.Variant.format && (
+            <Text fontSize={{ base: 'xs', md: 'sm' }}>
+              Format:
+              <Text
+                as="em"
+                fontWeight="bold"
+                fontSize={{ base: 'xs', md: 'sm' }}
+                color="gray.700"
+              >
+                {` ${data.Variant.format}`}
+              </Text>
+            </Text>
+          )}
           <Box>
-            <Text fontWeight="bold">Description</Text>
-            <RichText content={data.Variant.parent.description} />
+            <Text fontWeight="bold" fontSize={{ base: 'xs', md: 'sm' }}>
+              Description
+            </Text>
+            <RichText fontSize="xs" content={data.Variant.parent.description} />
           </Box>
           {data.Variant.parent.variants.length > 1 && (
             <Box>
-              <Text fontWeight="bold" pb={2}>
+              <Text
+                fontWeight="bold"
+                fontSize={{ base: 'xs', md: 'sm' }}
+                pb={2}
+              >
                 Variants
               </Text>
               <Flex>
@@ -215,7 +243,7 @@ const SingleProduct = ({ id }: { id: string }) => {
                       borderColor={`${
                         variant.id === id ? 'gray.200' : 'transparent'
                       }`}
-                      shadow={`${variant.id === id ? 'xl' : ''}`}
+                      shadow={`${variant.id === id ? 'lg' : ''}`}
                       cursor="pointer"
                       p={1}
                       rounded="md"
@@ -235,6 +263,30 @@ const SingleProduct = ({ id }: { id: string }) => {
                   </Link>
                 ))}
               </Flex>
+            </Box>
+          )}
+          {data.Variant.parent.category === 'CLOTHES' && (
+            <Box>
+              <Text
+                fontWeight="bold"
+                fontSize={{ base: 'xs', md: 'sm' }}
+                mb={2}
+              >
+                Sizes
+              </Text>
+              <Select
+                options={sizeArray}
+                onChange={(option) => setSize(option.value)}
+                theme={(theme) => ({
+                  ...theme,
+                  colors: {
+                    ...theme.colors,
+                    primary25: 'var(--chakra-colors-gray-100)',
+                    primary: 'var(--chakra-colors-gray-700)',
+                    primary50: 'var(--chakra-colors-gray-200)',
+                  },
+                })}
+              />
             </Box>
           )}
         </Stack>
