@@ -20,6 +20,7 @@ import React from 'react';
 import { FiShoppingCart } from 'react-icons/fi';
 import Rating from '../Rating';
 import RichText from '../RichText';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 
 const SINGLE_PRODUCT_QUERY = gql`
   query SINGLE_PRODUCT_QUERY($id: String!) {
@@ -71,16 +72,8 @@ const SINGLE_PRODUCT_QUERY = gql`
   }
 `;
 
-
 const SingleProduct = ({ id }: { id: string }) => {
   console.log('HELLO P');
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
   const [isSmallerThan375] = useMediaQuery('(max-width: 375px)');
 
   const { data, loading, error } = useQuery(SINGLE_PRODUCT_QUERY, {
@@ -125,6 +118,29 @@ const SingleProduct = ({ id }: { id: string }) => {
         return item.rating;
       })
       .reduce((a, b) => a + b, 0) / data.Variant?.reviews.length || 0;
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    lazyLoad: true,
+    dotsClass: 'slick-dots custom-thumbnail',
+    customPaging(i: number) {
+      return (
+        <Box rounded="md" p="0.5" w={10} h={10}>
+          <Image
+            src={data.Variant.images[i].image.cloudinaryURL}
+            alt={data.Variant.images[i].image.altText}
+            width={100}
+            height={100}
+            layout="responsive"
+            objectFit="contain"
+          />
+        </Box>
+      );
+    },
+  };
   return (
     <Box rounded="lg">
       <Grid
@@ -197,12 +213,12 @@ const SingleProduct = ({ id }: { id: string }) => {
                     <Box
                       border="1px"
                       borderColor={`${
-                        variant.id === id ? 'blue' : 'transparent'
+                        variant.id === id ? 'gray.200' : 'transparent'
                       }`}
-                      shadow={`${variant.id === id ? 'lg' : ''}`}
+                      shadow={`${variant.id === id ? 'xl' : ''}`}
                       cursor="pointer"
                       p={1}
-                      rounded="sm"
+                      rounded="md"
                       mr={2}
                     >
                       <Box width={12} height={12}>
