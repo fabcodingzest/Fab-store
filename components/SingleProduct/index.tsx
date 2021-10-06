@@ -8,7 +8,6 @@ import {
   Flex,
   Skeleton,
   SkeletonText,
-  chakra,
   Tooltip,
   Icon,
   useMediaQuery,
@@ -24,6 +23,7 @@ import Rating from '../Rating';
 import RichText from '../RichText';
 import { sizeArray } from '../../utilities/ProductVariant';
 import { useUser } from '../User';
+import ErrorComponent from '../ErrorComponent';
 
 const SINGLE_PRODUCT_QUERY = gql`
   query SINGLE_PRODUCT_QUERY($id: String!) {
@@ -52,6 +52,7 @@ const SINGLE_PRODUCT_QUERY = gql`
       }
       color_applies
       color
+      sizes
       price
       isBook
       format
@@ -76,10 +77,10 @@ const SINGLE_PRODUCT_QUERY = gql`
   }
 `;
 
-const SingleProduct = ({ id }: { id: string }) => {
+const SingleProduct = ({ id }: { id: string | string[] }) => {
   console.log('HELLO P');
   const [isSmallerThan375] = useMediaQuery('(max-width: 375px)');
-  const [size, setSize] = useState('');
+  const [selectedSize, setSize] = useState('');
   const { data, loading, error } = useQuery(SINGLE_PRODUCT_QUERY, {
     variables: { id },
   });
@@ -117,6 +118,8 @@ const SingleProduct = ({ id }: { id: string }) => {
         </Stack>
       </Flex>
     );
+
+  if (error) return <ErrorComponent error={error} />;
   const totalRatings =
     data.Variant?.reviews
       .map((item) => {
@@ -127,6 +130,7 @@ const SingleProduct = ({ id }: { id: string }) => {
   const handleAddToCart = () => {
     console.log(`ADD TO CART ${data.Variant.id}`);
   };
+  console.log(data.Variant);
   const settings = {
     dots: true,
     infinite: true,
@@ -265,30 +269,36 @@ const SingleProduct = ({ id }: { id: string }) => {
               </Flex>
             </Box>
           )}
-          {data.Variant.parent.category === 'CLOTHES' && (
-            <Box>
-              <Text
-                fontWeight="bold"
-                fontSize={{ base: 'xs', md: 'sm' }}
-                mb={2}
-              >
-                Sizes
-              </Text>
-              <Select
-                options={sizeArray}
-                onChange={(option) => setSize(option.value)}
-                theme={(theme) => ({
-                  ...theme,
-                  colors: {
-                    ...theme.colors,
-                    primary25: 'var(--chakra-colors-gray-100)',
-                    primary: 'var(--chakra-colors-gray-700)',
-                    primary50: 'var(--chakra-colors-gray-200)',
-                  },
-                })}
-              />
-            </Box>
-          )}
+          {data.Variant.parent.category === 'CLOTHES' &&
+            data.Variant.sizes.length !== 0 && (
+              <Box>
+                <Text
+                  fontWeight="bold"
+                  fontSize={{ base: 'xs', md: 'sm' }}
+                  mb={2}
+                >
+                  Sizes
+                </Text>
+                <Select
+                  options={data.Variant.sizes.map((value: string) => ({
+                    label: value,
+                    value,
+                  }))}
+                  onChange={(option: { label: string; value: string }) =>
+                    setSize(option.value)
+                  }
+                  theme={(theme) => ({
+                    ...theme,
+                    colors: {
+                      ...theme.colors,
+                      primary25: 'var(--chakra-colors-gray-100)',
+                      primary: 'var(--chakra-colors-gray-700)',
+                      primary50: 'var(--chakra-colors-gray-200)',
+                    },
+                  })}
+                />
+              </Box>
+            )}
         </Stack>
       </Grid>
     </Box>
