@@ -21,7 +21,6 @@ import { useState } from 'react';
 import { FiShoppingCart } from 'react-icons/fi';
 import Rating from '../Rating';
 import RichText from '../RichText';
-import { sizeArray } from '../../utilities/ProductVariant';
 import { useUser } from '../User';
 import ErrorComponent from '../ErrorComponent';
 
@@ -78,7 +77,6 @@ const SINGLE_PRODUCT_QUERY = gql`
 `;
 
 const SingleProduct = ({ id }: { id: string | string[] }) => {
-  console.log('HELLO P');
   const [isSmallerThan375] = useMediaQuery('(max-width: 375px)');
   const [selectedSize, setSize] = useState('');
   const { data, loading, error } = useQuery(SINGLE_PRODUCT_QUERY, {
@@ -120,17 +118,18 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
     );
 
   if (error) return <ErrorComponent error={error} />;
+  const { Variant } = data;
   const totalRatings =
-    data.Variant?.reviews
+    Variant?.reviews
       .map((item) => {
         return item.rating;
       })
-      .reduce((a, b) => a + b, 0) / data.Variant?.reviews.length || 0;
+      .reduce((a, b) => a + b, 0) / Variant?.reviews.length || 0;
 
   const handleAddToCart = () => {
-    console.log(`ADD TO CART ${data.Variant.id}`);
+    console.log(`ADD TO CART ${Variant.id}`);
   };
-  console.log(data.Variant);
+  console.log(Variant);
   const settings = {
     dots: true,
     infinite: true,
@@ -143,8 +142,8 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
       return (
         <Box rounded="md" p="0.5" w={10} h={10}>
           <Image
-            src={data.Variant.images[i].image.cloudinaryURL}
-            alt={data.Variant.images[i].image.altText}
+            src={Variant.images[i].image.cloudinaryURL}
+            alt={Variant.images[i].image.altText}
             width={100}
             height={100}
             layout="responsive"
@@ -171,7 +170,7 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
           align="center"
         >
           <Slider {...settings}>
-            {data.Variant.images.map((item) => (
+            {Variant.images.map((item) => (
               <Box key={item.image.id}>
                 <Image
                   layout="responsive"
@@ -187,7 +186,7 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
         <Stack spacing={2.5} mt={{ base: '1rem', sm: '0' }}>
           <Flex justifyContent="space-between">
             <Heading fontSize={{ base: 'md', md: 'xl' }}>
-              {data.Variant.name}
+              {Variant.name}
             </Heading>
             <Tooltip
               label="Add to cart"
@@ -206,12 +205,9 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
               </Button>
             </Tooltip>
           </Flex>
-          <Rating
-            rating={totalRatings}
-            numReviews={data.Variant.reviews.length}
-          />
-          <Text>$ {data.Variant.price / 100}</Text>
-          {data.Variant.format && (
+          <Rating rating={totalRatings} numReviews={Variant.reviews.length} />
+          <Text>$ {Variant.price / 100}</Text>
+          {Variant.format && (
             <Text fontSize={{ base: 'xs', md: 'sm' }}>
               Format:
               <Text
@@ -220,7 +216,7 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
                 fontSize={{ base: 'xs', md: 'sm' }}
                 color="gray.700"
               >
-                {` ${data.Variant.format}`}
+                {` ${Variant.format}`}
               </Text>
             </Text>
           )}
@@ -228,9 +224,9 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
             <Text fontWeight="bold" fontSize={{ base: 'xs', md: 'sm' }}>
               Description
             </Text>
-            <RichText fontSize="xs" content={data.Variant.parent.description} />
+            <RichText fontSize="xs" content={Variant.parent.description} />
           </Box>
-          {data.Variant.parent.variants.length > 1 && (
+          {Variant.parent.variants.length > 1 && (
             <Box>
               <Text
                 fontWeight="bold"
@@ -240,7 +236,7 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
                 Variants
               </Text>
               <Flex>
-                {data.Variant.parent.variants.map((variant) => (
+                {Variant.parent.variants.map((variant) => (
                   <Link key={variant.id} href={`/product/${variant.id}`}>
                     <Box
                       border="1px"
@@ -269,8 +265,8 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
               </Flex>
             </Box>
           )}
-          {data.Variant.parent.category === 'CLOTHES' &&
-            data.Variant.sizes.length !== 0 && (
+          {Variant.parent.category === 'CLOTHES' &&
+            Variant?.sizes.length !== 0 && (
               <Box>
                 <Text
                   fontWeight="bold"
@@ -280,7 +276,7 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
                   Sizes
                 </Text>
                 <Select
-                  options={data.Variant.sizes.map((value: string) => ({
+                  options={Variant.sizes.map((value: string) => ({
                     label: value,
                     value,
                   }))}
