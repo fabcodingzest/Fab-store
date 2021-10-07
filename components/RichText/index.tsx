@@ -3,7 +3,10 @@ import { Text, Box } from '@chakra-ui/layout';
 import React from 'react';
 import serialize from './serialize';
 
-const RichText: React.FC<{ content: any; fontSize?: any }> = ({ content, fontSize }) => {
+const RichText: React.FC<{ content: any; fontSize?: any }> = ({
+  content,
+  fontSize,
+}) => {
   if (!content) {
     return null;
   }
