@@ -1,4 +1,4 @@
-import { Flex, Grid, Box, useMediaQuery } from '@chakra-ui/react';
+import { Grid, useMediaQuery } from '@chakra-ui/react';
 import ProductCard from './ProductCard';
 
 const ProductList = ({ products }) => {

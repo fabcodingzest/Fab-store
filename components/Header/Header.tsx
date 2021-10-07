@@ -2,12 +2,10 @@ import React, { ReactNode } from 'react';
 import {
   Box,
   CloseButton,
-  useColorModeValue,
   Drawer,
   DrawerContent,
   useDisclosure,
   DrawerOverlay,
-  Container,
   UseDisclosureProps,
 } from '@chakra-ui/react';
 import { Flex } from '@chakra-ui/layout';

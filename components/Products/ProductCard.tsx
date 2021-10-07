@@ -1,11 +1,4 @@
-import {
-  Flex,
-  Box,
-  useColorModeValue,
-  Text,
-  useMediaQuery,
-} from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import { Flex, Box, useColorModeValue, useMediaQuery } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Rating from '../Rating';
