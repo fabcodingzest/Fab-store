@@ -13,6 +13,7 @@ function Reviews({
       lastname: string;
     };
     review: string;
+    id: string;
     rating: number;
   }[];
 }) {
@@ -32,7 +33,7 @@ function Reviews({
     <Box>
       <Slider {...settings}>
         {reviews.map((item) => (
-          <Box key={item.user.id}>
+          <Box key={item.id}>
             <Box
               rounded="lg"
               shadow="md"
