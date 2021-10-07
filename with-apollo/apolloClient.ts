@@ -27,6 +27,7 @@ function createClient({ headers, initialState }) {
           console.log(
             `[Network error]: ${networkError}. Backend is unreachable. Is it running?`
           );
+        console.log(networkError);
       }),
       // this uses apollo-link-http under the hood, so all the options here come from that package
       createUploadLink({
