@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Text, Box } from '@chakra-ui/layout';
+import { Box } from '@chakra-ui/layout';
 import React from 'react';
 import serialize from './serialize';
 

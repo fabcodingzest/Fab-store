@@ -7,7 +7,9 @@ import { RestLink } from 'apollo-link-rest';
 import { endpoint, prodEndpoint } from '../config';
 // import paginationField from './paginationField';
 
-const restLink = new RestLink({ uri: endpoint });
+const restLink = new RestLink({
+  uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+});
 
 function createClient({ headers, initialState }) {
   return new ApolloClient({

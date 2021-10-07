@@ -17,7 +17,7 @@ import Select from 'react-select';
 import Slider from 'react-slick';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiShoppingCart } from 'react-icons/fi';
 import Rating from '../Rating';
 import RichText from '../RichText';
@@ -83,6 +83,9 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
   const { data, loading, error } = useQuery(SINGLE_PRODUCT_QUERY, {
     variables: { id },
   });
+  useEffect(() => {
+    if (data?.Variant?.sizes) setSize(data.Variant.sizes[0]);
+  }, [data]);
   const me = useUser();
   if (loading)
     return (
@@ -120,6 +123,7 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
 
   if (error) return <ErrorComponent error={error} />;
   const { Variant } = data;
+
   const totalRatings =
     Variant?.reviews
       .map((item) => {
@@ -278,6 +282,10 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
                   Sizes Available
                 </Text>
                 <Select
+                  defaultValue={{
+                    label: Variant.sizes[0],
+                    value: Variant.sizes[0],
+                  }}
                   options={Variant.sizes.map((value: string) => ({
                     label: value,
                     value,
@@ -308,7 +316,11 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
         >
           Reviews
         </Heading>
-        <Reviews reviews={Variant.reviews} />
+        {Variant.reviews.length === 0 ? (
+          <Text>No Reviews yet</Text>
+        ) : (
+          <Reviews reviews={Variant.reviews} />
+        )}
       </Box>
     </Box>
   );

@@ -1,6 +1,6 @@
 import { useQuery, gql } from '@apollo/client';
-import { Box, Container } from '@chakra-ui/layout';
-import { Skeleton } from '@chakra-ui/skeleton';
+import { Box } from '@chakra-ui/layout';
+import ErrorComponent from '../ErrorComponent';
 import ProductList from './ProductList';
 
 const ALL_PRODUCTS_QUERY = gql`
@@ -66,6 +66,8 @@ const ProductsPage = ({ page }: PageProp) => {
     variables: { page, limit: 5 },
   });
   console.log(loading);
+  if (error) return <ErrorComponent error={error} />;
+
   // Filter lists so only products with at least one variant gets rendered in product list
   const products = data?.Products.docs;
   console.log(products);
