@@ -23,6 +23,7 @@ import Rating from '../Rating';
 import RichText from '../RichText';
 import { useUser } from '../User';
 import ErrorComponent from '../ErrorComponent';
+import Reviews from './Reviews';
 
 const SINGLE_PRODUCT_QUERY = gql`
   query SINGLE_PRODUCT_QUERY($id: String!) {
@@ -153,8 +154,9 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
       );
     },
   };
+
   return (
-    <Box rounded="lg">
+    <Box rounded="lg" pb={14}>
       <Grid
         templateColumns={{ base: '1fr', sm: '1fr 1fr' }}
         py={8}
@@ -185,7 +187,7 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
         </Box>
         <Stack spacing={2.5} mt={{ base: '1rem', sm: '0' }}>
           <Flex justifyContent="space-between">
-            <Heading fontSize={{ base: 'md', md: 'xl' }}>
+            <Heading as="h1" fontSize={{ base: 'md', md: 'xl' }}>
               {Variant.name}
             </Heading>
             <Tooltip
@@ -267,13 +269,13 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
           )}
           {Variant.parent.category === 'CLOTHES' &&
             Variant?.sizes.length !== 0 && (
-              <Box>
+              <Box maxW="8rem">
                 <Text
                   fontWeight="bold"
                   fontSize={{ base: 'xs', md: 'sm' }}
                   mb={2}
                 >
-                  Sizes
+                  Sizes Available
                 </Text>
                 <Select
                   options={Variant.sizes.map((value: string) => ({
@@ -297,6 +299,17 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
             )}
         </Stack>
       </Grid>
+      <Box maxW="4xl" p={{ base: 4, md: 8 }} mx="auto">
+        <Heading
+          textAlign="center"
+          fontSize={{ base: 'md', md: 'xl' }}
+          as="h3"
+          mb={4}
+        >
+          Reviews
+        </Heading>
+        <Reviews reviews={Variant.reviews} />
+      </Box>
     </Box>
   );
 };

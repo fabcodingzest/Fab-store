@@ -1,3 +1,9 @@
+.slick-prev{
+  left: -20px !important;
+}
+.slick-next{
+  right: -20px !important;
+}
 /* Styling for arrows */
 .slick-prev::before, 
 .slick-next::before{

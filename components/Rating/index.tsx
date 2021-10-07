@@ -5,7 +5,7 @@ import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
 
 interface RatingProps {
   rating: number;
-  numReviews: number;
+  numReviews?: number;
 }
 
 const Rating = ({ rating, numReviews }: RatingProps) => {

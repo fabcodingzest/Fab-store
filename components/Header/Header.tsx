@@ -65,7 +65,7 @@ export default function Header({
 
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} openCart={openCart} bg="gray.800" />
-      <Box ml={{ base: 0, md: '12rem' }} p="4">
+      <Box ml={{ base: 0, md: '12rem' }} p={{ base: 1, sm: 2, md: 4 }}>
         <Box maxW="full">{children}</Box>
       </Box>
     </Box>

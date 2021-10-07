@@ -30,7 +30,7 @@ const Users: CollectionConfig = {
   },
   access: {
     create: (): boolean => true,
-    read: rules.canManageUsers,
+    read: (): boolean => true,
     update: rules.canManageUsers,
     // Only people with the permission can delete themselves!
     // You cannot delete yourself
