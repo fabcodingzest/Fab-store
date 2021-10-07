@@ -112,13 +112,13 @@ const ResetPasswordPage = () => {
     );
 
   return (
-    <Flex minH="60vh" align="center" justify="center" borderRadius="2xl">
-      <Stack spacing={8} mx="auto" maxW="lg" py={10} px={{ base: 0, sm: 6 }}>
+    <Flex minH="60vh" align="center" justify="center" borderRadius="2xl" p={0}>
+      <Stack spacing={8} mx="auto" maxW="lg" px={{ base: 0, sm: 6 }}>
         <Stack align="center">
-          <Heading fontSize="3xl" align="center">
+          <Heading fontSize="2xl" align="center">
             Forgot your password?
           </Heading>
-          <Text fontSize="lg" color="gray.600">
+          <Text fontSize="md" color="gray.600">
             You'll get an email with a reset link
           </Text>
         </Stack>
@@ -178,6 +178,7 @@ const ResetPasswordPage = () => {
                 disabled={!isValid || !isDirty || isSubmitting}
                 isLoading={isSubmitting}
                 loadingText="Sending email"
+                fontSize={{ base: 'xs', sm: 'sm' }}
               >
                 Send Email
               </Button>

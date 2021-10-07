@@ -1,0 +1,28 @@
+.slick-prev{
+  left: -20px !important;
+}
+.slick-next{
+  right: -20px !important;
+}
+/* Styling for arrows */
+.slick-prev::before, 
+.slick-next::before{
+  color: black;
+}
+.custom-thumbnail{
+  position: relative;
+  display: flex !important;
+  justify-content: center;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.custom-thumbnail li{
+  height: 100%;
+  width: max-content;
+}
+.custom-thumbnail li.slick-active{
+  border: 1px solid var(--chakra-colors-gray-200);
+  border-radius: var(--chakra-radii-md);
+  box-shadow: var(--chakra-shadows-xl);
+}

@@ -4,10 +4,11 @@ import {
   CloseButton,
   Flex,
   useColorModeValue,
-  Link,
+  Link as ChakraLink,
   Text,
   BoxProps,
 } from '@chakra-ui/react';
+import Link from 'next/link';
 import { IconType } from 'react-icons/lib';
 import { FiCompass, FiHeart, FiHome, FiTrendingUp } from 'react-icons/fi';
 import NavItem from './NavItem';
@@ -31,10 +32,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
     <Box
       transition="3s ease"
-      bg={useColorModeValue('white', 'gray.900')}
+      bg={useColorModeValue('gray.900', 'white')}
       borderRight="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: 60 }}
+      borderRightColor={useColorModeValue('gray.700', 'gray.200')}
+      w={{ base: 'full', md: '12rem' }}
       pos="fixed"
       h="full"
       {...rest}
@@ -47,12 +48,18 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             mx="8"
             justifyContent="space-between"
           >
-            <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-              Fabcart
+            <Text
+              fontSize={{ base: 'lg', md: 'xl' }}
+              fontFamily="monospace"
+              fontWeight="bold"
+              color="white"
+            >
+              <Link href="/">Fabcart</Link>
             </Text>
             <CloseButton
               display={{ base: 'flex', md: 'none' }}
               onClick={onClose}
+              color="gray.200"
             />
           </Flex>
           {LinkItems.map((link) => (
@@ -61,15 +68,20 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             </NavItem>
           ))}
         </Box>
-        <Text p={{ base: 2, md: 6 }} align="center">
+        <Text
+          p={{ base: 2, md: 6 }}
+          align="center"
+          fontSize="xs"
+          color="gray.400"
+        >
           © 2021{' '}
-          <Link
+          <ChakraLink
             color="blue.500"
             href="https://github.com/fabcodingzest"
             isExternal
           >
             Fab Rizvi
-          </Link>
+          </ChakraLink>
           .
           <br /> All rights reserved
         </Text>

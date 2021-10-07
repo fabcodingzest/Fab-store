@@ -5,7 +5,7 @@ import { isSignedIn, permissions } from '../access';
 const Images: CollectionConfig = {
   slug: 'images',
   access: {
-    create: isSignedIn,
+    create: permissions.canManageProducts,
     read: (): boolean => true,
     update: permissions.canManageProducts,
     delete: permissions.canManageProducts,

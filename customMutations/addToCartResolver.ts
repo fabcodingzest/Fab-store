@@ -20,6 +20,7 @@ const addToCartResolver = async (
     where: {
       user: { equals: loggedInUserId },
       product: { equals: productId },
+      size: { equals: size },
     },
   });
 

@@ -1,6 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Field } from 'payload/types';
+import { isSignedIn, permissions } from '../access';
+
+export const reviewUpdateAccess = {
+  read: (): boolean => true,
+  create: permissions.canManageProducts,
+  update: permissions.canManageProducts,
+};
+
+export const sizeArray = [
+  { label: 'S', value: 'S' },
+  { label: 'M', value: 'M' },
+  { label: 'L', value: 'L' },
+  { label: 'XL', value: 'XL' },
+  { label: 'XXL', value: 'XXL' },
+  { label: 'XXXL', value: 'XXXL' },
+  { label: 'XXXXL', value: 'XXXXl' },
+];
 
 export const categoryField: Field = {
   name: 'category',
@@ -19,53 +36,53 @@ export const categoryField: Field = {
   index: true,
 };
 
-export const sizeSelect: Field = {
-  name: 'size',
-  label: 'Size of the Product',
-  type: 'select',
-  hasMany: true,
-  options: [
-    { label: 'S', value: 'S' },
-    { label: 'M', value: 'M' },
-    { label: 'L', value: 'L' },
-    { label: 'XL', value: 'XL' },
-    { label: 'XXL', value: 'XXL' },
-    { label: 'XXXL', value: 'XXXL' },
-    { label: 'XXXXL', value: 'XXXXl' },
-  ],
-  hooks: {
-    beforeChange: [
-      ({
-        value,
-        data,
-      }: {
-        value?: unknown;
-        data?: { [key: string]: unknown };
-      }): Promise<unknown> | unknown =>
-        data.category === 'CLOTHES' ? value : null,
-    ],
+const vairantFields: Field[] = [
+  {
+    name: 'hasSize',
+    label: 'Does this product have size information?',
+    type: 'checkbox',
+    defaultValue: false,
+    access: reviewUpdateAccess,
   },
-  admin: {
-    condition: (data: Record<string, unknown>): boolean => {
-      if (data.category === 'CLOTHES') {
-        return true;
-      }
-      return false;
+  {
+    name: 'sizes',
+    label: 'Size of the Product',
+    type: 'select',
+    hasMany: true,
+    access: reviewUpdateAccess,
+    options: sizeArray,
+    hooks: {
+      beforeChange: [
+        ({
+          value,
+          data,
+        }: {
+          value?: unknown;
+          data?: { [key: string]: unknown };
+        }): Promise<unknown> | unknown =>
+          data.hasSize === true ? value : null,
+      ],
+    },
+    admin: {
+      condition: (data: Record<string, unknown>): boolean => {
+        if (data.hasSize === true) {
+          return true;
+        }
+        return false;
+      },
     },
   },
-};
-
-const vairantFields: Field[] = [
-  categoryField,
   {
     name: 'color_applies',
     type: 'checkbox',
     defaultValue: false,
     required: true,
+    access: reviewUpdateAccess,
   },
   {
     name: 'color',
     type: 'text',
+    access: reviewUpdateAccess,
     hooks: {
       beforeChange: [
         ({
@@ -90,6 +107,13 @@ const vairantFields: Field[] = [
     },
   },
   {
+    name: 'isBook',
+    label: 'Is it a book?',
+    type: 'checkbox',
+    defaultValue: false,
+    access: reviewUpdateAccess,
+  },
+  {
     type: 'row',
     label: 'Book Details',
     fields: [
@@ -97,6 +121,7 @@ const vairantFields: Field[] = [
         name: 'pages',
         type: 'number',
         min: 30,
+        access: reviewUpdateAccess,
         hooks: {
           beforeChange: [
             ({
@@ -106,13 +131,13 @@ const vairantFields: Field[] = [
               value?: unknown;
               data?: { [key: string]: unknown };
             }): Promise<unknown> | unknown =>
-              data.category === 'BOOKS' ? value : null,
+              data.isBook === true ? value : null,
           ],
         },
         admin: {
           width: '50%',
           condition: (data: Record<string, unknown>): boolean => {
-            if (data.category === 'BOOKS') {
+            if (data.isBook === true) {
               return true;
             }
             return false;
@@ -122,6 +147,7 @@ const vairantFields: Field[] = [
       {
         name: 'format',
         type: 'select',
+        access: reviewUpdateAccess,
         options: [
           { label: 'Paperback', value: 'PAPERBACK' },
           { label: 'Hardcover', value: 'HARDCOVER' },
@@ -136,13 +162,13 @@ const vairantFields: Field[] = [
               value?: unknown;
               data?: { [key: string]: unknown };
             }): Promise<unknown> | unknown =>
-              data.category === 'BOOKS' ? value : undefined,
+              data.isBook === true ? value : undefined,
           ],
         },
         admin: {
           width: '50%',
           condition: (data: Record<string, unknown>): boolean => {
-            if (data.category === 'BOOKS') {
+            if (data.isBook === true) {
               return true;
             }
             return false;
@@ -158,6 +184,7 @@ const vairantFields: Field[] = [
     admin: {
       placeholder: 'Enter Price in cents',
     },
+    access: reviewUpdateAccess,
   },
   {
     name: 'status',
@@ -169,9 +196,15 @@ const vairantFields: Field[] = [
     ],
     required: true,
     defaultValue: 'DRAFT',
+    access: reviewUpdateAccess,
   },
   {
     name: 'reviews',
+    access: {
+      read: (): boolean => true,
+      create: isSignedIn,
+      update: isSignedIn,
+    },
     type: 'array',
     labels: { singular: 'Product Review', plural: 'Product Reviews' },
     fields: [
@@ -187,19 +220,9 @@ const vairantFields: Field[] = [
       },
       {
         name: 'rating',
-        type: 'select',
-        options: [
-          { label: '1', value: '1' },
-          { label: '2', value: '2' },
-          { label: '3', value: '3' },
-          { label: '4', value: '4' },
-          { label: '5', value: '5' },
-          { label: '6', value: '6' },
-          { label: '7', value: '7' },
-          { label: '8', value: '8' },
-          { label: '9', value: '9' },
-          { label: '10', value: '10' },
-        ],
+        label: 'Rating out of 5',
+        type: 'number',
+        max: 10,
       },
     ],
   },
@@ -208,6 +231,7 @@ const vairantFields: Field[] = [
     type: 'array',
     minRows: 1,
     maxRows: 10,
+    access: reviewUpdateAccess,
     fields: [
       {
         name: 'image',

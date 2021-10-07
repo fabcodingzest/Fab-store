@@ -5,6 +5,7 @@
 import React, { Fragment } from 'react';
 import escapeHTML from 'escape-html';
 import { Text } from 'slate';
+import { Text as ChakraText } from '@chakra-ui/react';
 
 const serialize = (children: any): React.ReactElement[] =>
   children.map((node, i) => {
@@ -77,7 +78,11 @@ const serialize = (children: any): React.ReactElement[] =>
         );
 
       default:
-        return <p key={i}>{serialize(node.children)}</p>;
+        return (
+          <ChakraText noOfLines={2} key={i}>
+            {serialize(node.children)}
+          </ChakraText>
+        );
     }
   });
 

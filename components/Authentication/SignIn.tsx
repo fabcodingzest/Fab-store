@@ -64,7 +64,6 @@ const SignIn = ({ setModalState, onClose }: Props) => {
   const toast = useToast();
 
   const onSubmit: SubmitHandler<FormValues> = async (values) => {
-    // alert(JSON.stringify(values, null, 2));
     try {
       const {
         data: {
@@ -73,8 +72,6 @@ const SignIn = ({ setModalState, onClose }: Props) => {
       } = await loginUser({ variables: values });
       if (user) {
         onClose();
-        console.log(`${user.email}signed in`);
-
         router.push('/');
       }
     } catch (error) {

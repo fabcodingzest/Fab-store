@@ -1,5 +1,5 @@
 import { CollectionConfig } from 'payload/types';
-import { isSignedIn, rules } from '../access';
+import { isSignedIn, permissions, rules } from '../access';
 
 function validatePercentage(val: unknown): true | string {
   const str = val.toString();
@@ -12,7 +12,7 @@ function validatePercentage(val: unknown): true | string {
 const Discounts: CollectionConfig = {
   slug: 'discounts',
   access: {
-    create: isSignedIn,
+    create: permissions.canManageProducts,
     read: rules.canManageProducts,
     update: rules.canManageProducts,
     delete: rules.canManageProducts,

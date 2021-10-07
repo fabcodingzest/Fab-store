@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Text, Box } from '@chakra-ui/layout';
 import React from 'react';
 import serialize from './serialize';
 
-const RichText: React.FC<{ className?: string; content: any }> = ({
-  className,
-  content,
-}) => {
+const RichText: React.FC<{ content: any; fontSize?: any }> = ({ content, fontSize }) => {
   if (!content) {
     return null;
   }
 
-  return <div className={className}>{serialize(content)}</div>;
+  return <Box fontSize={fontSize}>{serialize(content)}</Box>;
 };
 
 export default RichText;
