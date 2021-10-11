@@ -32,7 +32,7 @@ export default buildConfig({
     process.env.NODE_ENV === 'production'
       ? 'https://fab-cart.herokuapp.com'
       : 'http://localhost:3000',
-  cors: [prodEndpoint],
+  cors: ['https://fab-cart.herokuapp.com/api/graphql'],
   admin: {
     user: Users.slug,
     webpack: (config) => ({
