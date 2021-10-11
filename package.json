@@ -22,7 +22,7 @@
     "build": "NODE_ENV=production yarn build:payload && yarn build:server && NEXT_BUILD=true node dist/index.js",
     "dev": "nodemon dev.js",
     "seed": "node seed/index.js",
-    "start": "NODE_ENV=production node dist/index.js -p $PORT"
+    "start": "NODE_ENV=production node dist/index.js"
   },
   "dependencies": {
     "@apollo/client": "^3.4.10",
