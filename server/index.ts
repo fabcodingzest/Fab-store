@@ -17,7 +17,7 @@ const server = express();
 
 server.use(
   cors({
-    origin: 'https://fab-cart.herokuapp.com/api/graphql',
+    origin: 'https://fab-cart.herokuapp.com',
   })
 );
 
