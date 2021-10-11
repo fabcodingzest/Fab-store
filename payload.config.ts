@@ -13,6 +13,7 @@ import Roles from './collections/Role';
 import { customMutations } from './customMutations';
 import { ProductVariants } from './collections/ProductVariants';
 import userAddresses from './collections/UserAddresses';
+import { prodEndpoint } from './config';
 
 dotenv.config();
 
@@ -31,7 +32,7 @@ export default buildConfig({
     process.env.NODE_ENV === 'production'
       ? 'https://fab-cart.herokuapp.com'
       : 'http://localhost:3000',
-  cors: ['https://fab-cart.herokuapp.com'],
+  cors: [prodEndpoint],
   admin: {
     user: Users.slug,
     webpack: (config) => ({
