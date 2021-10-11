@@ -15,7 +15,7 @@ function createClient({ headers, initialState }) {
   return new ApolloClient({
     ssrMode: typeof window === undefined,
     link: ApolloLink.from([
-      // restLink,
+      restLink,
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors)
           graphQLErrors.forEach(({ message, locations, path }) =>
@@ -27,13 +27,12 @@ function createClient({ headers, initialState }) {
           console.log(
             `[Network error]: ${networkError}. Backend is unreachable. Is it running?`
           );
-        console.log(networkError);
       }),
       // this uses apollo-link-http under the hood, so all the options here come from that package
       createUploadLink({
         uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
         fetchOptions: {
-          credentials: 'same-origin',
+          credentials: 'include',
         },
         // pass the headers along from this request. This enables SSR with logged in state
         headers,
@@ -49,7 +48,7 @@ function createClient({ headers, initialState }) {
         },
       },
     }).restore(initialState || {}),
-    // connectToDevTools: true,
+    connectToDevTools: true,
     // Not working anymore => Default options to disable SSR for all queries.
   });
 }

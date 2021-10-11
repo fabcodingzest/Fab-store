@@ -6,6 +6,7 @@ import nextBuild from 'next/dist/build';
 import express from 'express';
 import payload from 'payload';
 import { config as dotenv } from 'dotenv';
+import cors from 'cors';
 
 dotenv({
   path: path.resolve(__dirname, '../.env'),
@@ -13,6 +14,8 @@ dotenv({
 
 const dev = process.env.NODE_ENV !== 'production';
 const server = express();
+
+server.use(cors());
 
 payload.init({
   license: process.env.PAYLOAD_LICENSE,
