@@ -28,9 +28,9 @@ const mockModulePath = path.resolve(__dirname, 'mocks/emptyObject');
 
 export default buildConfig({
   serverURL:
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3000'
-      : 'https://fab-cart.herokuapp.app',
+    process.env.NODE_ENV === 'production'
+      ? 'https://fab-cart.herokuapp.app'
+      : 'http://localhost:3000',
   admin: {
     user: Users.slug,
     webpack: (config) => ({
