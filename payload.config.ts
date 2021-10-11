@@ -47,6 +47,7 @@ export default buildConfig({
   },
   graphQL: {
     mutations: customMutations,
+    disablePlaygroundInProduction: false,
   },
   collections: [
     Users,
