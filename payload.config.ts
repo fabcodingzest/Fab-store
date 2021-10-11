@@ -27,7 +27,10 @@ const CheckoutStripeMutation = path.resolve(
 const mockModulePath = path.resolve(__dirname, 'mocks/emptyObject');
 
 export default buildConfig({
-  serverURL: `${process.env.PAYLOAD_PUBLIC_SERVER_URL}`,
+  serverURL:
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000'
+      : 'https://fab-cart.herokuapp.app',
   admin: {
     user: Users.slug,
     webpack: (config) => ({
