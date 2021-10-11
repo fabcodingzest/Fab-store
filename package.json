@@ -1,4 +1,5 @@
 {
+  "cacheDirectories": [".next/cache"],
   "name": "fabstore",
   "description": "An E-commerce site made with Next.js and Payload CMS",
   "license": "MIT",
