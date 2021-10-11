@@ -1,15 +1,9 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  InMemoryCache,
-  HttpLink,
-} from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { onError } from '@apollo/link-error';
 import { getDataFromTree } from '@apollo/client/react/ssr';
 import { createUploadLink } from 'apollo-upload-client';
 import withApollo from 'next-with-apollo';
 import { RestLink } from 'apollo-link-rest';
-
 import { endpoint, prodEndpoint } from '../config';
 // import paginationField from './paginationField';
 
@@ -33,15 +27,12 @@ function createClient({ headers, initialState }) {
           console.log(
             `[Network error]: ${networkError}. Backend is unreachable. Is it running?`
           );
+        console.log(networkError);
       }),
       // this uses apollo-link-http under the hood, so all the options here come from that package
-      new HttpLink({
+      createUploadLink({
         uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
-        // Additional options
-        fetchOptions: {
-          credentials: 'include',
-          // Headers,
-        },
+
         // pass the headers along from this request. This enables SSR with logged in state
         headers,
       }),
@@ -56,7 +47,7 @@ function createClient({ headers, initialState }) {
         },
       },
     }).restore(initialState || {}),
-    connectToDevTools: true,
+    // connectToDevTools: true,
     // Not working anymore => Default options to disable SSR for all queries.
   });
 }
