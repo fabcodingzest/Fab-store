@@ -27,7 +27,7 @@ const CheckoutStripeMutation = path.resolve(
 const mockModulePath = path.resolve(__dirname, 'mocks/emptyObject');
 
 export default buildConfig({
-  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
+  serverURL: `${process.env.PAYLOAD_PUBLIC_SERVER_URL}`,
   admin: {
     user: Users.slug,
     webpack: (config) => ({
