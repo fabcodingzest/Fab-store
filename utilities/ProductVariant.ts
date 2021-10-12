@@ -52,7 +52,7 @@ const vairantFields: Field[] = [
     access: reviewUpdateAccess,
     options: sizeArray,
     hooks: {
-      beforeChange: [
+      afterChange: [
         ({
           value,
           data,
@@ -229,7 +229,6 @@ const vairantFields: Field[] = [
   {
     name: 'images',
     type: 'array',
-    minRows: 1,
     maxRows: 10,
     access: reviewUpdateAccess,
     fields: [
