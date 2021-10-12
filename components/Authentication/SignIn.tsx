@@ -72,7 +72,6 @@ const SignIn = ({ setModalState, onClose }: Props) => {
       } = await loginUser({ variables: values });
       if (user) {
         onClose();
-        router.push('/');
       }
     } catch (error) {
       toast({
