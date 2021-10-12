@@ -26,8 +26,6 @@ function Reviews({
     slidesToShow: slideValue,
     slidesToScroll: slideValue,
   };
-  console.log('-------------------');
-  console.log(reviews.length);
 
   return (
     <Box>
