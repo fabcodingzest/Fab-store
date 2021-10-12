@@ -1,7 +1,8 @@
 import { Flex, Box, useColorModeValue, useMediaQuery } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Rating from '../Rating';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import Rating from 'react-rating';
 import RichText from '../RichText';
 
 function ProductCard({ variant }) {
@@ -53,7 +54,12 @@ function ProductCard({ variant }) {
         </Flex>
 
         <Flex justifyContent="space-between" alignContent="center">
-          <Rating rating={totalRatings} numReviews={variant.reviews.length} />
+          <Rating
+            initialRating={totalRatings}
+            fullSymbol={<AiFillStar />}
+            emptySymbol={<AiOutlineStar />}
+            readonly
+          />
           <Box
             fontSize={{ base: 'xs', sm: 'md' }}
             color={useColorModeValue('gray.800', 'white')}
