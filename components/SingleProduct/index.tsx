@@ -12,18 +12,27 @@ import {
   Icon,
   useMediaQuery,
   Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
 } from '@chakra-ui/react';
 import Select from 'react-select';
 import Slider from 'react-slick';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiShoppingCart } from 'react-icons/fi';
-import Rating from '../Rating';
+import Rating from 'react-rating';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import { BiEdit } from 'react-icons/bi';
 import RichText from '../RichText';
 import { useUser } from '../User';
 import ErrorComponent from '../ErrorComponent';
 import Reviews from './Reviews';
+import AddReview from './AddReview';
 
 const SINGLE_PRODUCT_QUERY = gql`
   query SINGLE_PRODUCT_QUERY($id: String!) {
@@ -62,6 +71,7 @@ const SINGLE_PRODUCT_QUERY = gql`
         user {
           firstname
           lastname
+          id
         }
         review
         rating
@@ -87,6 +97,8 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
     if (data?.Variant?.sizes) setSize(data.Variant.sizes[0]);
   }, [data]);
   const me = useUser();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   if (loading)
     return (
       <Flex
@@ -123,18 +135,23 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
 
   if (error) return <ErrorComponent error={error} />;
   const { Variant } = data;
+  const haveExistingReview = Variant.reviews.filter((item) => {
+    return me && item.user.id === me.id;
+  });
+  console.log(haveExistingReview);
 
   const totalRatings =
     Variant?.reviews
-      .map((item) => {
+      .map((item: { rating: number }) => {
         return item.rating;
       })
-      .reduce((a, b) => a + b, 0) / Variant?.reviews.length || 0;
+      .reduce((a: number, b: number) => a + b, 0) / Variant?.reviews.length ||
+    0;
 
   const handleAddToCart = () => {
     console.log(`ADD TO CART ${Variant.id}`);
   };
-  console.log(Variant);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -211,7 +228,12 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
               </Button>
             </Tooltip>
           </Flex>
-          <Rating rating={totalRatings} numReviews={Variant.reviews.length} />
+          <Rating
+            initialRating={totalRatings}
+            fullSymbol={<AiFillStar />}
+            emptySymbol={<AiOutlineStar />}
+            readonly
+          />
           <Text>$ {Variant.price / 100}</Text>
           {Variant.format && (
             <Text fontSize={{ base: 'xs', md: 'sm' }}>
@@ -308,14 +330,46 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
         </Stack>
       </Grid>
       <Box maxW="4xl" p={{ base: 4, md: 8 }} mx="auto">
-        <Heading
-          textAlign="center"
-          fontSize={{ base: 'md', md: 'xl' }}
-          as="h3"
-          mb={4}
+        <Modal
+          size="md"
+          isOpen={isOpen}
+          onClose={onClose}
+          closeOnEsc
+          closeOnOverlayClick
         >
-          Reviews
-        </Heading>
+          <ModalOverlay />
+          <ModalContent bg="gray.50">
+            <ModalBody>
+              <AddReview
+                operation={haveExistingReview.length > 0 ? 'Edit' : 'Write'}
+                reviewData={
+                  haveExistingReview.length > 0 ? haveExistingReview : null
+                }
+                productName={Variant.name}
+              />
+            </ModalBody>
+            <ModalCloseButton />
+          </ModalContent>
+        </Modal>
+        <Flex
+          maxW="4xl"
+          mx="auto"
+          justifyContent="space-between"
+          align="center"
+        >
+          <Heading
+            textAlign="center"
+            fontSize={{ base: 'md', md: 'xl' }}
+            as="h3"
+            // mb={4}
+          >
+            Reviews
+          </Heading>
+          <Button px={3} py={4} size="xs" colorScheme="blue" onClick={onOpen}>
+            <Icon as={BiEdit} mr={1} fontSize="1rem" />
+            {haveExistingReview.length > 0 ? 'Edit the' : 'Write a'} review
+          </Button>
+        </Flex>
         {Variant.reviews.length === 0 ? (
           <Text>No Reviews yet</Text>
         ) : (
