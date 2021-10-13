@@ -39,6 +39,16 @@ function createClient({ headers, initialState }) {
     ]),
     cache: new InMemoryCache({
       typePolicies: {
+        Variant: {
+          fields: {
+            reviews: {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              merge(existing = [], incoming: any[]) {
+                return [...existing, ...incoming];
+              },
+            },
+          },
+        },
         Query: {
           fields: {
             // TODO:
