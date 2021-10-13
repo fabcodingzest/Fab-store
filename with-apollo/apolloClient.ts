@@ -44,7 +44,7 @@ function createClient({ headers, initialState }) {
             reviews: {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               merge(existing = [], incoming: any[]) {
-                return [...existing, ...incoming];
+                return [...incoming];
               },
             },
           },
