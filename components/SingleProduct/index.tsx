@@ -18,6 +18,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  ModalHeader,
 } from '@chakra-ui/react';
 import Select from 'react-select';
 import Slider from 'react-slick';
@@ -33,6 +34,7 @@ import { useUser } from '../User';
 import ErrorComponent from '../ErrorComponent';
 import Reviews from './Reviews';
 import AddReview from './AddReview';
+import AuthModal from '../Authentication/Modal';
 
 export const SINGLE_PRODUCT_QUERY = gql`
   query SINGLE_PRODUCT_QUERY($id: String!) {
@@ -342,16 +344,23 @@ const SingleProduct = ({ id }: IdType) => {
           <ModalOverlay />
           <ModalContent bg="gray.50">
             <ModalBody>
-              <AddReview
-                operation={haveExistingReview.length > 0 ? 'Edit' : 'Write'}
-                reviewData={
-                  haveExistingReview.length > 0 ? haveExistingReview[0] : null
-                }
-                reviews={Variant.reviews}
-                productName={Variant.name}
-                productVariantId={id}
-                onClose={onClose}
-              />
+              {me ? (
+                <AddReview
+                  operation={haveExistingReview.length > 0 ? 'Edit' : 'Write'}
+                  reviewData={
+                    haveExistingReview.length > 0 ? haveExistingReview[0] : null
+                  }
+                  reviews={Variant.reviews}
+                  productName={Variant.name}
+                  productVariantId={id}
+                  onClose={onClose}
+                />
+              ) : (
+                <ModalHeader align="center">
+                  <Text pb={3}>Sign In to write a review</Text>
+                  <AuthModal modalState="signin" />
+                </ModalHeader>
+              )}
             </ModalBody>
             <ModalCloseButton />
           </ModalContent>
