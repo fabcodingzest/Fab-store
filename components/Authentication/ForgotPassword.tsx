@@ -92,9 +92,10 @@ const ForgotPassword = ({ setModalState }: Props): JSX.Element => {
         >
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={6}>
-              <FormControl id="email">
-                <FormLabel>Email address</FormLabel>
+              <FormControl>
+                <FormLabel htmlFor="email">Email address</FormLabel>
                 <Input
+                  id="email"
                   type="email"
                   placeholder="your-email@example.com"
                   {...register('email', {

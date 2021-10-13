@@ -44,12 +44,8 @@ const ResetPasswordPage = () => {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      email: '',
       password: '',
       passwordRepeat: '',
-      firstname: '',
-      lastname: '',
-      seller: false,
     },
   });
 

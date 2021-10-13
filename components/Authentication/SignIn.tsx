@@ -98,9 +98,10 @@ const SignIn = ({ setModalState, onClose }: Props) => {
         <Box rounded="lg" bg={bgHook} boxShadow="lg" p={8}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
-              <FormControl id="email">
+              <FormControl>
                 <FormLabel htmlFor="email">Email address</FormLabel>
                 <Input
+                  id="email"
                   type="email"
                   placeholder="your-email@example.com"
                   {...register('email', {
@@ -111,9 +112,10 @@ const SignIn = ({ setModalState, onClose }: Props) => {
                   <FormValidationMsg errorMsg={errors.email.message} />
                 )}
               </FormControl>
-              <FormControl id="password">
+              <FormControl>
                 <FormLabel htmlFor="password">Password</FormLabel>
                 <Input
+                  id="password"
                   type="password"
                   {...register('password', {
                     required: 'Password is required',

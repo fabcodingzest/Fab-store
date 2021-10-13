@@ -132,9 +132,10 @@ const SignUp = ({ setModalState }: Props) => {
         >
           <form onSubmit={handleSubmit(onSubmit)}>
             <HStack pb={4}>
-              <FormControl id="firstname">
+              <FormControl>
                 <FormLabel htmlFor="firstname">First Name</FormLabel>
                 <Input
+                  id="firstname"
                   type="text"
                   placeholder="John"
                   {...register('firstname', {
@@ -145,9 +146,10 @@ const SignUp = ({ setModalState }: Props) => {
                   <FormValidationMsg errorMsg={errors.firstname.message} />
                 )}
               </FormControl>
-              <FormControl id="lastname">
+              <FormControl>
                 <FormLabel htmlFor="lastname">Last Name</FormLabel>
                 <Input
+                  id="lastname"
                   type="lastname"
                   placeholder="Doe"
                   {...register('lastname', {
@@ -160,9 +162,10 @@ const SignUp = ({ setModalState }: Props) => {
               </FormControl>
             </HStack>
             <Stack spacing={4}>
-              <FormControl id="email">
+              <FormControl>
                 <FormLabel htmlFor="email">Email address</FormLabel>
                 <Input
+                  id="email"
                   type="email"
                   placeholder="your-email@example.com"
                   {...register('email', {
@@ -173,9 +176,10 @@ const SignUp = ({ setModalState }: Props) => {
                   <FormValidationMsg errorMsg={errors.email.message} />
                 )}
               </FormControl>
-              <FormControl id="password">
+              <FormControl>
                 <FormLabel htmlFor="password">Password</FormLabel>
                 <Input
+                  id="password"
                   type="password"
                   {...register('password', {
                     required: 'Password is required',
@@ -195,9 +199,10 @@ const SignUp = ({ setModalState }: Props) => {
                   <FormValidationMsg errorMsg={errors.password.message} />
                 )}
               </FormControl>
-              <FormControl id="passwordRepeat">
+              <FormControl>
                 <FormLabel htmlFor="passwordRepeat">Repeat Password</FormLabel>
                 <Input
+                  id="passwordRepeat"
                   type="password"
                   {...register('passwordRepeat', {
                     required: 'Password is required',
@@ -219,9 +224,9 @@ const SignUp = ({ setModalState }: Props) => {
                   justify="space-between"
                 >
                   <FormControl>
-                    <Checkbox {...register('seller')}>
-                      Sign up as seller
-                    </Checkbox>{' '}
+                    <Checkbox {...register('seller')} id="seller">
+                      <FormLabel htmlFor="seller">Sign up as seller</FormLabel>
+                    </Checkbox>
                   </FormControl>
                 </Stack>
                 <Button
