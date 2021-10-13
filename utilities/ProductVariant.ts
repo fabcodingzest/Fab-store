@@ -84,7 +84,7 @@ const vairantFields: Field[] = [
     type: 'text',
     access: reviewUpdateAccess,
     hooks: {
-      beforeChange: [
+      afterChange: [
         ({
           value,
           data,
