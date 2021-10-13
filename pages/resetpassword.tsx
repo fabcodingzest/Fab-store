@@ -176,7 +176,7 @@ const ResetPasswordPage = () => {
                 loadingText="Sending email"
                 fontSize={{ base: 'xs', sm: 'sm' }}
               >
-                Send Email
+                Reset Password
               </Button>
               <Modal modalState="signin" />
             </Stack>

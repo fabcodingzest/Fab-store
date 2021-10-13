@@ -224,9 +224,12 @@ const SignUp = ({ setModalState }: Props) => {
                   justify="space-between"
                 >
                   <FormControl>
-                    <Checkbox {...register('seller')} id="seller">
-                      <FormLabel htmlFor="seller">Sign up as seller</FormLabel>
-                    </Checkbox>
+                    <Flex alignItems="center">
+                      <FormLabel htmlFor="seller" m={0} pr={4}>
+                        Sign up as seller
+                      </FormLabel>
+                      <Checkbox {...register('seller')} id="seller" />
+                    </Flex>
                   </FormControl>
                 </Stack>
                 <Button
