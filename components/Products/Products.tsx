@@ -38,12 +38,15 @@ const ALL_PRODUCTS_QUERY = gql`
           price
           status
           images {
+            id
             image {
+              id
               cloudinaryURL
               altText
             }
           }
           reviews {
+            id
             user {
               id
               firstname

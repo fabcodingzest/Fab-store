@@ -34,7 +34,7 @@ import ErrorComponent from '../ErrorComponent';
 import Reviews from './Reviews';
 import AddReview from './AddReview';
 
-const SINGLE_PRODUCT_QUERY = gql`
+export const SINGLE_PRODUCT_QUERY = gql`
   query SINGLE_PRODUCT_QUERY($id: String!) {
     Variant(id: $id) {
       id
@@ -52,6 +52,7 @@ const SINGLE_PRODUCT_QUERY = gql`
           color
           color_applies
           images {
+            id
             image {
               id
               cloudinaryURL
@@ -68,16 +69,17 @@ const SINGLE_PRODUCT_QUERY = gql`
       pages
       status
       reviews {
+        id
         user {
+          id
           firstname
           lastname
-          id
         }
         review
         rating
-        id
       }
       images {
+        id
         image {
           id
           cloudinaryURL
@@ -86,8 +88,8 @@ const SINGLE_PRODUCT_QUERY = gql`
     }
   }
 `;
-
-const SingleProduct = ({ id }: { id: string | string[] }) => {
+type IdType = { id: string | string[] };
+const SingleProduct = ({ id }: IdType) => {
   const [isSmallerThan375] = useMediaQuery('(max-width: 375px)');
   const [selectedSize, setSize] = useState('');
   const { data, loading, error } = useQuery(SINGLE_PRODUCT_QUERY, {
@@ -343,9 +345,12 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
               <AddReview
                 operation={haveExistingReview.length > 0 ? 'Edit' : 'Write'}
                 reviewData={
-                  haveExistingReview.length > 0 ? haveExistingReview : null
+                  haveExistingReview.length > 0 ? haveExistingReview[0] : null
                 }
+                reviews={Variant.reviews}
                 productName={Variant.name}
+                productVariantId={id}
+                onClose={onClose}
               />
             </ModalBody>
             <ModalCloseButton />
@@ -361,7 +366,6 @@ const SingleProduct = ({ id }: { id: string | string[] }) => {
             textAlign="center"
             fontSize={{ base: 'md', md: 'xl' }}
             as="h3"
-            // mb={4}
           >
             Reviews
           </Heading>

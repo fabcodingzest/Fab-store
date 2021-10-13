@@ -12,6 +12,7 @@ export const CURRENT_USER_QUERY = gql`
           description
           status
           discount {
+            id
             name
             percentage
           }
@@ -26,8 +27,8 @@ export const CURRENT_USER_QUERY = gql`
                 id
                 email
               }
-              rating
               review
+              rating
             }
             color_applies
             color
@@ -35,7 +36,9 @@ export const CURRENT_USER_QUERY = gql`
             format
             pages
             images {
+              id
               image {
+                id
                 cloudinaryURL
               }
             }
