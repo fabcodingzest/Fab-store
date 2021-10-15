@@ -7,15 +7,16 @@ import Link from 'next/link';
 interface NavItemProps extends FlexProps {
   icon: IconType;
   children: ReactText;
+  onClose: () => void;
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, children, onClose, ...rest }: NavItemProps) => {
   return (
     <Link href="/resetpassword">
       <Flex
+        onClick={() => onClose()}
         align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
+        p={2}
+        pl={4}
         role="group"
         cursor="pointer"
         color="gray.200"
