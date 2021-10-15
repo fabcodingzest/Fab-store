@@ -10,18 +10,24 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { IconType } from 'react-icons/lib';
-import { FiCompass, FiHeart, FiHome, FiTrendingUp } from 'react-icons/fi';
+import { GiBookshelf, GiClothes, GiHeartNecklace } from 'react-icons/gi';
+import { FaPencilRuler, FaRegKeyboard } from 'react-icons/fa';
+import { MdToys } from 'react-icons/md';
+import { BsBookshelf } from 'react-icons/bs';
 import NavItem from './NavItem';
 
-interface LinkItemProps {
+interface CategoryItemProps {
   name: string;
   icon: IconType;
 }
-const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'WishList', icon: FiHeart },
+const categories: Array<CategoryItemProps> = [
+  { name: 'clothes', icon: GiClothes },
+  { name: 'stationary', icon: FaPencilRuler },
+  { name: 'toys', icon: MdToys },
+  { name: 'furniture', icon: BsBookshelf },
+  { name: 'books', icon: GiBookshelf },
+  { name: 'jwellery', icon: GiHeartNecklace },
+  { name: 'electronics', icon: FaRegKeyboard },
 ];
 
 interface SidebarProps extends BoxProps {
@@ -69,12 +75,19 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
               color="gray.200"
             />
           </Flex>
-          {LinkItems.map((link) => (
-            <NavItem onClose={onClose} key={link.name} icon={link.icon}>
-              {link.name}
-            </NavItem>
+
+          {categories.map((link) => (
+            <NavItem
+              onClose={onClose}
+              key={link.name}
+              icon={link.icon}
+              pr={2}
+              name={link.name}
+              category
+            />
           ))}
         </Box>
+
         <Text
           p={{ base: 2, md: 6 }}
           align="center"

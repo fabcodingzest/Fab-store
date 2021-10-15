@@ -19,19 +19,21 @@ export const sizeArray = [
   { label: 'XXXXL', value: 'XXXXl' },
 ];
 
+export const categoryOptions = [
+  { label: 'Clothes', value: 'CLOTHES' },
+  { label: 'Stationary', value: 'STATIONARY' },
+  { label: 'Toys', value: 'TOYS' },
+  { label: 'Furniture', value: 'FURNITURE' },
+  { label: 'Books', value: 'BOOKS' },
+  { label: 'Jwellery', value: 'JWELLERY' },
+  { label: 'Electronics', value: 'ELECTRONICS' },
+];
+
 export const categoryField: Field = {
   name: 'category',
   label: 'Product Category',
   type: 'select',
-  options: [
-    { label: 'Clothes', value: 'CLOTHES' },
-    { label: 'Stationary', value: 'STATIONARY' },
-    { label: 'Toys', value: 'TOYS' },
-    { label: 'Furniture', value: 'FURNITURE' },
-    { label: 'Books', value: 'BOOKS' },
-    { label: 'Jwellery', value: 'JWELLERY' },
-    { label: 'Electronics', value: 'ELECTRONICS' },
-  ],
+  options: categoryOptions,
   required: true,
   index: true,
 };

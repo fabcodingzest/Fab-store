@@ -1,18 +1,19 @@
 import Icon from '@chakra-ui/icon';
 import { Flex, FlexProps } from '@chakra-ui/layout';
-import { ReactText } from 'react';
 import { IconType } from 'react-icons/lib';
 import Link from 'next/link';
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
-  children: ReactText;
+  name: string;
+  category?: boolean;
   onClose: () => void;
 }
-const NavItem = ({ icon, children, onClose, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, name, onClose, category, ...rest }: NavItemProps) => {
   return (
-    <Link href="/resetpassword">
+    <Link href={`${category ? '/category' : ''}/${name}`}>
       <Flex
+        textTransform="capitalize"
         onClick={() => onClose()}
         align="center"
         p={2}
@@ -37,7 +38,7 @@ const NavItem = ({ icon, children, onClose, ...rest }: NavItemProps) => {
             as={icon}
           />
         )}
-        {children}
+        {name}
       </Flex>
     </Link>
   );

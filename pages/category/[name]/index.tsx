@@ -1,14 +1,19 @@
-import { useQuery, gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import ErrorComponent from '../../components/ErrorComponent';
-import Products from '../../components/Products/Products';
+import { Box, Text } from '@chakra-ui/react';
+import ErrorComponent from '../../../components/ErrorComponent';
+import ProductsPage from '../../../components/Products/Products';
 
-const ALL_PRODUCTS_QUERY = gql`
-  query ALL_PRODUCTS_QUERY($page: Int!, $limit: Int!) {
+const CATEGORY_PRODUCTS_QUERY = gql`
+  query CATEGORY_PRODUCTS_QUERY(
+    $page: Int!
+    $limit: Int!
+    $category: Product_category_Input!
+  ) {
     Products(
       page: $page
       limit: $limit
-      where: { status: { equals: AVAILABLE } }
+      where: { status: { equals: AVAILABLE }, category: { equals: $category } }
     ) {
       docs {
         id
@@ -60,24 +65,33 @@ const ALL_PRODUCTS_QUERY = gql`
   }
 `;
 
-export default function ProductsPage() {
+const Category = () => {
   const { query } = useRouter();
   const page = parseInt(query.page as string);
+  const categoryName = (query.name as string).toUpperCase();
 
-  const { data, error, loading } = useQuery(ALL_PRODUCTS_QUERY, {
-    variables: { page: page || 1, limit: 5 },
+  const { data, loading, error } = useQuery(CATEGORY_PRODUCTS_QUERY, {
+    variables: { page: page || 1, limit: 5, category: categoryName },
   });
-  console.log(loading);
   if (error) return <ErrorComponent error={error} />;
-
   if (loading) return <div>loading...</div>;
-  // Filter lists so only products with at least one variant gets rendered in product list
   const products = data?.Products.docs;
   console.log(products);
 
   return (
-    <>
-      <Products products={products} />
-    </>
+    <Box>
+      <Text
+        textTransform="uppercase"
+        fontWeight="bold"
+        fontSize={{ base: 'md', md: '2xl' }}
+        // px={4}
+        // my={3}
+      >
+        {query.name}
+      </Text>
+      <ProductsPage products={products} />
+    </Box>
   );
-}
+};
+
+export default Category;
