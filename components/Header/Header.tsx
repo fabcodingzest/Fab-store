@@ -36,11 +36,12 @@ export default function Header({
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size="full"
       >
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
+        <DrawerOverlay>
+          <DrawerContent maxW="10rem">
+            <SidebarContent onClose={onClose} />
+          </DrawerContent>
+        </DrawerOverlay>
       </Drawer>
       <Drawer
         placement="right"
@@ -48,7 +49,7 @@ export default function Header({
         onClose={closeCart}
         onOverlayClick={closeCart}
         autoFocus
-        size="sm"
+        size="xs"
         closeOnEsc
       >
         <DrawerOverlay>
