@@ -35,7 +35,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       bg={useColorModeValue('gray.900', 'white')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.700', 'gray.200')}
-      w={{ base: 'full', md: '12rem' }}
+      w={{ base: '10rem', md: '12rem' }}
       pos="fixed"
       h="full"
       {...rest}
@@ -45,14 +45,21 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           <Flex
             h="20"
             alignItems="center"
-            mx="8"
+            mx="2"
             justifyContent="space-between"
           >
             <Text
-              fontSize={{ base: 'lg', md: 'xl' }}
+              fontSize={{ base: 'lg', md: '2xl' }}
               fontFamily="monospace"
               fontWeight="bold"
-              color="white"
+              color="gray.800"
+              bg="gray.200"
+              px="3"
+              py={{ base: 1, md: 2 }}
+              borderBottomRightRadius={{ base: 'xl', md: '3xl' }}
+              borderTopLeftRadius={{ base: 'xl', md: '3xl' }}
+              onClick={() => onClose()}
+              mx="auto"
             >
               <Link href="/">Fabcart</Link>
             </Text>
@@ -63,7 +70,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             />
           </Flex>
           {LinkItems.map((link) => (
-            <NavItem key={link.name} icon={link.icon}>
+            <NavItem onClose={onClose} key={link.name} icon={link.icon}>
               {link.name}
             </NavItem>
           ))}
