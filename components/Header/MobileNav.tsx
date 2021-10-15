@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/menu';
 import { FiChevronDown, FiMenu, FiShoppingCart } from 'react-icons/fi';
 import { useMutation, gql } from '@apollo/client';
+
 import Modal from '../Authentication/Modal';
 import { CURRENT_USER_QUERY, useUser } from '../User';
 
@@ -68,7 +69,7 @@ const MobileNav = ({ onOpen, openCart, ...rest }: MobileProps) => {
         fontFamily="monospace"
         fontWeight="bold"
       >
-        Fabcart
+        <Link href="/">Fabcart</Link>
       </Text>
       {me ? (
         <HStack spacing={{ base: '0', md: '6' }}>
