@@ -9,9 +9,9 @@ interface NavItemProps extends FlexProps {
   category?: boolean;
   onClose: () => void;
 }
-const NavItem = ({ icon, name, onClose, category, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, name, onClose, ...rest }: NavItemProps) => {
   return (
-    <Link href={`${category ? '/category' : ''}/${name}`}>
+    <Link href={`/category/${name}`}>
       <Flex
         textTransform="capitalize"
         onClick={() => onClose()}

@@ -35,6 +35,8 @@ import ErrorComponent from '../ErrorComponent';
 import Reviews from './Reviews';
 import AddReview from './AddReview';
 import AuthModal from '../Authentication/Modal';
+import SinglePageSkeleton from '../Skeletons/SinglePageSkeleton';
+import DiscountText from './DiscountText';
 
 export const SINGLE_PRODUCT_QUERY = gql`
   query SINGLE_PRODUCT_QUERY($id: String!) {
@@ -45,6 +47,12 @@ export const SINGLE_PRODUCT_QUERY = gql`
         id
         name
         description
+        discount {
+          id
+          name
+          percentage
+          description
+        }
         status
         category
         variants {
@@ -101,48 +109,21 @@ const SingleProduct = ({ id }: IdType) => {
     if (data?.Variant?.sizes) setSize(data.Variant.sizes[0]);
   }, [data]);
   const me = useUser();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isReviewOpen,
+    onOpen: onReviewOpen,
+    onClose: onReviewClose,
+  } = useDisclosure();
+  const { isOpen: filterOpen, onToggle: filterToggle } = useDisclosure();
 
-  if (loading)
-    return (
-      <Flex
-        bg="white"
-        rounded="lg"
-        height={{ base: 500, sm: 390 }}
-        p={4}
-        alignItems="start"
-        justifyContent="center"
-        direction={{ base: 'column', sm: 'row' }}
-        maxW="4xl"
-        mx="auto"
-      >
-        <Skeleton
-          height={{ base: 300, md: 350 }}
-          width="full"
-          mx="auto"
-          maxW="16rem"
-        />
-        <Stack
-          mx={{ sm: 8 }}
-          my={{ base: 4, sm: 0 }}
-          spacing={6}
-          width="full"
-          maxW="24rem"
-        >
-          <Skeleton height={5} width="full" />
-          <Skeleton height={3} width={10} />
-          <Skeleton height={2} width={20} />
-          <SkeletonText />
-        </Stack>
-      </Flex>
-    );
+  if (loading) return <SinglePageSkeleton />;
 
   if (error) return <ErrorComponent error={error} />;
+
   const { Variant } = data;
   const haveExistingReview = Variant.reviews.filter((item) => {
     return me && item.user.id === me.id;
   });
-  console.log(haveExistingReview);
 
   const totalRatings =
     Variant?.reviews
@@ -238,7 +219,10 @@ const SingleProduct = ({ id }: IdType) => {
             emptySymbol={<AiOutlineStar />}
             readonly
           />
-          <Text>$ {Variant.price / 100}</Text>
+          <DiscountText
+            discount={Variant.parent?.discount}
+            price={Variant.price}
+          />
           {Variant.format && (
             <Text fontSize={{ base: 'xs', md: 'sm' }}>
               Format:
@@ -336,8 +320,8 @@ const SingleProduct = ({ id }: IdType) => {
       <Box maxW="4xl" p={{ base: 4, md: 8 }} mx="auto">
         <Modal
           size="md"
-          isOpen={isOpen}
-          onClose={onClose}
+          isOpen={isReviewOpen}
+          onClose={onReviewClose}
           closeOnEsc
           closeOnOverlayClick
         >
@@ -353,7 +337,7 @@ const SingleProduct = ({ id }: IdType) => {
                   reviews={Variant.reviews}
                   productName={Variant.name}
                   productVariantId={id}
-                  onClose={onClose}
+                  onClose={onReviewClose}
                 />
               ) : (
                 <ModalHeader align="center">
@@ -378,7 +362,13 @@ const SingleProduct = ({ id }: IdType) => {
           >
             Reviews
           </Heading>
-          <Button px={3} py={4} size="xs" colorScheme="blue" onClick={onOpen}>
+          <Button
+            px={3}
+            py={4}
+            size="xs"
+            colorScheme="blue"
+            onClick={onReviewOpen}
+          >
             <Icon as={BiEdit} mr={1} fontSize="1rem" />
             {haveExistingReview.length > 0 ? 'Edit the' : 'Write a'} review
           </Button>

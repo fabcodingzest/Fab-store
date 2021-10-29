@@ -83,7 +83,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
               icon={link.icon}
               pr={2}
               name={link.name}
-              category
             />
           ))}
         </Box>

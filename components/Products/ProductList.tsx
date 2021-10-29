@@ -19,6 +19,7 @@ const ProductList = ({ products }) => {
       gap={6}
     >
       {products.map((item) => {
+        // we send the first variant to make the product card and rest of the variants can be visible once you open single detail page
         return <ProductCard key={item.id} variant={item.variants[0]} />;
       })}
     </Grid>
