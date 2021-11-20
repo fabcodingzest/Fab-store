@@ -32,7 +32,7 @@ const Head: React.FC<Props> = ({ title, description, ogImage, keywords }) => {
   return (
     <NextHead>
       <title>{getTitle()}</title>
-      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      <link rel="shortcut icon" type="image/svg+xml" href="/favicon.svg" />
       <meta name="description" content={description || defaultDescription} />
       <meta name="keywords" content={keywords || defaultKeywords} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />

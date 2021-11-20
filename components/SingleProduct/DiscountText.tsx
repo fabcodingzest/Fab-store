@@ -6,7 +6,7 @@ const DiscountText = ({ discount, price }) => {
       $ <Text as={discount ? 'del' : 'em'}>{price / 100}</Text>
       <Text as="em" fontWeight="semibold" color="red.500">
         {' '}
-        {(price - (price / 100) * discount?.percentage) / 100}
+        {discount && (price - (price / 100) * discount?.percentage) / 100}
       </Text>
     </Box>
   );

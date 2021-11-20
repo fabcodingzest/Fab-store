@@ -114,7 +114,6 @@ const SingleProduct = ({ id }: IdType) => {
     onOpen: onReviewOpen,
     onClose: onReviewClose,
   } = useDisclosure();
-  const { isOpen: filterOpen, onToggle: filterToggle } = useDisclosure();
 
   if (loading) return <SinglePageSkeleton />;
 
